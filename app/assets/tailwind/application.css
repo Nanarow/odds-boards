@@ -1,1 +1,39 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@layer base {
+  form {
+    @apply flex flex-col gap-2;
+  }
+
+  h2 {
+    @apply text-2xl font-bold;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply border-2 border-gray-300 rounded-md px-2 py-1;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    @apply outline-none border-rose-400;
+  }
+
+  input[type='submit'] {
+    @apply bg-rose-400 text-white px-2 py-1 rounded-md border-none cursor-pointer;
+  }
+
+  a {
+    @apply text-rose-400 hover:underline;
+  }
+
+  .notice {
+    @apply text-green-500 font-bold fixed top-0 right-0 px-4 py-2;
+  }
+
+  .alert {
+    @apply text-red-500 font-bold fixed top-0 right-0 px-4 py-2;
+  }
+}
