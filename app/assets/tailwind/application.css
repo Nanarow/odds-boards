@@ -1,4 +1,5 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+@plugin "./daisyui.js";
 
 @layer base {
   form {
