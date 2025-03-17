@@ -4,6 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :rememberable, :validatable
 
   attr_accessor :identifier
+  has_one_attached :avatar
 
   validates :first_name, length: { maximum: 50 }
   validates :last_name, length: { maximum: 50 }
