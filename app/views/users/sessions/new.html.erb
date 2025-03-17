@@ -4,17 +4,11 @@
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "w-full flex flex-col gap-2" }) do |f| %>
       <fieldset class="fieldset">
         <%= f.label :identifier, "Username or Email", class: "label" %>
-        <%= f.text_field :identifier, autofocus: true, autocomplete: "username", class: "input w-full" %>
-        <% if resource.errors[:identifier].any? %>
-          <span class="text-red-500 text-sm mt-1"><%= resource.errors[:identifier].join(", ") %></span>
-        <% end %>
+        <%= f.text_field :identifier, autofocus: true, autocomplete: "username", class: "input w-full", required: true %>
       </fieldset>
       <fieldset class="fieldset">
         <%= f.label :password, class: "label" %>
-        <%= f.password_field :password, autocomplete: "current-password", class: "input w-full" %>
-        <% if resource.errors[:password].any? %>
-          <span class="text-red-500 text-sm mt-1"><%= resource.errors[:password].join(", ") %></span>
-        <% end %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "input w-full", required: true %>
       </fieldset>
       <% if devise_mapping.rememberable? %>
         <fieldset class="fieldset flex items-center">
@@ -26,7 +20,7 @@
         </fieldset>
       <% end %>
       <% if alert %>
-        <div class="text-red-500 text-sm ">Invalid Username or Email or Password</div>
+        <div class="text-red-500 text-sm">Invalid Username or Email or Password</div>
       <% end %>
       <%= f.submit "Log in", class: "btn w-full btn-primary" %>
     <% end %>
