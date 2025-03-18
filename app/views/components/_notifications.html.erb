@@ -1,0 +1,6 @@
+<% if notice %>
+  <%= render "components/notification", class: "text-green-500", text: notice %>
+<% end %>
+<% if alert %>
+  <%= render "components/notification", class: "text-red-500", text: alert %>
+<% end %>
