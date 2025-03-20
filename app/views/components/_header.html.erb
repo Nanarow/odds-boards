@@ -1,0 +1,10 @@
+<header class="h-header w-full border-b border-gray-300 flex items-center px-4 justify-between">
+  <%= link_to "Odds Boards", "#" %>
+  
+  <% if user_signed_in? %>
+    <%= button_to "Logout", destroy_session_path(resource_name), method: :delete, class: "btn btn-primary" %>
+  <% else %>
+    <%= link_to "Login", new_session_path(resource_name) %>
+  <% end %>
+  
+</header>

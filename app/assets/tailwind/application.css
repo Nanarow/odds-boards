@@ -1,6 +1,11 @@
 @import 'tailwindcss';
 @plugin "./daisyui.js";
 
+@theme {
+  --height-header: 56px;
+  --height-body: calc(100vh - var(--height-header))
+}
+
 @layer base {
   h2 {
     @apply text-2xl font-bold;
