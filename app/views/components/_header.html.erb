@@ -4,7 +4,7 @@
   <% if user_signed_in? %>
     <%= button_to "Logout", "/users/sessions/sign_out", method: :delete, class: "btn btn-primary" %>
   <% else %>
-    <%= link_to "Login", new_session_path(resource_name) %>
+    <%= link_to "Login", "/users/sessions/new" %>
   <% end %>
   
 </header>

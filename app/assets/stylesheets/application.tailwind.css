@@ -1,14 +1,14 @@
 @import 'tailwindcss';
-@plugin "./daisyui.js";
+@plugin 'daisyui';
 
 @theme {
   --height-header: 56px;
   --height-body: calc(100vh - var(--height-header));
 }
 
-@plugin "./daisyui.js" {
+@plugin 'daisyui/theme' {
   name: 'light';
-  default: false;
+  default: true;
   prefersdark: false;
   color-scheme: 'light';
   --color-base-100: oklch(100% 0 0);
