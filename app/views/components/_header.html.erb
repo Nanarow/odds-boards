@@ -1,10 +1,8 @@
 <header class="h-header w-full border-b border-gray-300 flex items-center px-4 justify-between">
-  <%= link_to "Odds Boards", "#" %>
-  
+  <%= link_to "Odds Boards", root_path %>
   <% if user_signed_in? %>
-    <%= button_to "Logout", "/users/sessions/sign_out", method: :delete, class: "btn btn-primary" %>
+    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-primary" %>
   <% else %>
-    <%= link_to "Login", "/users/sessions/new" %>
+    <%= link_to "Login", new_user_session_path, class: "btn btn-primary" %>
   <% end %>
-  
 </header>

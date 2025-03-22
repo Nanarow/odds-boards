@@ -46,3 +46,17 @@
     @apply text-2xl font-bold;
   }
 }
+
+@layer utilities {
+  .input,
+  .textarea {
+    &:focus,
+    &:focus-within {
+      @apply outline-offset-0 outline-[1.5px];
+    }
+  }
+
+  .alert.alert-soft {
+    @apply outline;
+  }
+}
