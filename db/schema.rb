@@ -69,11 +69,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_062551) do
 
   create_table "categories", force: :cascade do |t|
     t.bigint "creator_id", null: false
-    t.string "name"
+    t.string "name", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_categories_on_creator_id"
+    t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
   create_table "comments", force: :cascade do |t|
@@ -100,10 +101,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_062551) do
 
   create_table "tags", force: :cascade do |t|
     t.bigint "creator_id", null: false
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_tags_on_creator_id"
+    t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
