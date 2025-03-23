@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_060931) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_23_061112) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -76,6 +76,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_060931) do
     t.index ["creator_id"], name: "index_categories_on_creator_id"
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.bigint "creator_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_tags_on_creator_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -98,4 +106,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_060931) do
   add_foreign_key "boards", "categories"
   add_foreign_key "boards", "users", column: "author_id"
   add_foreign_key "categories", "users", column: "creator_id"
+  add_foreign_key "tags", "users", column: "creator_id"
 end
