@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_060713) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_23_060931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,6 +52,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_060713) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "boards", force: :cascade do |t|
+    t.bigint "author_id", null: false
+    t.bigint "category_id"
+    t.string "title"
+    t.text "body"
+    t.string "status"
+    t.integer "upvotes_count"
+    t.integer "views_count"
+    t.datetime "last_activity_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_boards_on_author_id"
+    t.index ["category_id"], name: "index_boards_on_category_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.bigint "creator_id", null: false
     t.string "name"
@@ -80,5 +95,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_060713) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "boards", "categories"
+  add_foreign_key "boards", "users", column: "author_id"
   add_foreign_key "categories", "users", column: "creator_id"
 end
