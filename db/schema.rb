@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_061222) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_23_062551) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -76,6 +76,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_061222) do
     t.index ["creator_id"], name: "index_categories_on_creator_id"
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.bigint "board_id", null: false
+    t.bigint "commenter_id", null: false
+    t.bigint "parent_id"
+    t.text "body"
+    t.integer "depth", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["board_id"], name: "index_comments_on_board_id"
+    t.index ["commenter_id"], name: "index_comments_on_commenter_id"
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.bigint "board_id", null: false
     t.bigint "tag_id", null: false
@@ -115,6 +128,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_061222) do
   add_foreign_key "boards", "categories"
   add_foreign_key "boards", "users", column: "author_id"
   add_foreign_key "categories", "users", column: "creator_id"
+  add_foreign_key "comments", "boards"
+  add_foreign_key "comments", "comments", column: "parent_id"
+  add_foreign_key "comments", "users", column: "commenter_id"
   add_foreign_key "taggings", "boards"
   add_foreign_key "taggings", "tags"
   add_foreign_key "tags", "users", column: "creator_id"
