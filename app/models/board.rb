@@ -4,6 +4,7 @@ class Board < ApplicationRecord
 
   has_many :taggings
   has_many :tags, through: :taggings
+  has_many :comments, -> { where(parent_id: nil) }, dependent: :destroy
 
   def add_tag(tag_name)
     tag = Tag.find_or_create_by(name: tag_name)

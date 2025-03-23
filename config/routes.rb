@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :boards
   get "designs" => "designs#index"
   devise_for :users, controllers: {
     registrations: "users/registrations",
@@ -15,5 +16,5 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "designs#index"
+  root "boards#index"
 end
