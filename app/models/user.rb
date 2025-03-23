@@ -5,6 +5,10 @@ class User < ApplicationRecord
 
   attr_accessor :identifier
   has_one_attached :avatar
+  has_many :categories, dependent: :destroy
+  has_many :boards, dependent: :destroy
+  has_many :tags, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   validates :first_name, length: { maximum: 50 }
   validates :last_name, length: { maximum: 50 }
