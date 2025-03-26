@@ -1,16 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
-<% content_for :title, "Boards" %>
-
-<h1>Boards</h1>
-
-<div id="boards">
-  <% @boards.each do |board| %>
-    <%= render board %>
-    <p>
-      <%= link_to "Show this board", board %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New board", new_board_path %>
+<%= render 'layout' do %>
+  <%= render @boards %>
+<% end %>

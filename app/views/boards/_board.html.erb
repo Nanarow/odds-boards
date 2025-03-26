@@ -1,42 +1,36 @@
-<div id="<%= dom_id board %>">
-  <p>
-    <strong>Author:</strong>
-    <%= board.author_id %>
-  </p>
-
-  <p>
-    <strong>Category:</strong>
-    <%= board.category_id %>
-  </p>
-
-  <p>
-    <strong>Title:</strong>
-    <%= board.title %>
-  </p>
-
-  <p>
-    <strong>Body:</strong>
-    <%= board.body %>
-  </p>
-
-  <p>
-    <strong>Status:</strong>
-    <%= board.status %>
-  </p>
-
-  <p>
-    <strong>Upvotes count:</strong>
-    <%= board.upvotes_count %>
-  </p>
-
-  <p>
-    <strong>Views count:</strong>
-    <%= board.views_count %>
-  </p>
-
-  <p>
-    <strong>Last activity at:</strong>
-    <%= board.last_activity_at %>
-  </p>
-
+<div class="card" id="<%= dom_id board %>">
+  <div class="card-body">
+    <%= render 'users/author', author: board.author %>
+    <div class="card">
+      <div class="card-body">
+        <p>
+          <strong>Category:</strong>
+          <%= board.category_id %>
+        </p>
+        <p>
+          <strong>Title:</strong>
+          <%= board.title %>
+        </p>
+        <p>
+          <strong>Body:</strong>
+          <%= board.body %>
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="flex gap-4">
+          <strong>Status:</strong>
+          <%= board.status %>
+          <strong>Upvotes count:</strong>
+          <%= board.upvotes_count %>
+          <strong>Views count:</strong>
+          <%= board.views_count %>
+          <strong>Last activity at:</strong>
+          <%= board.last_activity_at %>
+        </div>
+      </div>
+    </div>
+    <%= render 'comments/comments', comments: board.comments %>
+  </div>
 </div>

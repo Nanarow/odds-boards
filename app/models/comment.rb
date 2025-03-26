@@ -2,7 +2,7 @@ class Comment < ApplicationRecord
   belongs_to :board
   belongs_to :commenter, class_name: "User"
   belongs_to :parent, class_name: "Comment", optional: true
-  has_many :replies, class_name: "Comment", foreign_key: "parent_id"
+  has_many :replies, class_name: "Comment", foreign_key: "parent_id", dependent: :destroy
 
   # Maximum allowed depth for comments
   MAX_DEPTH = 5

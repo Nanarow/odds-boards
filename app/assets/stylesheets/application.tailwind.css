@@ -2,6 +2,9 @@
 @plugin 'daisyui';
 
 @theme {
+  --color-*: initial; /* disable all of the default colors */
+  --color-black: #000;
+  --color-white: #fff;
   --height-header: 56px;
   --height-body: calc(100vh - var(--height-header));
 }
@@ -50,10 +53,20 @@
 @layer utilities {
   .input,
   .textarea {
-    &:focus,
-    &:focus-within {
+    @variant focus {
       @apply outline-offset-0 outline-[1.5px];
     }
+    @variant focus-within {
+      @apply outline-offset-0 outline-[1.5px];
+    }
+  }
+
+  .card {
+    @apply border border-base-300;
+  }
+
+  .border {
+    @apply border-base-300;
   }
 
   .alert.alert-soft {

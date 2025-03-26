@@ -4,6 +4,8 @@ class BoardsController < ApplicationController
   # GET /boards or /boards.json
   def index
     @boards = Board.all
+    @categories = Category.all
+    @tags = Tag.all
   end
 
   # GET /boards/1 or /boards/1.json
@@ -13,6 +15,8 @@ class BoardsController < ApplicationController
   # GET /boards/new
   def new
     @board = Board.new
+    @categories = Category.all
+    @tags = Tag.all
   end
 
   # GET /boards/1/edit

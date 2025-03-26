@@ -1,0 +1,12 @@
+<%# locals: (comment: Comment) %>
+<div class="card">
+  <div class="card-body">
+    <p>
+      <strong>Body:</strong>
+      <%= comment.body %>
+    </p>
+    <div>
+      <%= render 'comments/comments', comments: comment.replies %>
+    </div>
+  </div>
+</div>
