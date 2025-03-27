@@ -1,10 +1,28 @@
 Rails.application.routes.draw do
-  resources :boards
   get "designs" => "designs#index"
+
   devise_for :users, controllers: {
     registrations: "users/registrations",
     sessions: "users/sessions"
   }, path_names: { sign_in: "login", sign_up: "register" }
+
+  resources :boards do
+    member do
+      post :upvote
+      post :downvote
+      post :publish
+      post :draft
+      post :make_public
+      post :make_private
+    end
+  end
+
+  resources :comments do
+    member do
+      post :upvote
+      post :downvote
+    end
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
