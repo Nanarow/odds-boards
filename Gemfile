@@ -68,3 +68,5 @@ end
 gem "devise", "~> 4.9"
 
 gem "nice_partials", "~> 0.10.1"
+
+gem "stateful_enum", "~> 0.7.0"

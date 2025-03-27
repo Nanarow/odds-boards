@@ -8,6 +8,26 @@ class Board < ApplicationRecord
   has_many :tags, through: :taggings
   has_many :comments, -> { where(parent_id: nil) }, dependent: :destroy
 
+  enum :state, { is_draft: 0, is_published: 1 } do
+    event :publish do
+      transition is_draft: :is_published
+    end
+
+    event :draft do
+      transition is_published: :is_draft
+    end
+  end
+
+  enum :visibility, { is_private: 0, is_public: 1 } do
+    event :make_private do
+      transition is_public: :is_private
+    end
+
+    event :make_public do
+      transition is_private: :is_public
+    end
+  end
+
   def add_tag(tag_name)
     tag = Tag.find_or_create_by(name: tag_name)
     unless tags.include?(tag)
