@@ -4,8 +4,6 @@ FactoryBot.define do
     category { nil }
     title { "MyString" }
     body { "MyText" }
-    status { "MyString" }
-    upvotes_count { 1 }
     views_count { 1 }
     last_activity_at { "2025-03-23 13:09:31" }
   end

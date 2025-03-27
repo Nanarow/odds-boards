@@ -125,8 +125,6 @@ board_data.each do |data|
       category: categories.sample,
       title: data[:title],
       body: data[:body],
-      status: [ "draft", "published" ].sample,
-      upvotes_count: rand(0..100),
       views_count: rand(50..500),
       last_activity_at: Time.now - rand(1..30).days
     )
