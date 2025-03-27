@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_062551) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_26_104623) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -125,6 +125,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_062551) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.bigint "voter_id", null: false
+    t.string "votable_type", null: false
+    t.bigint "votable_id", null: false
+    t.boolean "is_upvote", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["votable_type", "votable_id"], name: "index_votes_on_votable"
+    t.index ["voter_id", "votable_type", "votable_id"], name: "index_votes_on_voter_and_votable", unique: true
+    t.index ["voter_id"], name: "index_votes_on_voter_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "boards", "categories"
@@ -136,4 +148,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_062551) do
   add_foreign_key "taggings", "boards"
   add_foreign_key "taggings", "tags"
   add_foreign_key "tags", "users", column: "creator_id"
+  add_foreign_key "votes", "users", column: "voter_id"
 end
