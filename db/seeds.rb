@@ -31,7 +31,6 @@ users = []
 user_data.each do |data|
   user = User.find_by(email: data[:email])
   if user.nil?
-    # With Devise, you can create a user with password directly, and it will hash it
     user = User.new(
       email: data[:email],
       username: data[:username],
@@ -80,10 +79,10 @@ end
 # Create tags if they don't exist
 puts "Creating tags..."
 tag_names = [
-  "Trending", "Popular", "New", "Hot", "Controversial",
-  "Basketball", "Football", "Baseball", "Soccer",
-  "Movies", "TV Shows", "Music", "Gaming",
-  "Crypto", "Stocks", "Investment", "Analysis"
+  "trending", "popular", "new", "hot", "controversial",
+  "basketball", "football", "baseball", "soccer",
+  "movies", "tv_shows", "music", "gaming",
+  "crypto", "stocks", "investment", "analysis"
 ]
 
 tags = []
@@ -104,16 +103,16 @@ end
 # Create boards if they don't exist
 puts "Creating boards..."
 board_data = [
-  { title: "Best NBA teams this season", body: "Let's discuss which NBA teams are performing the best this season and why." },
-  { title: "New technology trends for 2023", body: "What are the most exciting technology trends emerging this year?" },
-  { title: "Movie recommendations thread", body: "Share your favorite movies and why others should watch them." },
-  { title: "Investment strategies for beginners", body: "What are some good investment strategies for those just starting out?" },
-  { title: "Latest political developments", body: "Discussion about recent political events and their implications." },
-  { title: "Must-watch TV shows", body: "What TV shows are you currently binging? Share recommendations here." },
-  { title: "Cryptocurrency market analysis", body: "Let's analyze the current state of the cryptocurrency market." },
-  { title: "Upcoming sports events", body: "What major sports events are you looking forward to in the coming months?" },
-  { title: "Tech gadget recommendations", body: "Share your favorite tech gadgets and why you recommend them." },
-  { title: "Stock market predictions", body: "What are your predictions for the stock market in the next quarter?" }
+  { title: "Best NBA teams this season", body: "Let's discuss which NBA teams are performing the best this season and why.", state: 0, visibility: 0 },
+  { title: "New technology trends for 2025", body: "What are the most exciting technology trends emerging this year?", state: 0, visibility: 0 },
+  { title: "Movie recommendations thread", body: "Share your favorite movies and why others should watch them.", state: 0, visibility: 0 },
+  { title: "Investment strategies for beginners", body: "What are some good investment strategies for those just starting out?", state: 0, visibility: 0 },
+  { title: "Latest political developments", body: "Discussion about recent political events and their implications.", state: 0, visibility: 0 },
+  { title: "Must-watch TV shows", body: "What TV shows are you currently binging? Share recommendations here.", state: 0, visibility: 0 },
+  { title: "Cryptocurrency market analysis", body: "Let's analyze the current state of the cryptocurrency market.", state: 0, visibility: 0 },
+  { title: "Upcoming sports events", body: "What major sports events are you looking forward to in the coming months?", state: 0, visibility: 0 },
+  { title: "Tech gadget recommendations", body: "Share your favorite tech gadgets and why you recommend them.", state: 0, visibility: 0 },
+  { title: "Stock market predictions", body: "What are your predictions for the stock market in the next quarter?", state: 0, visibility: 0 }
 ]
 
 boards = []
@@ -126,13 +125,14 @@ board_data.each do |data|
       title: data[:title],
       body: data[:body],
       views_count: rand(50..500),
-      last_activity_at: Time.now - rand(1..30).days
+      last_activity_at: Time.now - rand(1..30).days,
+      state: data[:state],      # New field: 0 = draft, assuming enum
+      visibility: data[:visibility] # New field: 0 = public, assuming enum
     )
 
     # Add 1-3 random tags to each board (avoid duplicates)
     sample_tags = tags.sample(rand(1..3))
     sample_tags.each do |tag|
-      # Check if this tagging already exists
       unless Tagging.exists?(board: board, tag: tag)
         Tagging.create!(board: board, tag: tag)
         puts "Tagged board '#{board.title}' with '#{tag.name}'"
@@ -161,9 +161,7 @@ comment_texts = [
   "Great analysis! You've given me a lot to think about."
 ]
 
-# Only add comments to boards created in this seed run
 boards.each do |board|
-  # If the board already has comments, skip it
   if board.comments.any?
     puts "Board '#{board.title}' already has comments, skipping"
     next
@@ -203,6 +201,38 @@ boards.each do |board|
   puts "Added comments to board: #{board.title}"
 end
 
+# Create votes if they don't exist
+puts "Creating votes..."
+boards.each do |board|
+  # Add 5-15 votes to each board
+  voters = users.sample(rand(5..15))
+  voters.each do |voter|
+    unless Vote.exists?(voter: voter, votable: board)
+      Vote.create!(
+        voter: voter,
+        votable: board,
+        is_upvote: [ true, false ].sample,
+        created_at: Time.now - rand(1..30).days
+      )
+    end
+  end
+
+  # Add 3-10 votes to some comments
+  board.comments.sample(rand(3..10)).each do |comment|
+    voters = users.sample(rand(3..7))
+    voters.each do |voter|
+      unless Vote.exists?(voter: voter, votable: comment)
+        Vote.create!(
+          voter: voter,
+          votable: comment,
+          is_upvote: [ true, false ].sample,
+          created_at: Time.now - rand(1..30).days
+        )
+      end
+    end
+  end
+end
+
 puts "Seed data added successfully!"
 puts "Total users: #{User.count}"
 puts "Total categories: #{Category.count}"
@@ -210,3 +240,4 @@ puts "Total tags: #{Tag.count}"
 puts "Total boards: #{Board.count}"
 puts "Total taggings: #{Tagging.count}"
 puts "Total comments: #{Comment.count}"
+puts "Total votes: #{Vote.count}"
