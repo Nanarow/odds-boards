@@ -1,0 +1,14 @@
+<%# locals: (tags:Collection) %>
+<% max_tags = 10 %>
+<% show_tags = max_tags - 1 %>
+<div class="flex gap-2 items-center flex-wrap">
+  <% if tags.size > max_tags %>
+    <%= render tags.first(show_tags)%>
+    <span class="badge badge-soft">
+      <%= render_icon 'tag', class: 'size-4' %>
+      +<%= tags.size - show_tags %> more tags
+    </span>
+  <% else %>
+    <%= render tags %>
+  <% end %>
+</div>

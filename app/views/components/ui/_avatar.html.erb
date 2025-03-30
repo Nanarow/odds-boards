@@ -1,0 +1,11 @@
+<%# locals: (avatar: ActiveStorage::Attached::One, class: String) %>
+<% class_name = local_assigns[:class] %>
+<div class="avatar">
+  <div class="size-6 rounded-full outline outline-base-300 <%= class_name %>">
+    <% if avatar.attached? %>
+      <%= image_tag avatar %>
+    <% else %>
+      <%= render_icon 'user-round' %>
+    <% end %>
+  </div>
+</div>

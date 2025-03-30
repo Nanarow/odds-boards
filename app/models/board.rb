@@ -6,7 +6,11 @@ class Board < ApplicationRecord
 
   has_many :taggings
   has_many :tags, through: :taggings
-  has_many :comments, -> { where(parent_id: nil) }, dependent: :destroy
+  has_many :comments, dependent: :destroy
+
+  def comments_by_depth(depth)
+    comments.where(depth: depth)
+  end
 
   enum :state, { is_draft: 0, is_published: 1 } do
     event :publish do
