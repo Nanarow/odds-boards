@@ -5,6 +5,10 @@ module Votable
     has_many :votes, as: :votable, dependent: :destroy
   end
 
+  def is_voted?(voter)
+    votes.exists?(voter: voter)
+  end
+
   def upvote(voter)
     set_vote(voter, true)
   end
@@ -33,6 +37,8 @@ module Votable
     unless vote.is_upvote == is_upvote
       vote.is_upvote = is_upvote
       vote.save
+    else
+      unvote voter
     end
     true
   end

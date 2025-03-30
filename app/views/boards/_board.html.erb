@@ -11,6 +11,7 @@
         &CenterDot;
         <%= time_ago_in_words(board.last_activity_at) %> ago
         <span class="badge badge-soft"><%= board.category.name %></span>
+        <span class="badge badge-soft"><%= board.visibility %></span>
       </div>
       <h2>
         <%= board.title %>
@@ -20,7 +21,10 @@
       </p>
       <%= render 'tags/tags', tags: board.tags %>
       <div class="flex gap-2 items-center">
-        <%= render_icon 'upvote', class: 'size-4' %>
+        <% class_name = ' bg-base-300' if board.is_voted? current_user %>
+        <%= button_to upvote_board_path(board), class: "grid size-6 place-items-center rounded-full #{class_name} cursor-pointer" do %>
+          <%= render_icon 'upvote', class: 'size-4' %>
+        <% end %>
         <%= board.vote_count %> upvotes
         <%= render_icon 'comment', class: 'size-4' %>
         <%= board.comments.count %> comments

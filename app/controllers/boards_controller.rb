@@ -1,13 +1,17 @@
 class BoardsController < ApplicationController
-  before_action :set_board, only: %i[ show edit update destroy ]
+  before_action :set_board, only: %i[ show edit update destroy upvote downvote publish draft make_public make_private ]
   before_action :authenticate_user!, only: %i[ upvote downvote publish draft make_public make_private ]
   before_action :authorize_author, only: %i[ publish draft make_public make_private ]
 
   # GET /boards or /boards.json
   def index
-    @boards = Board.all
-    @categories = Category.all
-    @tags = Tag.all
+    condition = { state: :is_published }
+    unless user_signed_in?
+      condition[:visibility] = :is_public
+    end
+    @boards = Board.where(condition)
+    @categories = Category.joins(:boards).where(boards: condition).distinct
+    @tags = Tag.joins(:boards).where(boards: condition).distinct
   end
 
   # GET /boards/1 or /boards/1.json
@@ -65,13 +69,13 @@ class BoardsController < ApplicationController
   end
 
   def upvote
-    @board.upvote(current_user)
-    redirect_to boards_path, notice: "Board upvoted!"
+    @board.upvote current_user
+    redirect_to boards_path
   end
 
   def downvote
-    @board.downvote(current_user)
-    redirect_to boards_path, notice: "Board downvoted!"
+    @board.downvote current_user
+    redirect_to boards_path
   end
 
   def publish
