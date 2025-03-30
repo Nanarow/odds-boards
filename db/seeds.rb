@@ -211,7 +211,7 @@ boards.each do |board|
       Vote.create!(
         voter: voter,
         votable: board,
-        is_upvote: [ true, false ].sample,
+        is_upvote: true,  # Only upvotes
         created_at: Time.now - rand(1..30).days
       )
     end
@@ -225,7 +225,7 @@ boards.each do |board|
         Vote.create!(
           voter: voter,
           votable: comment,
-          is_upvote: [ true, false ].sample,
+          is_upvote: true,  # Only upvotes
           created_at: Time.now - rand(1..30).days
         )
       end
