@@ -124,7 +124,7 @@ class BoardsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def board_params
-      params.expect(board: [ :author_id, :category_id, :title, :body, :status, :upvotes_count, :views_count, :last_activity_at ])
+      params.expect(board: [ :author_id, :category_id, :title, :body, :state, :visibility, :views_count, :last_activity_at ])
     end
 
     def ensure_turbo_frame
