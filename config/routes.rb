@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :comments do
+  resources :comments, except: [ :index, :show, :new, :edit ] do
     member do
       post :upvote
       post :downvote

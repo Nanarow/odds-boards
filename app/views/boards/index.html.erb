@@ -1,3 +1,5 @@
-<%= render 'layout' do %>
-  <%= render @boards %>
+<%= turbo_frame_tag 'page' do %>
+  <%= render 'layout' do %>
+    <%= render @boards %>
+  <% end %>
 <% end %>
