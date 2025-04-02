@@ -21,12 +21,13 @@ class BoardsController < ApplicationController
   # GET /boards/new
   def new
     @board = Board.new
-    @categories = Category.all
+    @categories = Category.all.map { |c| { value: c.id, label: c.name } }
     @tags = Tag.all
   end
 
   # GET /boards/1/edit
   def edit
+    @categories = Category.all.map { |c| { value: c.id, label: c.name } }
   end
 
   # POST /boards or /boards.json
@@ -34,15 +35,17 @@ class BoardsController < ApplicationController
     @board = Board.new(board_params)
     @board.author = current_user
 
-    respond_to do |format|
-      if @board.save
-        format.html { redirect_to @board, notice: "Board was successfully created." }
-        format.json { render :show, status: :created, location: @board }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @board.errors, status: :unprocessable_entity }
-      end
-    end
+    puts "board_params: #{board_params}"
+
+    # respond_to do |format|
+    #   if @board.save
+    #     format.html { redirect_to @board, notice: "Board was successfully created." }
+    #     format.json { render :show, status: :created, location: @board }
+    #   else
+    #     format.html { render :new, status: :unprocessable_entity }
+    #     format.json { render json: @board.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /boards/1 or /boards/1.json
@@ -124,7 +127,7 @@ class BoardsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def board_params
-      params.expect(board: [ :author_id, :category_id, :title, :body, :state, :visibility, :views_count, :last_activity_at ])
+      params.expect(board: [ :category_id, :title, :body, :state, :visibility ])
     end
 
     def ensure_turbo_frame

@@ -1,0 +1,8 @@
+<div class="flex flex-wrap gap-2">
+  <% @tags.each do |tag| %>
+    <span class="flex gap-2">
+      <input type="checkbox" name="tag_names" value="<%= tag.name %>" id="tag_id_<%= tag.id %>" class="checkbox">
+      <label for="tag_id_<%= tag.id %>"><%= tag.name %></label>
+    </span>
+  <% end %>
+</div>
