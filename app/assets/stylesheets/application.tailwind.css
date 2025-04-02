@@ -61,7 +61,8 @@
 
 @layer utilities {
   .input,
-  .textarea {
+  .textarea,
+  .select {
     @variant focus {
       @apply outline-offset-0 outline-[1.5px];
     }
@@ -80,5 +81,43 @@
 
   .alert.alert-soft {
     @apply outline;
+  }
+}
+
+@layer components {
+  .form {
+    @apply flex flex-col gap-2;
+
+    fieldset {
+      @apply flex;
+    }
+    label {
+      @apply label min-w-20;
+    }
+    input {
+      @apply input w-full;
+    }
+    textarea {
+      @apply textarea w-full;
+    }
+
+    button:not(.selector) {
+      @apply btn;
+    }
+
+    select:not(.no-style) {
+      @apply select;
+    }
+
+    input,
+    textarea,
+    select:not(.no-style) {
+      @variant focus {
+        @apply outline-offset-0 outline-[1.5px];
+      }
+      @variant focus-within {
+        @apply outline-offset-0 outline-[1.5px];
+      }
+    }
   }
 }
