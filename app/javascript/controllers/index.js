@@ -7,7 +7,11 @@ import { application } from './application'
 import HelloController from './hello_controller'
 import Notification from '@stimulus-components/notification'
 import CollapsibleController from './collapsible_controller'
+import DropdownController from '@stimulus-components/dropdown'
+import SelectorController from './selector_controller'
 
 application.register('hello', HelloController)
 application.register('notification', Notification)
 application.register('collapsible', CollapsibleController)
+application.register('dropdown', DropdownController)
+application.register('selector', SelectorController)

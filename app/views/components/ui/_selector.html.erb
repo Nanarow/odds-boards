@@ -1,0 +1,49 @@
+<%# locals: (placeholder:, options:, name:, class: '', defaultValue: '') %>
+<div 
+      data-controller="selector" 
+      data-selector-default-value="<%= defaultValue %>"
+      class="relative <%= local_assigns[:class] %>"
+      >
+  <input name="<%= name %>" type="hidden" data-selector-target="input">
+  <button 
+        class="input cursor-pointer min-w-64 flex w-full"
+        type="button" 
+        data-action="selector#toggle click@window->selector#hide"
+    >
+    <span data-selector-target="label" class="grow text-start"><%= placeholder %></span>
+    <span 
+          type="button"
+          data-selector-target="clearBtn" 
+          data-action="click->selector#clear"
+      class="rounded-full hover:bg-base-300 size-6 flex items-center justify-center"
+      >
+      <%= render_icon 'x', class: "size-4" %>
+    </span>
+    <%= render_icon 'chevrons-up-down', class: "size-4" %>
+  </button>
+  <div
+        data-selector-target="menu"
+        class="hidden transition transform absolute w-full mt-1 rounded-field border shadow-sm bg-white z-50"
+        data-transition-enter-from="opacity-0 scale-95"
+        data-transition-enter-to="opacity-100 scale-100"
+        data-transition-leave-from="opacity-100 scale-100"
+        data-transition-leave-to="opacity-0 scale-95"
+      >
+    <div class="menu w-full">
+      <% options.each do |option| %>
+        <li>
+          <button 
+                class="selector flex items-center justify-between group"
+                data-selector-target="button"
+                data-action="selector#select"
+                type="button"
+                data-value="<%= option[:value] %>"
+              >
+            <%= option[:label] %>
+            <%= render_icon 'check', class: "size-4 opacity-0 group-data-[selected=true]:opacity-100" %>
+          </button>
+        </li>
+      <% end %>
+    </div>
+  </div>
+</div>

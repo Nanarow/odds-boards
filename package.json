@@ -9,6 +9,7 @@
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.13",
     "@rails/actiontext": "^8.0.200",
+    "@stimulus-components/dropdown": "^3.0.0",
     "@stimulus-components/notification": "^3.0.0",
     "@tailwindcss/cli": "^4.0.15",
     "tailwindcss": "^4.0.15",
