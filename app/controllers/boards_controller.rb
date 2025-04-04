@@ -22,12 +22,13 @@ class BoardsController < ApplicationController
   def new
     @board = Board.new
     @categories = Category.all.map { |c| { value: c.id, label: c.name } }
-    @tags = Tag.all
+    @tags = Tag.all.pluck(:name)
   end
 
   # GET /boards/1/edit
   def edit
     @categories = Category.all.map { |c| { value: c.id, label: c.name } }
+    @tags = Tag.all.pluck(:name)
   end
 
   # POST /boards or /boards.json
@@ -127,7 +128,7 @@ class BoardsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def board_params
-      params.expect(board: [ :category_id, :title, :body, :state, :visibility ])
+      params.expect(board: [ :category_id, :title, :body, :state, :visibility, :tags ])
     end
 
     def ensure_turbo_frame

@@ -21,9 +21,9 @@
     <%= form.label :category %>
     <%= render 'components/ui/selector', class: 'w-full', placeholder: "Category", options: @categories, name: "board[category_id]", defaultValue: @board.category_id.to_s %>
   </fieldset>
-  <fieldset>
-    <%= form.label :tag_names, "Add New Tags (comma-separated)" %>
-    <%= form.text_field :tag_names, value: board.tags.map(&:name).join(", "), placeholder: "e.g., tag1, tag2" %>
+  <fieldset >
+    <%= form.label :tag_names, "Tags" %>
+    <%= render 'components/ui/multi_select', name: "board[tags]", options: @tags, placeholder: "Enter tag name ...", class: 'w-full', defaultValue: @board.tags.pluck(:name) %>
   </fieldset>
   <div class="flex gap-2">
     <%= button_tag "Save as Draft", type: :submit, name: "board[state]", value: :is_draft %>
