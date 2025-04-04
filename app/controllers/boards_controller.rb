@@ -1,6 +1,6 @@
 class BoardsController < ApplicationController
   before_action :set_board, only: %i[ show edit update destroy upvote downvote publish draft make_public make_private ]
-  before_action :authenticate_user!, only: %i[ upvote downvote publish draft make_public make_private ]
+  before_action :authenticate_user!, only: %i[ upvote downvote publish draft make_public make_private my_boards ]
   before_action :authorize_author, only: %i[ publish draft make_public make_private ]
   before_action :set_form, only: %i[ new edit ]
   # before_action :ensure_turbo_frame, only: [ :new ]
@@ -13,6 +13,14 @@ class BoardsController < ApplicationController
     @boards = Board.where(condition)
     @categories = Category.joins(:boards).where(boards: condition).distinct
     @tags = Tag.joins(:boards).where(boards: condition).distinct
+  end
+
+  def my_boards
+    condition = { author: current_user }
+    @boards = Board.where(condition)
+    @categories = Category.joins(:boards).where(boards: condition).distinct
+    @tags = Tag.joins(:boards).where(boards: condition).distinct
+    render :index
   end
 
   # GET /boards/1 or /boards/1.json

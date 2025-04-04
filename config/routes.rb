@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   }, path_names: { sign_in: "login", sign_up: "register" }
 
   resources :boards do
+    collection do
+      get "@me" => "boards#my_boards", as: :my
+    end
     member do
       post :upvote
       post :downvote
