@@ -18,6 +18,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
   <body>
+    <%= render "components/progress_bar" %>
     <%= render "components/notifications" %>
     <%= render "components/header" %>
     <main class="overflow-y-auto h-body">
