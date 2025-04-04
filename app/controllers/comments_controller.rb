@@ -6,12 +6,12 @@ class CommentsController < ApplicationController
 
   def upvote
     @comment.upvote current_user
-    redirect_to root_path
+    redirect_to boards_path
   end
 
   def downvote
     @comment.downvote current_user
-    redirect_to root_path
+    redirect_to boards_path
   end
 
   def create
