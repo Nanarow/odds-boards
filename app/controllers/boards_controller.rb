@@ -2,6 +2,7 @@ class BoardsController < ApplicationController
   before_action :set_board, only: %i[ show edit update destroy upvote downvote publish draft make_public make_private ]
   before_action :authenticate_user!, only: %i[ upvote downvote publish draft make_public make_private ]
   before_action :authorize_author, only: %i[ publish draft make_public make_private ]
+  before_action :set_form, only: %i[ new edit ]
   # before_action :ensure_turbo_frame, only: [ :new ]
   # GET /boards or /boards.json
   def index
@@ -21,14 +22,10 @@ class BoardsController < ApplicationController
   # GET /boards/new
   def new
     @board = Board.new
-    @categories = Category.all.map { |c| { value: c.id, label: c.name } }
-    @tags = Tag.all.pluck(:name)
   end
 
   # GET /boards/1/edit
   def edit
-    @categories = Category.all.map { |c| { value: c.id, label: c.name } }
-    @tags = Tag.all.pluck(:name)
   end
 
   # POST /boards or /boards.json
@@ -118,6 +115,12 @@ class BoardsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_board
       @board = Board.find(params.expect(:id))
+    end
+
+    def set_form
+      @category_options = Category.all.map { |c| { value: c.id, label: c.name } }
+      @tag_options = Tag.all.pluck(:name)
+      @visibility_options = [ { value: :is_public, label: "Public" }, { value: :is_private, label: "Private" } ]
     end
 
     def authorize_author
