@@ -1,24 +1,22 @@
 import Dropdown from '@stimulus-components/dropdown'
 
-export default class extends Dropdown {
+export default class MultiSelectController extends Dropdown {
   static targets = ['list', 'input', 'select', 'option', 'options']
   static values = {
-    default: Array,
-    placeholder: String,
-    options: Array,
+    default: { type: Array, default: [] },
+    placeholder: { type: String, default: 'Select' },
+    options: { type: Array, default: [] },
   }
   DEFAULT_VALUE = ''
-  DEFAULT_LABEL = 'Select'
 
   connect() {
     super.connect()
     this.selectedValues = []
-    this.defaultValue.forEach((value) => {
-      this.add(value)
-    })
+    this.defaultValue.forEach((value) => this.add(value))
   }
 
   addByInput(event) {
+    event.preventDefault()
     this.add(event.target.value)
   }
 
@@ -27,15 +25,14 @@ export default class extends Dropdown {
   }
 
   add(value) {
-    console.log('value', value)
     value = value.trim()
-    if (value && !this.isValueExist(value)) {
+    if (!this.isValueExist(value)) {
       this.selectedValues.push(value)
       this.selectTarget.append(new Option(value, value, false, true))
       this.listTarget.append(this.createOption(value))
     }
     this.inputTarget.value = this.DEFAULT_VALUE
-    this.updateOptions()
+    this.updateOptions((value) => !this.isValueExist(value))
   }
 
   createOption(value) {
@@ -70,20 +67,28 @@ export default class extends Dropdown {
     this.selectedValues.splice(index, 1)
     this.listTarget.children[index].remove()
     this.selectTarget.children[index].remove()
-    this.updateOptions()
+    this.updateOptions((value) => !this.isValueExist(value))
   }
 
   isValueExist(value) {
     return this.selectedValues.includes(value)
   }
 
-  updateOptions() {
+  // hide option when predicate returns false
+  updateOptions(predicate = () => true) {
     let hidden = true
     Array.from(this.optionsTarget.children).forEach((li) => {
       const value = li.children[0].textContent.trim()
-      li.hidden = this.isValueExist(value)
+      li.hidden = !predicate(value)
       hidden = hidden && li.hidden
     })
     this.menuTarget.hidden = hidden
+  }
+
+  filter(event) {
+    const value = event.target.value.trim()
+    this.updateOptions((option) =>
+      option.toLowerCase().includes(value.toLowerCase())
+    )
   }
 }
