@@ -3,7 +3,7 @@ import Dropdown from '@stimulus-components/dropdown'
 export default class extends Dropdown {
   static targets = ['list', 'input', 'select', 'option', 'options']
   static values = {
-    default: String,
+    default: Array,
     placeholder: String,
     options: Array,
   }
@@ -13,7 +13,9 @@ export default class extends Dropdown {
   connect() {
     super.connect()
     this.selectedValues = []
-    this.updateOptions()
+    this.defaultValue.forEach((value) => {
+      this.add(value)
+    })
   }
 
   addByInput(event) {
@@ -25,6 +27,7 @@ export default class extends Dropdown {
   }
 
   add(value) {
+    console.log('value', value)
     value = value.trim()
     if (value && !this.isValueExist(value)) {
       this.selectedValues.push(value)
@@ -45,8 +48,7 @@ export default class extends Dropdown {
       'gap-2'
     )
     option.textContent = value
-    const remove = document.createElement('button')
-    remove.type = 'button'
+    const remove = document.createElement('span')
     remove.classList.add(
       'cursor-pointer',
       'bg-base-300',
@@ -56,7 +58,7 @@ export default class extends Dropdown {
       'justify-center'
     )
     remove.dataset.value = value
-    remove.dataset.action = 'multi-select#remove'
+    remove.dataset.action = 'click->multi-select#remove'
     remove.textContent = 'x'
     option.append(remove)
     return option

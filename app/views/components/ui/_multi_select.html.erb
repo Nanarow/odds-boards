@@ -1,8 +1,9 @@
-<%# locals: (name:, options:, placeholder:) %>
+<%# locals: (name:, options:, placeholder: '', class: '', defaultValue: Array) %>
 <div 
   data-controller="multi-select" 
   data-multi-select-options-value="<%= options %>"
-  class="relative">
+  data-multi-select-default-value="<%= defaultValue %>"
+  class="relative <%= local_assigns[:class] %>">
   <select 
     name="<%= name %>[]" 
     multiple hidden
@@ -18,7 +19,7 @@
   >
   <div
         data-multi-select-target="menu"
-        class="hidden transition transform absolute w-full mt-1 rounded-field border shadow-sm bg-white z-50"
+        class="hidden transition transform absolute w-full mt-1 rounded-field border shadow-sm bg-white z-50 max-h-96 overflow-y-auto"
         data-transition-enter-from="opacity-0 scale-95"
         data-transition-enter-to="opacity-100 scale-100"
         data-transition-leave-from="opacity-100 scale-100"
