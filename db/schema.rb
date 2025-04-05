@@ -57,12 +57,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_27_145504) do
     t.bigint "category_id"
     t.string "title"
     t.text "body"
-    t.integer "views_count"
-    t.datetime "last_activity_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "state", default: 0, null: false
-    t.integer "visibility", default: 0, null: false
+    t.integer "state", default: 0
+    t.integer "visibility", default: 0
     t.index ["author_id"], name: "index_boards_on_author_id"
     t.index ["category_id"], name: "index_boards_on_category_id"
   end

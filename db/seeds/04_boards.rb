@@ -22,8 +22,6 @@ board_data.each do |data|
       category: $categories.sample,
       title: data[:title],
       body: data[:body],
-      views_count: rand(50..500),
-      last_activity_at: created_at + rand(1..30).days,
       state: rand(0..1),       # 0: is_draft, 1: is_published
       visibility: rand(0..1),  # 0: is_private, 1: is_public
       created_at: created_at,
