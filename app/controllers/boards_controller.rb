@@ -41,17 +41,15 @@ class BoardsController < ApplicationController
     @board = Board.new(board_params)
     @board.author = current_user
 
-    puts "board_params: #{board_params}"
-
-    # respond_to do |format|
-    #   if @board.save
-    #     format.html { redirect_to @board, notice: "Board was successfully created." }
-    #     format.json { render :show, status: :created, location: @board }
-    #   else
-    #     format.html { render :new, status: :unprocessable_entity }
-    #     format.json { render json: @board.errors, status: :unprocessable_entity }
-    #   end
-    # end
+    respond_to do |format|
+      if @board.save
+        format.html { redirect_to @board, notice: "Board was successfully created." }
+        format.json { render :show, status: :created, location: @board }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @board.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PATCH/PUT /boards/1 or /boards/1.json
