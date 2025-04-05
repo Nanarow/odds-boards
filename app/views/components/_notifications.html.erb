@@ -1,6 +1,6 @@
 <% if notice %>
-  <%= render "components/notification", class: "alert-success", text: notice %>
+  <%= render "components/notification", class: "alert-success", text: notice, data: { testid: "notification" } %>
 <% end %>
 <% if alert %>
-  <%= render "components/notification", class: "alert-error", text: alert %>
+  <%= render "components/notification", class: "alert-error", text: alert, data: { testid: "alert-notification" } %>
 <% end %>
