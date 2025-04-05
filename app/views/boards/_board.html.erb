@@ -7,6 +7,9 @@
       <%= time_ago_in_words(board.last_activity_at) %> ago
       <span class="badge badge-soft"><%= board.category.name %></span>
       <span class="badge badge-soft"><%= board.visibility %></span>
+      <% if board.is_author?(current_user) %>
+        <%= link_to 'Edit', edit_board_path(board), class: 'btn btn-primary btn-xs', data: { turbo_frame: 'board-form-section' } %>
+      <% end %>
     </div>
     <h2>
       <%= board.title %>

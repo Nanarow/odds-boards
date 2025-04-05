@@ -6,15 +6,5 @@
     <li><a>Item 1</a></li>
     <li><a>Item 2</a></li>
   </ul>
-  <%= link_to 'New board', new_board_path, class: 'btn btn-secondary', data: { turbo_frame: 'page' } %>
-  <!--<button class="btn btn-secondary" onclick="new_board_modal.showModal()">New board</button>
-  <dialog id="new_board_modal" class="modal">
-    <div class="modal-box">
-      <h3 class="text-lg font-bold">Hello!</h3>
-      <p class="py-4">Press ESC key or click outside to close</p>
-    </div>
-    <form method="dialog" class="modal-backdrop">
-      <button>close</button>
-    </form>
-  </dialog>-->
+  <%= link_to 'New board', new_board_path, class: 'btn btn-secondary', data: { turbo_frame: 'board-form-section' } %>
 </header>

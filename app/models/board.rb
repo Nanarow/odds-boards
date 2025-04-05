@@ -48,4 +48,8 @@ class Board < ApplicationRecord
       end
     end
   end
+
+  def is_author?(user)
+    author == user
+  end
 end
