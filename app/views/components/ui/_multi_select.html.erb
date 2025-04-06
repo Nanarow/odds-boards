@@ -1,9 +1,11 @@
-<%# locals: (name:, options:, placeholder: '', class: '', defaultValue: Array) %>
+<%# locals: (name:, options:, placeholder: '', class: '', defaultValue: Array, data:) %>
 <div 
   data-controller="multi-select" 
   data-multi-select-options-value="<%= options %>"
   data-multi-select-default-value="<%= defaultValue %>"
-  class="relative <%= local_assigns[:class] %>">
+  class="relative <%= local_assigns[:class] %>"
+  data-testid="<%= data[:testid] %>"
+  >
   <select 
     name="<%= name %>[]" 
     multiple hidden

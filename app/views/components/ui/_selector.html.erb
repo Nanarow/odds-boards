@@ -1,4 +1,4 @@
-<%# locals: (placeholder:, options:, name:, class: '', defaultValue: '') %>
+<%# locals: (placeholder:, options:, name:, class: '', defaultValue: '', data: '') %>
 <div 
       data-controller="selector" 
       data-selector-default-value="<%= defaultValue %>"
@@ -9,6 +9,7 @@
         class="input cursor-pointer min-w-64 flex w-full"
         type="button" 
         data-action="selector#toggle click@window->selector#hide"
+        data-testid="<%= data[:testid] %>"
     >
     <span data-selector-target="label" class="grow text-start"><%= placeholder %></span>
     <span 
