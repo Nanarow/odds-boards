@@ -10,6 +10,19 @@ module TestIdHelper
   def click_on(testid)
     find(testid).click
   end
+
+  def have(testid)
+    have_css("[data-testid='#{testid}']")
+  end
+
+  def select(testid, with:, multiple: false)
+    click_on testid
+    if multiple
+      with.each { |option| page.click_on option }
+    else
+      page.click_on with
+    end
+  end
 end
 
 RSpec.configure do |config|
