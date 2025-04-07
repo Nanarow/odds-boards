@@ -18,9 +18,9 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
   <body>
-    <%= render "components/progress_bar" %>
-    <%= render "components/notifications" %>
-    <%= render "components/header" %>
+    <%= render "shared/progress_bar" %>
+    <%= render "shared/notifications" %>
+    <%= render "shared/header" %>
     <main class="overflow-y-auto h-body">
       <div class="flex flex-col p-4 items-center">
         <%= yield %>

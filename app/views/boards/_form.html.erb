@@ -11,7 +11,7 @@
           </ul>
         </div>
       <% end %>
-      <%= render 'components/ui/selector', 
+      <%= render 'shared/ui/selector', 
         class: 'w-full', 
         placeholder: "Select Category", 
         options: @category_options, 
@@ -19,7 +19,7 @@
         defaultValue: @board.category_id.to_s, 
         data: { testid: "board-category"}
       %>
-      <%= render 'components/ui/selector', 
+      <%= render 'shared/ui/selector', 
         class: 'w-full', 
         placeholder: "Select Visibility", 
         options: @visibility_options, 
@@ -37,7 +37,7 @@
         data: { testid: 'board-body' },
         placeholder: "Enter body ..."
       %>
-      <%= render 'components/ui/multi_select', 
+      <%= render 'shared/ui/multi_select', 
         name: "board[tags]", 
         options: @tag_options, 
         placeholder: "Enter tag name ...", 

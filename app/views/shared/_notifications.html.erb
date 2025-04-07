@@ -1,0 +1,6 @@
+<% if notice %>
+  <%= render "shared/notification", class: "alert-success", text: notice, data: { testid: "notification" } %>
+<% end %>
+<% if alert %>
+  <%= render "shared/notification", class: "alert-error", text: alert, data: { testid: "alert-notification" } %>
+<% end %>
