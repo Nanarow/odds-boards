@@ -1,0 +1,15 @@
+<%# locals: (votable: Votable) %>
+<% is_board = votable.is_a?(Board) %>
+<% action = is_board ? upvote_board_path(votable) : upvote_comment_path(votable) %>
+<% model = is_board ? "board" : "comment" %>
+<span 
+    id="<%= model %>-<%= votable.id %>-votes-count" 
+    data-testid="<%= model %>-<%= votable.id %>-votes-count"
+    class="flex gap-2 items-center"
+    >
+  <% bg = 'bg-base-300' if votable.is_voted? current_user %>
+  <%= button_to action, class: "grid size-6 place-items-center rounded-full cursor-pointer #{bg}" do %>
+    <%= render_icon 'upvote', class: 'size-4' %>
+  <% end %>
+  <%= votable.vote_count %> upvotes
+</span>

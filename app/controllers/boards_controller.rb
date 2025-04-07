@@ -53,12 +53,10 @@ class BoardsController < ApplicationController
 
   def upvote
     @board.upvote current_user
-    redirect_to boards_path
   end
 
   def downvote
     @board.downvote current_user
-    redirect_to boards_path
   end
 
   def publish

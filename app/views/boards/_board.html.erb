@@ -1,7 +1,7 @@
 <div class="card motion-translate-x-in-[0%] motion-translate-y-in-[-100%]" id="<%= dom_id board %>" data-testid="board-<%= board.id %>" >
   <div class="card-body gap-2" data-controller="collapsible">
     <div class='flex gap-2 items-center'>
-      <%= render 'components/ui/avatar', avatar: board.author.avatar %>
+      <%= render 'shared/ui/avatar', avatar: board.author.avatar %>
       @<%= board.author.username %>
       &CenterDot;
       <%= time_ago_in_words(board.created_at) %> ago
@@ -10,8 +10,8 @@
       <% end %>
       <span class="badge badge-soft"><%= board.visibility %></span>
       <% if board.is_author?(current_user) %>
-        <%= button_to 'Edit', load_edit_board_path(board), class: 'btn btn-primary btn-xs', data: { turbo: true, testid: 'edit-board-button' } %>
-        <%= button_to 'Delete', board_path(board), method: :delete, class: 'btn btn-error btn-xs', data: { turbo: true, testid: 'delete-board-button' } %>
+        <%= button_to 'Edit', load_edit_board_path(board), class: 'btn btn-primary btn-xs', data: { turbo: true, testid: "edit-board-#{board.id}-button" } %>
+        <%= button_to 'Delete', board_path(board), method: :delete, class: 'btn btn-error btn-xs', data: { turbo: true, testid: "delete-board-#{board.id}-button" } %>
       <% end %>
     </div>
     <h2>
@@ -22,11 +22,7 @@
     </p>
     <%= render 'tags/tags', tags: board.tags %>
     <div class="flex gap-2 items-center">
-      <% class_name = ' bg-base-300' if board.is_voted? current_user %>
-      <%= button_to upvote_board_path(board), class: "grid size-6 place-items-center rounded-full #{class_name} cursor-pointer" do %>
-        <%= render_icon 'upvote', class: 'size-4' %>
-      <% end %>
-      <%= board.vote_count %> upvotes
+      <%= render 'shared/vote', votable: board %>
       <button data-action="click->collapsible#toggle" class="flex cursor-pointer">
         <%= render_icon 'comment', class: 'size-4' %>
       </button>

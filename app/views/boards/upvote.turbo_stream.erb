@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "board-#{@board.id}-votes-count" do %>
+  <%= render 'shared/vote', votable: @board %>
+<% end %>
