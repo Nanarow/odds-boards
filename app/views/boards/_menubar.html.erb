@@ -6,5 +6,7 @@
     <li><a>Item 1</a></li>
     <li><a>Item 2</a></li>
   </ul>
-  <%= link_to 'New board', new_board_path, class: 'btn btn-secondary', data: { turbo_frame: 'board-form-section' } %>
+  <% if user_signed_in? %>
+    <%= button_to 'New board', load_new_board_path, class: 'btn btn-secondary', data: { turbo: true, testid: 'new-board-button' } %>
+  <% end %>
 </header>
