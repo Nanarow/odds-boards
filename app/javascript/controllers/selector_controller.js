@@ -3,10 +3,9 @@ import Dropdown from '@stimulus-components/dropdown'
 export default class extends Dropdown {
   static targets = ['label', 'button', 'input', 'clearBtn']
   static values = {
-    default: String,
+    default: { type: String, default: '' },
+    defaultLabel: { type: String, default: 'Select' },
   }
-  DEFAULT_VALUE = ''
-  DEFAULT_LABEL = 'Select'
 
   connect() {
     super.connect()
@@ -24,7 +23,7 @@ export default class extends Dropdown {
 
   clear(event) {
     event.stopPropagation()
-    this.updateDisplay(this.DEFAULT_VALUE, this.DEFAULT_LABEL)
+    this.updateDisplay('', this.defaultLabelValue)
   }
 
   updateDisplay(value, labelText = this.getLabel(value)) {
@@ -44,7 +43,7 @@ export default class extends Dropdown {
     return (
       this.buttonTargets
         .find((option) => option.dataset.value === value)
-        ?.textContent.trim() || this.DEFAULT_LABEL
+        ?.textContent.trim() || this.defaultLabelValue
     )
   }
 
@@ -52,6 +51,6 @@ export default class extends Dropdown {
     if (!this.hasClearBtnTarget) {
       return
     }
-    this.clearBtnTarget.classList.toggle('hidden', value === this.DEFAULT_VALUE)
+    this.clearBtnTarget.classList.toggle('hidden', value === this.defaultValue)
   }
 }
