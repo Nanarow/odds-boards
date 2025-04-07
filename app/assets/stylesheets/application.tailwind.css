@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @plugin 'daisyui';
+@plugin 'tailwindcss-motion';
 
 @theme {
   --color-*: initial; /* disable all of the default colors */

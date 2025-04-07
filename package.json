@@ -16,6 +16,7 @@
     "trix": "^2.1.13"
   },
   "devDependencies": {
-    "daisyui": "^5.0.9"
+    "daisyui": "^5.0.9",
+    "tailwindcss-motion": "^1.1.0"
   }
 }

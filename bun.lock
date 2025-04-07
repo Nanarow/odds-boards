@@ -15,6 +15,7 @@
       },
       "devDependencies": {
         "daisyui": "^5.0.9",
+        "tailwindcss-motion": "^1.1.0",
       },
     },
   },
@@ -154,6 +155,8 @@
     "stimulus-use": ["stimulus-use@0.52.3", "", { "peerDependencies": { "@hotwired/stimulus": ">= 3", "hotkeys-js": ">= 3" } }, "sha512-stZ5dID6FUrGCR/ChWUa0FT5Z8iqkzT6lputOAb50eF+Ayg7RzJj4U/HoRlp2NV333QfvoRidru9HLbom4hZVw=="],
 
     "tailwindcss": ["tailwindcss@4.0.15", "", {}, "sha512-6ZMg+hHdMJpjpeCCFasX7K+U615U9D+7k5/cDK/iRwl6GptF24+I/AbKgOnXhVKePzrEyIXutLv36n4cRsq3Sg=="],
+
+    "tailwindcss-motion": ["tailwindcss-motion@1.1.0", "", { "peerDependencies": { "tailwindcss": ">=3.0.0 || insiders" } }, "sha512-0lK6rA4+367ffJdi1TtB72GlMCxJi2TP/xRiHc6An5pZSlU6WfIHhSvLxpcGilGZfBrOqc2q4woH1DEP/lCNbQ=="],
 
     "tapable": ["tapable@2.2.1", "", {}, "sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ=="],
 
