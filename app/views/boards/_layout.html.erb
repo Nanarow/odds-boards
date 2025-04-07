@@ -1,9 +1,9 @@
 <div class="flex gap-4 container justify-center">
   <%= render 'sidebar' %>
-  <div class="w-full sm:w-3/4 flex flex-col gap-4">
+  <div class="w-full sm:w-3/4 flex flex-col">
     <%= render 'menubar' %>
-    <%= turbo_frame_tag 'board-form-section',class:'empty:-my-2' %>
-    <section class="flex flex-col gap-4">
+    <section id="board-form-section"></section>
+    <section class="flex flex-col gap-4 mt-4" data-testid="boards-section" id="boards-section">
       <%= yield %>
     </section>
   </div>

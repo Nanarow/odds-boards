@@ -6,7 +6,8 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }, path_names: { sign_in: "login", sign_up: "register" }
 
-  resources :boards do
+  post "boards/new", to: "boards#new", as: :load_new_board
+  resources :boards, only: [ :index, :create, :update, :destroy ] do
     collection do
       get "@me" => "boards#my_boards", as: :my
     end
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
       post :draft
       post :make_public
       post :make_private
+      post :edit, as: :load_edit
     end
   end
 

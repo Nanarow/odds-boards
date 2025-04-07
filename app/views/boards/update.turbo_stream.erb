@@ -1,0 +1,6 @@
+<%= turbo_stream.prepend 'boards-section' do %>
+  <%= render @board %>
+<% end %>
+<%= turbo_stream.update 'board-form-section' do %>
+<% end %>
+<%= turbo_stream.remove 'board-'+ dom_id(@board) %>

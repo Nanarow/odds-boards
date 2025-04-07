@@ -1,36 +1,57 @@
-<%= form_with(model: board, class: "form") do |form| %>
-  <% if board.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(board.errors.count, "error") %> prohibited this board from being saved:</h2>
-      <ul>
-        <% board.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-  <fieldset>
-    <%= form.label :title %>
-    <%= form.text_field :title, class: 'input-lg font-bold' %>
-  </fieldset>
-  <fieldset>
-    <%= form.label :body %>
-    <%= form.textarea :body, rows: 10 %>
-  </fieldset>
-  <fieldset>
-    <%= form.label :visibility %>
-    <%= render 'components/ui/selector', class: 'w-full', placeholder: "Visibility", options: @visibility_options, name: "board[visibility]", defaultValue: @board.visibility.to_s %>
-  </fieldset>
-  <fieldset>
-    <%= form.label :category %>
-    <%= render 'components/ui/selector', class: 'w-full', placeholder: "Category", options: @category_options, name: "board[category_id]", defaultValue: @board.category_id.to_s %>
-  </fieldset>
-  <fieldset >
-    <%= form.label :tag_names, "Tags" %>
-    <%= render 'components/ui/multi_select', name: "board[tags]", options: @tag_options, placeholder: "Enter tag name ...", class: 'w-full', defaultValue: @board.tags.pluck(:name) %>
-  </fieldset>
-  <div class="flex gap-2">
-    <%= button_tag "Save as Draft", type: :submit, name: "board[state]", value: :is_draft %>
-    <%= button_tag "Save and Publish",type: :submit, name: "board[state]", value: :is_published %>
+<div class="card mt-4" data-controller="removable">
+  <div class="card-body">
+    <%= form_with(model: board, class: "form") do |form| %>
+      <% if board.errors.any? %>
+        <div style="color: red">
+          <h2><%= pluralize(board.errors.count, "error") %> prohibited this board from being saved:</h2>
+          <ul>
+            <% board.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <%= render 'components/ui/selector', 
+        class: 'w-full', 
+        placeholder: "Select Category", 
+        options: @category_options, 
+        name: "board[category_id]", 
+        defaultValue: @board.category_id.to_s, 
+        data: { testid: "board-category"}
+      %>
+      <%= render 'components/ui/selector', 
+        class: 'w-full', 
+        placeholder: "Select Visibility", 
+        options: @visibility_options, 
+        name: "board[visibility]", 
+        defaultValue: @board.visibility.to_s, 
+        data: { testid: 'board-visibility' }
+      %>
+      <%= form.text_field :title, 
+        class: 'input-lg font-bold', 
+        data: { testid: 'board-title' },
+        placeholder: "Enter title ..."
+      %>
+      <%= form.textarea :body, 
+        rows: 10, 
+        data: { testid: 'board-body' },
+        placeholder: "Enter body ..."
+      %>
+      <%= render 'components/ui/multi_select', 
+        name: "board[tags]", 
+        options: @tag_options, 
+        placeholder: "Enter tag name ...", 
+        class: 'w-full', 
+        defaultValue: @board.tags.pluck(:name),
+        data: { testid: "board-tags"}
+      %>
+      <div class="flex gap-2 justify-between">
+        <button class="btn btn-ghost" data-action="click->removable#remove">Cancel</button>
+        <div class="flex gap-2">
+          <%= button_tag "Save as Draft", type: :submit, name: "board[state]", value: :is_draft, data: { testid: 'draft-board-button' } %>
+          <%= button_tag "Save and Publish",type: :submit, name: "board[state]", value: :is_published, data: { testid: 'publish-board-button' } %>
+        </div>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>

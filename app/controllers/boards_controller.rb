@@ -1,78 +1,54 @@
 class BoardsController < ApplicationController
-  before_action :set_board, only: %i[ show edit update destroy upvote downvote publish draft make_public make_private ]
+  before_action :set_board, only: %i[ edit update destroy upvote downvote publish draft make_public make_private ]
   before_action :authenticate_user!, only: %i[ upvote downvote publish draft make_public make_private my_boards ]
   before_action :authorize_author, only: %i[ publish draft make_public make_private ]
   before_action :set_form, only: %i[ new edit ]
   # before_action :ensure_turbo_frame, only: [ :new ]
-  # GET /boards or /boards.json
+
   def index
     condition = { state: :is_published }
     unless user_signed_in?
       condition[:visibility] = :is_public
     end
-    @boards = Board.where(condition)
-    @categories = Category.joins(:boards).where(boards: condition).distinct
-    @tags = Tag.joins(:boards).where(boards: condition).distinct
+    set_data(condition)
   end
 
   def my_boards
     condition = { author: current_user }
-    @boards = Board.where(condition)
-    @categories = Category.joins(:boards).where(boards: condition).distinct
-    @tags = Tag.joins(:boards).where(boards: condition).distinct
+    set_data(condition)
     render :index
   end
 
-  # GET /boards/1 or /boards/1.json
-  def show
-  end
-
-  # GET /boards/new
   def new
     @board = Board.new
   end
 
-  # GET /boards/1/edit
   def edit
   end
 
-  # POST /boards or /boards.json
   def create
     @board = Board.new(board_params)
     @board.author = current_user
 
-    respond_to do |format|
-      if @board.save
-        format.html { redirect_to @board, notice: "Board was successfully created." }
-        format.json { render :show, status: :created, location: @board }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @board.errors, status: :unprocessable_entity }
-      end
+    if @board.save
+      render :create, status: :created
+    else
+      set_form
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /boards/1 or /boards/1.json
   def update
-    respond_to do |format|
-      if @board.update(board_params)
-        format.html { redirect_to @board, notice: "Board was successfully updated." }
-        format.json { render :show, status: :ok, location: @board }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @board.errors, status: :unprocessable_entity }
-      end
+    if @board.update(board_params)
+      render :update, notice: "Board was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /boards/1 or /boards/1.json
   def destroy
     @board.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to boards_path, status: :see_other, notice: "Board was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    render :destroy, notice: "Board was successfully destroyed."
   end
 
   def upvote
@@ -118,14 +94,20 @@ class BoardsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_board
       @board = Board.find(params.expect(:id))
     end
 
+    def set_data(condition)
+      @boards = Board.where(condition).order(created_at: :desc)
+      @categories = Category.joins(:boards).where(boards: condition).distinct.order(name: :asc)
+      @tags = Tag.joins(:boards).where(boards: condition).distinct.order(name: :asc)
+    end
+
     def set_form
-      @category_options = Category.all.map { |c| { value: c.id, label: c.name } }
-      @tag_options = Tag.all.pluck(:name)
+      condition = { state: :is_published }
+      @category_options = Category.joins(:boards).where(boards: condition).distinct.order(name: :asc).map { |c| { value: c.id, label: c.name } }
+      @tag_options = Tag.joins(:boards).where(boards: condition).distinct.order(name: :asc).pluck(:name)
       @visibility_options = [ { value: :is_public, label: "Public" }, { value: :is_private, label: "Private" } ]
     end
 
@@ -135,7 +117,6 @@ class BoardsController < ApplicationController
       end
     end
 
-    # Only allow a list of trusted parameters through.
     def board_params
       params.expect(board: [ :category_id, :title, :body, :state, :visibility, :tags ])
     end

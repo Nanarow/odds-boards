@@ -1,14 +1,17 @@
-<div class="card" id="<%= dom_id board %>">
+<div class="card motion-translate-x-in-[0%] motion-translate-y-in-[-100%]" id="<%= dom_id board %>" data-testid="board-<%= board.id %>" >
   <div class="card-body gap-2" data-controller="collapsible">
     <div class='flex gap-2 items-center'>
       <%= render 'components/ui/avatar', avatar: board.author.avatar %>
       @<%= board.author.username %>
       &CenterDot;
-      <%= time_ago_in_words(board.last_activity_at) %> ago
-      <span class="badge badge-soft"><%= board.category.name %></span>
+      <%= time_ago_in_words(board.created_at) %> ago
+      <% unless board.category.nil? %>
+        <span class="badge badge-soft"><%= board.category.name %></span>
+      <% end %>
       <span class="badge badge-soft"><%= board.visibility %></span>
       <% if board.is_author?(current_user) %>
-        <%= link_to 'Edit', edit_board_path(board), class: 'btn btn-primary btn-xs', data: { turbo_frame: 'board-form-section' } %>
+        <%= button_to 'Edit', load_edit_board_path(board), class: 'btn btn-primary btn-xs', data: { turbo: true, testid: 'edit-board-button' } %>
+        <%= button_to 'Delete', board_path(board), method: :delete, class: 'btn btn-error btn-xs', data: { turbo: true, testid: 'delete-board-button' } %>
       <% end %>
     </div>
     <h2>
