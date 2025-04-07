@@ -8,6 +8,9 @@ class Board < ApplicationRecord
   has_many :tags, through: :taggings
   has_many :comments, dependent: :destroy
 
+  validates :title, presence: true
+  validates :body, presence: true
+
   def comments_by_depth(depth)
     comments.where(depth: depth)
   end
