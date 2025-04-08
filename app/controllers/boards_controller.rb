@@ -103,9 +103,8 @@ class BoardsController < ApplicationController
     end
 
     def set_form
-      condition = { state: :is_published }
-      @category_options = Category.joins(:boards).where(boards: condition).distinct.order(name: :asc).map { |c| { value: c.id, label: c.name } }
-      @tag_options = Tag.joins(:boards).where(boards: condition).distinct.order(name: :asc).pluck(:name)
+      @category_options = Category.all.order(name: :asc).map { |c| { value: c.id, label: c.name } }
+      @tag_options = Tag.all.order(name: :asc).pluck(:name)
       @visibility_options = [ { value: :is_public, label: "Public" }, { value: :is_private, label: "Private" } ]
     end
 

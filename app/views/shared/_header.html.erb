@@ -10,8 +10,8 @@
     <kbd class="kbd kbd-sm">K</kbd>
   </label>
   <% if user_signed_in? %>
-    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-primary" %>
+    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-primary", data: { testid: 'logout-button' } %>
   <% else %>
-    <%= link_to "Login", new_user_session_path, class: "btn btn-primary" %>
+    <%= link_to "Login", new_user_session_path, class: "btn btn-primary", data: { testid: 'login-button' } %>
   <% end %>
 </header>
