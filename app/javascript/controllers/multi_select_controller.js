@@ -15,6 +15,14 @@ export default class MultiSelectController extends Dropdown {
     this.defaultValue.forEach((value) => this.add(value))
   }
 
+  scroll() {
+    this.menuTarget.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'nearest',
+    })
+  }
+
   addByInput(event) {
     event.preventDefault()
     this.add(event.target.value)

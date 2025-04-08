@@ -17,7 +17,7 @@
     type="text" placeholder="<%= placeholder %>"
     class="input w-full" 
     data-multi-select-target="input"
-    data-action="keydown.enter->multi-select#addByInput click@window->multi-select#hide focus->multi-select#enter input->multi-select#filter"
+    data-action="keydown.enter->multi-select#addByInput click@window->multi-select#hide focus->multi-select#enter focus->multi-select#scroll input->multi-select#filter"
   >
   <div
         data-multi-select-target="menu"
@@ -31,6 +31,7 @@
       <% options.each do |option| %>
         <li>
           <span 
+            role="button"
             data-multi-select-target="option" 
             data-action="click->multi-select#addByOption">
             <%= option %>
