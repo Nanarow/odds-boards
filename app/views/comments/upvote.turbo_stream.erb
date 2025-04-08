@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "comment-#{@comment.id}-votes-count" do %>
+  <%= render 'shared/vote', votable: @comment %>
+<% end %>

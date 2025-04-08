@@ -1,5 +1,5 @@
 <div class="card motion-translate-x-in-[0%] motion-translate-y-in-[-100%]" id="<%= dom_id board %>" data-testid="board-<%= board.id %>" >
-  <div class="card-body gap-2" data-controller="collapsible">
+  <div class="card-body gap-2" >
     <div class='flex gap-2 items-center'>
       <%= render 'shared/ui/avatar', avatar: board.author.avatar %>
       @<%= board.author.username %>
@@ -23,17 +23,10 @@
     <%= render 'tags/tags', tags: board.tags %>
     <div class="flex gap-2 items-center">
       <%= render 'shared/vote', votable: board %>
-      <button data-action="click->collapsible#toggle" class="flex cursor-pointer">
-        <%= render_icon 'comment', class: 'size-4' %>
-      </button>
-      <%= board.comments.count %> comments
+      <%= render 'comments/comment_count', board: board %>
     </div>
-    <div 
-      data-collapsible-target="content"
-      class="hidden overflow-hidden transition-all duration-500 ease-in-out">
-      <div class="border my-1"></div>
-      <h4>Comments(<%= board.comments.count %>)</h4>
-      <%= render board.comments_by_depth(0) %>
-    </div>
+    <div id="board-<%= board.id %>-comments-count" class="empty:-mt-2"></div>
+    <div id="board-<%= board.id %>-comments-form" class="empty:-mt-2"></div>
+    <div id="board-<%= board.id %>-comments" class="empty:-mt-2"></div>
   </div>
 </div>

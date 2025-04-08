@@ -1,5 +1,5 @@
 <%# locals: (comment: Comment) %>
-<div class="flex py-1 gap-2">
+<div class="flex py-1 gap-2" id="comment-<%= comment.id %>" data-testid="comment-<%= comment.id %>">
   <%= render 'shared/ui/avatar', avatar: comment.commenter.avatar %>
   <div>
     <div class="flex flex-col gap-1 border border-base-300 p-2 rounded-box">
@@ -7,17 +7,17 @@
         @<%= comment.commenter.username %>
         &CenterDot;
         <%= time_ago_in_words(comment.created_at) %> ago
+        <% if comment.is_commenter?(current_user) %>
+          <%= button_to 'Edit', load_edit_board_comment_path(@board, comment), class: 'btn btn-primary btn-xs', data: { turbo: true, testid: "edit-comment-#{comment.id}-button" } %>
+          <%= button_to 'Delete', board_comment_path(@board, comment), method: :delete, class: 'btn btn-error btn-xs', data: { turbo: true, testid: "delete-comment-#{comment.id}-button" } %>
+        <% end %>
       </div>
       <p>
         <%= comment.body %>
       </p>
     </div>
     <div class="flex gap-2 items-center">
-      <% class_name = ' bg-base-300' if comment.is_voted? current_user %>
-      <%= button_to upvote_comment_path(comment), class: "grid size-6 place-items-center rounded-full #{class_name} cursor-pointer" do %>
-        <%= render_icon 'upvote', class: 'size-4' %>
-      <% end %>
-      <%= comment.vote_count %> upvotes
+      <%= render 'shared/vote', votable: comment %>
       <span>reply</span>
     </div>
   </div>

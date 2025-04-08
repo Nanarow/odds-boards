@@ -1,0 +1,3 @@
+<%= turbo_stream.update "board-#{@board.id}-comments-form" do %>
+  <%= render 'form', comment: @comment, board: @board %>
+<% end %>

@@ -1,0 +1,14 @@
+<%= turbo_stream.prepend "board-#{@board.id}-comments" do %>
+  <%= render @comment %>
+<% end %>
+<%= turbo_stream.update "board-#{@board.id}-comments-count" do %>
+  <div class="border my-1"></div>
+  <h4>Comments(<%= @board.comments.count %>)</h4>
+<% end %>
+<%= turbo_stream.update "board-#{@board.id}-comments-form" do %>
+  <%= render 'form', comment: Comment.new, board: @board %>
+<% end %>
+<%= turbo_stream.update "board-#{@board.id}-comments-button" do %>
+  <%= render 'comments/comment_count', board: @board %>
+<% end %>
+

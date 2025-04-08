@@ -16,16 +16,8 @@ class Comment < ApplicationRecord
     parent_id.nil?
   end
 
-  def all_replies_by_depth(depth)
-    replies.where(depth: depth)
-  end
-
-  def all_replies
-    replies.map { |reply| [ reply, reply.all_replies ] }.flatten
-  end
-
-  def as_json(options = {})
-    super(options).merge(replies: replies.where("depth <= ?", MAX_DEPTH).map(&:as_json))
+  def is_commenter?(user)
+    commenter == user
   end
 
   private

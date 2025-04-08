@@ -20,9 +20,17 @@ Rails.application.routes.draw do
       post :make_private
       post :edit, as: :load_edit
     end
+    resources :comments, only: [ :create, :update, :destroy ] do
+      collection do
+        post :list, as: :list
+      end
+      member do
+        post :edit, as: :load_edit
+      end
+    end
   end
 
-  resources :comments, except: [ :index, :show, :new, :edit ] do
+  resources :comments, only: [] do
     member do
       post :upvote
       post :downvote
