@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Signing in", type: :feature do
+RSpec.feature "Signing in", type: :system do
     background do
       create(:user)
     end

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :tag do
     creator { association :user }
-    name { "MyString" }
+    sequence(:name) { |n| "Tag #{n}" }
   end
 end

@@ -26,5 +26,5 @@ module TestIdHelper
 end
 
 RSpec.configure do |config|
-  config.include TestIdHelper, type: :feature
+  config.include TestIdHelper, type: :system
 end

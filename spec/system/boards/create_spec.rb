@@ -1,15 +1,30 @@
 require "rails_helper"
 
-RSpec.feature "Creating a board", type: :feature, js: true do
-  context "When user is logged in" do
+RSpec.feature "Board creation", type: :system, js: true do
+  context "When the user is logged in" do
     given!(:user) { create(:user) }
-    given!(:categories) { create_list(:category, 4) }
+    given!(:categories) do
+      [
+        create(:category, name: "Sport"),
+        create(:category, name: "Entertainment"),
+        create(:category, name: "Music"),
+        create(:category, name: "News")
+      ]
+    end
+    given!(:tags) do
+      [
+        create(:tag, name: "Trending"),
+        create(:tag, name: "Popular"),
+        create(:tag, name: "New"),
+        create(:tag, name: "Hot")
+      ]
+    end
 
     background do
       login_as(user, scope: :user)
     end
 
-    scenario "Creating a board successfully" do
+    scenario "Successfully creates a board with title and body" do
       visit root_path
 
       click_on "new-board-button"
@@ -23,23 +38,7 @@ RSpec.feature "Creating a board", type: :feature, js: true do
       expect(page).to have_content "My Board Body"
     end
 
-    scenario "Creating a board successfully with category" do
-      visit root_path
-
-      click_on "new-board-button"
-
-      fill_in "board-title", with: "My Board Title"
-      fill_in "board-body", with: "My Board Body"
-      select "board-category", with: categories.first.name
-
-      click_on "publish-board-button"
-
-      expect(page).to have_content "My Board Title"
-      expect(page).to have_content "My Board Body"
-      expect(page).to have_content categories.first.name
-    end
-
-    scenario "Creating a board successfully with visibility private" do
+    scenario "Successfully creates a board with private visibility" do
       visit root_path
 
       click_on "new-board-button"
@@ -59,7 +58,7 @@ RSpec.feature "Creating a board", type: :feature, js: true do
       expect(page).to_not have_content "My Board Body"
     end
 
-    scenario "Creating a board successfully with visibility public" do
+    scenario "Successfully creates a board with public visibility" do
       visit root_path
 
       click_on "new-board-button"
@@ -79,21 +78,36 @@ RSpec.feature "Creating a board", type: :feature, js: true do
       expect(page).to have_content "My Board Body"
     end
 
-    scenario "Creating a board successfully with tags" do
+    scenario "Successfully creates a board with category" do
       visit root_path
 
       click_on "new-board-button"
 
       fill_in "board-title", with: "My Board Title"
       fill_in "board-body", with: "My Board Body"
-      select "board-tags", with: [ "Tag 1", "Tag 2" ], multiple: true
+      select "board-category", with: "Sport"
 
       click_on "publish-board-button"
 
       expect(page).to have_content "My Board Title"
       expect(page).to have_content "My Board Body"
-      expect(page).to have_content "Tag 1"
-      expect(page).to have_content "Tag 2"
+    end
+
+    scenario "Successfully creates a board with tags" do
+      visit root_path
+
+      click_on "new-board-button"
+
+      fill_in "board-title", with: "My Board Title"
+      fill_in "board-body", with: "My Board Body"
+      select "board-tags", with: [ "Trending", "Popular" ], multiple: true
+
+      click_on "publish-board-button"
+
+      expect(page).to have_content "My Board Title"
+      expect(page).to have_content "My Board Body"
+      expect(page).to have_content "Trending"
+      expect(page).to have_content "Popular"
     end
   end
 
