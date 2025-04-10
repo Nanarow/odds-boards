@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     resources :comments, only: [ :create, :update, :destroy ] do
       collection do
         post :list, as: :list
+        post :remove, as: :remove
       end
       member do
         post :edit, as: :load_edit

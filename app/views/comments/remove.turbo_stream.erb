@@ -1,0 +1,6 @@
+<%= turbo_stream.update "board-#{@board.id}-comments-button" do %>
+  <%= render 'comments/button', board: @board %>
+<% end %>
+<%= turbo_stream.update "board-#{@board.id}-comments-count" %>
+<%= turbo_stream.update "board-#{@board.id}-comments-form" %>
+<%= turbo_stream.update "board-#{@board.id}-comments" %>

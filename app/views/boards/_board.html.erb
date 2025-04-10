@@ -23,7 +23,9 @@
     <%= render 'tags/tags', tags: board.tags %>
     <div class="flex gap-2 items-center">
       <%= render 'shared/vote', votable: board %>
-      <%= render 'comments/comment_count', board: board %>
+      <span id="board-<%= board.id %>-comments-button">
+        <%= render 'comments/button', board: board %>
+      </span>
     </div>
     <div id="board-<%= board.id %>-comments-count" class="empty:-mt-2"></div>
     <div id="board-<%= board.id %>-comments-form" class="empty:-mt-2"></div>

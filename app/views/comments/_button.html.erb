@@ -1,6 +1,6 @@
-<%# locals: (board: Board) %>
-<%= button_to list_board_comments_path(board), 
-  id: "board-#{board.id}-comments-button",
+<%# locals: (board: Board, show: true) %>
+<% path = show ? list_board_comments_path(board): remove_board_comments_path(board) %>
+<%= button_to path,
   class: 'flex cursor-pointer items-center gap-2 badge', 
   data: { turbo: true, 
   testid: "board-#{board.id}-comments-button" } do %>

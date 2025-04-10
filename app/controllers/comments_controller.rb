@@ -2,11 +2,12 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ upvote downvote edit update destroy ]
   before_action :authenticate_user!, only: %i[ upvote downvote edit update destroy ]
   before_action :authorize_commenter, only: %i[ update destroy edit update destroy ]
-  before_action :set_board, only: %i[ list create update destroy edit ]
+  before_action :set_board, only: %i[ list create update destroy edit remove ]
 
   def list
     @comments = @board.comments_by_depth(0)
-    @comments_count = @board.comments.count
+  end
+  def remove
   end
 
 
@@ -30,6 +31,9 @@ class CommentsController < ApplicationController
   end
 
   def update
+    if @comment.nil?
+      return create
+    end
     if @comment.update(comment_params)
       render :update, notice: "Comment was successfully updated."
     else
@@ -48,7 +52,7 @@ class CommentsController < ApplicationController
   private
 
   def set_comment
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find_by(id: params[:id])
   end
 
   def set_board
@@ -60,7 +64,7 @@ class CommentsController < ApplicationController
   end
 
   def authorize_commenter
-    unless current_user == @comment.commenter
+    unless @comment.nil? || current_user == @comment.commenter
       redirect_to boards_path, alert: "You can only modify your own comments."
     end
   end
