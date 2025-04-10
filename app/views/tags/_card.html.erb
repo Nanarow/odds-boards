@@ -4,10 +4,8 @@
       <%= render_icon 'tags', class: 'size-6' %>
       <h4 class="card-title">Tags</h4>
     </div>
-    <div class="flex flex-wrap gap-1">
-      <% @tags.each do |tag| %>
-        <%= render tag, with_icon: false %>
-      <% end %>
+    <div class="flex flex-wrap gap-1" id="tags" data-testid="tags">
+      <%= render 'tags/list', tags: @tags %>
     </div>
   </div>
 </div>

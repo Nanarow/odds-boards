@@ -1,1 +1,7 @@
 <%= turbo_stream.remove dom_id(@board) %>
+<%= turbo_stream.update "categories" do %>
+  <%= render @categories %>
+<% end %>
+<%= turbo_stream.update "tags" do %>
+  <%= render 'tags/list', tags: @tags %>
+<% end %>

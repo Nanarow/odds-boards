@@ -1,5 +1,8 @@
-<%= turbo_stream.prepend 'boards' do %>
-  <%= render @board %>
+<%= turbo_stream.prepend 'boards', @board %>
+<%= turbo_stream.update 'board-form' %>
+<%= turbo_stream.update "categories" do %>
+  <%= render @categories %>
 <% end %>
-<%= turbo_stream.update 'board-form' do %>
+<%= turbo_stream.update "tags" do %>
+  <%= render 'tags/list', tags: @tags %>
 <% end %>

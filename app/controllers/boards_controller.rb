@@ -10,12 +10,15 @@ class BoardsController < ApplicationController
     unless user_signed_in?
       condition[:visibility] = :is_public
     end
-    set_data(condition)
+    set_boards(condition)
+    set_categories
+    set_tags
   end
 
   def my_boards
-    condition = { author: current_user }
-    set_data(condition)
+    set_boards author: current_user
+    set_categories
+    set_tags
     render :index
   end
 
@@ -27,10 +30,15 @@ class BoardsController < ApplicationController
   end
 
   def create
-    @board = Board.new(board_params)
+    board = board_params
+    tags = board.delete :tags
+    @board = Board.new(board)
     @board.author = current_user
 
     if @board.save
+      @board.set_tags(tags, current_user) unless tags.nil?
+      set_categories
+      set_tags
       render :create, status: :created
     else
       set_form
@@ -39,7 +47,12 @@ class BoardsController < ApplicationController
   end
 
   def update
-    if @board.update(board_params)
+    board = board_params
+    tags = board.delete :tags
+    if @board.update(board)
+      @board.set_tags(tags, current_user) unless tags.nil? 
+      set_categories
+      set_tags
       render :update, notice: "Board was successfully updated."
     else
       render :edit, status: :unprocessable_entity
@@ -48,6 +61,8 @@ class BoardsController < ApplicationController
 
   def destroy
     @board.destroy!
+    set_categories
+    set_tags
     render :destroy, notice: "Board was successfully destroyed."
   end
 
@@ -96,10 +111,34 @@ class BoardsController < ApplicationController
       @board = Board.find(params.expect(:id))
     end
 
-    def set_data(condition)
+    def set_boards(condition)
       @boards = Board.where(condition).order(created_at: :desc)
-      @categories = Category.joins(:boards).where(boards: condition).distinct.order(name: :asc)
-      @tags = Tag.joins(:boards).where(boards: condition).distinct.order(name: :asc)
+    end
+
+    def set_categories
+      @categories = Category
+      .joins(:boards)
+      .where(board_conditions)
+      .distinct
+      .order(name: :asc)
+    end
+
+    def set_tags
+      @tags = Tag
+      .joins(:boards)
+      .where(board_conditions)
+      .distinct
+      .order(name: :asc)
+    end
+
+    def board_conditions
+      if user_signed_in?
+        Board.arel_table[:author_id].eq(current_user.id)
+        .or(Board.arel_table[:state].eq(:is_published))
+      else
+        Board.arel_table[:visibility].eq(:is_public)
+        .and(Board.arel_table[:state].eq(:is_published))
+      end
     end
 
     def set_form
@@ -115,7 +154,7 @@ class BoardsController < ApplicationController
     end
 
     def board_params
-      params.expect(board: [ :category_id, :title, :body, :state, :visibility, :tags ])
+      params.require(:board).permit(:category_id, :title, :body, :state, :visibility, tags: [])
     end
 
     def ensure_turbo_frame

@@ -4,6 +4,8 @@
       <%= render_icon 'categories', class: 'size-6' %>
       <h4 class="card-title">Categories</h4>
     </div>
-    <%= render @categories %>
+    <div class="flex flex-col gap-2" id="categories" data-testid="categories">
+      <%= render @categories %>
+    </div>
   </div>
 </div>

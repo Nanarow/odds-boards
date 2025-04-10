@@ -1,6 +1,3 @@
-<%= turbo_stream.prepend 'boards' do %>
-  <%= render @board %>
-<% end %>
-<%= turbo_stream.update 'board-form' do %>
-<% end %>
+<%= turbo_stream.prepend 'boards', @board %>
+<%= turbo_stream.update 'board-form' %>
 <%= turbo_stream.remove "board-#{@board.id}" %>
