@@ -35,24 +35,52 @@ class Board < ApplicationRecord
     end
   end
 
-  def add_tag(tag_name)
-    tag = Tag.find_or_create_by(name: tag_name)
-    unless tags.include?(tag)
-      taggings.create(tag: tag)
+  def set_tags(tag_names, creator)
+    current_tags = tags.pluck(:name)
+    tags_to_add = tag_names - current_tags
+    tags_to_remove = current_tags - tag_names
+    add_tags(tags_to_add, creator)
+    remove_tags(tags_to_remove)
+  end
+
+  def add_tags(tag_names, creator)
+    existing_tag_ids = tags.pluck(:id).to_set
+
+    tag_names.each do |tag_name|
+      tag = Tag.find_or_create_by(name: tag_name) { |t| t.creator = creator }
+      unless existing_tag_ids.include?(tag.id)
+        taggings.create(tag: tag)
+        existing_tag_ids.add(tag.id)
+      end
     end
   end
 
-  def remove_tag(tag_name)
-    tag = Tag.find_by(name: tag_name)
-    if tag && tags.include?(tag)
-      taggings.find_by(tag: tag).destroy
-      if tag.boards.empty?
-        tag.destroy
-      end
+  def remove_tags(tag_names)
+    tag_names.each do |tag_name|
+      tag = Tag.find_by(name: tag_name)
+      next unless tag
+      taggings.find_by(tag: tag)&.destroy
+      tag.destroy if tag.boards.empty?
     end
   end
 
   def is_author?(user)
     author == user
+  end
+
+  before_destroy :remember_tags
+  after_destroy :cleanup_unused_tags
+
+  private
+
+  def remember_tags
+    @tags_to_check = tags.to_a
+    taggings.destroy_all
+  end
+
+  def cleanup_unused_tags
+    @tags_to_check.each do |tag|
+      tag.destroy if tag.boards.empty?
+    end
   end
 end
