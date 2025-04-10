@@ -18,10 +18,13 @@ module TestIdHelper
   def select(testid, with:, multiple: false)
     click_on testid
     if multiple
-      with.each { |option| page.click_on option }
+      with.each do |option|
+        page.click_on option
+      end
     else
       page.click_on with
     end
+    page.execute_script("document.body.click()")
   end
 end
 
