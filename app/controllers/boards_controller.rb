@@ -1,7 +1,7 @@
 class BoardsController < ApplicationController
-  before_action :set_board, only: %i[ edit update destroy upvote downvote publish draft make_public make_private ]
-  before_action :authenticate_user!, only: %i[ upvote downvote publish draft make_public make_private my_boards ]
-  before_action :authorize_author, only: %i[ publish draft make_public make_private ]
+  before_action :set_board, only: %i[ edit update destroy upvote show]
+  before_action :authenticate_user!, only: %i[ upvote my_boards ]
+  before_action :authorize_author, only: %i[ edit update destroy ]
   before_action :set_form, only: %i[ new edit ]
   # before_action :ensure_turbo_frame, only: [ :new ]
 
@@ -20,6 +20,12 @@ class BoardsController < ApplicationController
     set_categories
     set_tags
     render :index
+  end
+
+  def show
+    set_categories
+    set_tags
+    @comments = @board.comments_by_depth(0)
   end
 
   def new
@@ -50,7 +56,7 @@ class BoardsController < ApplicationController
     board = board_params
     tags = board.delete :tags
     if @board.update(board)
-      @board.set_tags(tags, current_user) unless tags.nil? 
+      @board.set_tags(tags, current_user) unless tags.nil?
       set_categories
       set_tags
       render :update, notice: "Board was successfully updated."

@@ -8,7 +8,9 @@
     class="flex gap-2 items-center"
     >
   <% bg = 'bg-base-300' if votable.is_voted? current_user %>
-  <%= button_to action, class: "grid size-6 place-items-center rounded-full cursor-pointer #{bg}" do %>
+  <%= button_to action, 
+  class: "grid size-6 place-items-center rounded-full cursor-pointer #{bg}",
+  data: { action: 'propagation#stop' } do %>
     <%= render_icon 'upvote', class: 'size-4' %>
   <% end %>
   <%= votable.vote_count %> upvotes

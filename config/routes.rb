@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   }, path_names: { sign_in: "login", sign_up: "register" }
 
   post "boards/new", to: "boards#new", as: :load_new_board
-  resources :boards, only: [ :index, :create, :update, :destroy ] do
+  resources :boards, only: [ :index, :create, :update, :destroy, :show ] do
     collection do
       get "@me" => "boards#my_boards", as: :my
     end

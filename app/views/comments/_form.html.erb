@@ -15,7 +15,8 @@
   <% end %>
   <%= form.textarea :body,  
         data: { testid: 'comment-body' },
-        placeholder: "Enter comment ..."
+        placeholder: "Enter comment ...",
+        required: true
       %>
   <%= form.submit "Comment", class: "btn btn-primary" %>
 <% end %>

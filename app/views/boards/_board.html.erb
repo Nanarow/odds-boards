@@ -1,34 +1,61 @@
-<div class="card motion-translate-x-in-[0%] motion-translate-y-in-[-100%]" id="<%= dom_id board %>" data-testid="board-<%= board.id %>" >
-  <div class="card-body gap-2" >
-    <div class='flex gap-2 items-center'>
-      <%= render 'shared/ui/avatar', avatar: board.author.avatar %>
-      @<%= board.author.username %>
-      &CenterDot;
-      <%= time_ago_in_words(board.created_at) %> ago
-      <% unless board.category.nil? %>
-        <span class="badge badge-soft"><%= board.category.name %></span>
-      <% end %>
-      <span class="badge badge-soft"><%= board.visibility %></span>
-      <% if board.is_author?(current_user) %>
-        <%= button_to 'Edit', load_edit_board_path(board), class: 'btn btn-primary btn-xs', data: { turbo: true, testid: "edit-board-#{board.id}-button" } %>
-        <%= button_to 'Delete', board_path(board), method: :delete, class: 'btn btn-error btn-xs', data: { turbo: true, testid: "delete-board-#{board.id}-button" } %>
-      <% end %>
+<%# locals: (board:, without_comments: true) %>
+<%= link_to board_path(board), 
+  class: 'flex group', 
+  data: { controller: 'propagation', testid: "board-#{board.id}" }, 
+  id: "board-#{board.id}" do %>
+  <div class="card group-hover:bg-base-200 w-full">
+    <div class="card-body gap-2" >
+      <div class='flex items-center justify-between'>
+        <div class="flex gap-2 items-center">
+          <%= render 'shared/ui/avatar', avatar: board.author.avatar %>
+          @<%= board.author.username %>
+          &CenterDot;
+          <%= time_ago_in_words(board.created_at) %> ago
+          <% unless board.category.nil? %>
+            <span class="badge badge-soft"><%= board.category.name %></span>
+          <% end %>
+          <span class="badge badge-soft"><%= board.visibility %></span>
+        </div>
+        <% if board.is_author?(current_user) %>
+          <div class="flex gap-2 z-10">
+            <%= button_to 'Edit', load_edit_board_path(board), 
+            class: 'btn btn-primary btn-xs', 
+            data: { 
+              turbo: true, 
+              testid: "edit-board-#{board.id}-button",
+              action: 'propagation#stop' 
+            } %>
+            <%= button_to 'Delete', board_path(board), method: :delete, 
+            class: 'btn btn-error btn-xs', 
+            data: { 
+              turbo: true, 
+              testid: "delete-board-#{board.id}-button",
+              action: 'propagation#stop'
+            } %>
+          </div>
+        <% end %>
+      </div>
+      <h2>
+        <%= board.title %>
+      </h2>
+      <p>
+        <%= board.body %>
+      </p>
+      <%= render 'tags/tags', tags: board.tags %>
+      <div class="flex gap-2 items-center">
+        <%= render 'shared/vote', votable: board %>
+        <span id="board-<%= board.id %>-comments-button">
+          <%= render 'comments/button', board: board %>
+        </span>
+      </div>
     </div>
-    <h2>
-      <%= board.title %>
-    </h2>
-    <p>
-      <%= board.body %>
-    </p>
-    <%= render 'tags/tags', tags: board.tags %>
-    <div class="flex gap-2 items-center">
-      <%= render 'shared/vote', votable: board %>
-      <span id="board-<%= board.id %>-comments-button">
-        <%= render 'comments/button', board: board %>
-      </span>
-    </div>
-    <div id="board-<%= board.id %>-comments-count" class="empty:-mt-2"></div>
-    <div id="board-<%= board.id %>-comment-form" class="empty:-mt-2"></div>
-    <div id="board-<%= board.id %>-comments" class="empty:-mt-2"></div>
   </div>
-</div>
+<% end %>
+<% unless without_comments %>
+  <div id="board-<%= board.id %>-comment-form">
+    <%= render 'comments/form', comment: Comment.new, board: @board %>
+  </div>
+  <div id="board-<%= board.id %>-comments">
+    <%= render @comments %>
+  </div>
+<% end %>

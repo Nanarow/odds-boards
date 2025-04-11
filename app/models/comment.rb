@@ -12,6 +12,8 @@ class Comment < ApplicationRecord
   before_validation :set_depth
   validate :check_depth_limit
 
+  validates :body, presence: true
+
   def top_level?
     parent_id.nil?
   end
