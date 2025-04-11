@@ -1,3 +1,4 @@
+<% parent = local_assigns[:parent] %>
 <%= form_with(model: [board, comment], class: "form") do |form| %>
   <% if comment.errors.any? %>
     <div style="color: red">
@@ -8,6 +9,9 @@
         <% end %>
       </ul>
     </div>
+  <% end %>
+  <% unless parent.nil? %>
+    <%= form.hidden_field :parent_id, value: parent.id %>
   <% end %>
   <%= form.textarea :body,  
         data: { testid: 'comment-body' },

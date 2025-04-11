@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: %i[ upvote downvote edit update destroy ]
+  before_action :set_comment, only: %i[ upvote downvote edit update destroy new_reply ]
   before_action :authenticate_user!, only: %i[ upvote downvote edit update destroy ]
   before_action :authorize_commenter, only: %i[ update destroy edit update destroy ]
   before_action :set_board, only: %i[ list create update destroy edit remove ]
@@ -26,7 +26,8 @@ class CommentsController < ApplicationController
     if @comment.save
       render :create, status: :created
     else
-      render :new, status: :unprocessable_entity
+      @parent_id = comment_params[:parent_id]
+      render :new_reply, status: :unprocessable_entity
     end
   end
 
@@ -49,6 +50,9 @@ class CommentsController < ApplicationController
   def edit
   end
 
+  def new_reply
+  end
+
   private
 
   def set_comment
@@ -60,7 +64,7 @@ class CommentsController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:body)
+    params.require(:comment).permit(:body, :parent_id)
   end
 
   def authorize_commenter

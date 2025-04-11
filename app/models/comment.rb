@@ -7,9 +7,9 @@ class Comment < ApplicationRecord
   has_many :replies, class_name: "Comment", foreign_key: :parent_id, dependent: :destroy
 
   # Maximum allowed depth for comments
-  MAX_DEPTH = 5
+  MAX_DEPTH = 2
 
-  before_save :set_depth
+  before_validation :set_depth
   validate :check_depth_limit
 
   def top_level?
