@@ -1,0 +1,46 @@
+<%# locals: (board:) %>
+<div class="card w-full group-hover/board:bg-base-200">
+  <div class="card-body gap-2" >
+    <div class='flex items-center justify-between'>
+      <div class="flex gap-2 items-center">
+        <%= render 'shared/ui/avatar', avatar: board.author.avatar %>
+        @<%= board.author.username %>
+        &CenterDot;
+        <%= time_ago_in_words(board.created_at) %> ago
+        <% unless board.category.nil? %>
+          <span class="badge badge-soft"><%= board.category.name %></span>
+        <% end %>
+        <span class="badge badge-soft"><%= board.visibility %></span>
+      </div>
+      <% if board.is_author?(current_user) %>
+        <div class="flex gap-2 z-10">
+          <%= button_to 'Edit', load_edit_board_path(board), 
+            class: 'btn btn-primary btn-xs', 
+            data: { 
+              turbo: true, 
+              testid: "edit-board-#{board.id}-button",
+              action: 'propagation#stop' 
+            } %>
+          <%= button_to 'Delete', board_path(board), method: :delete, 
+            class: 'btn btn-error btn-xs', 
+            data: { 
+              turbo: true, 
+              testid: "delete-board-#{board.id}-button",
+              action: 'propagation#stop'
+            } %>
+        </div>
+      <% end %>
+    </div>
+    <h2>
+      <%= board.title %>
+    </h2>
+    <p>
+      <%= board.body %>
+    </p>
+    <%= render 'tags/tags', tags: board.tags %>
+    <div class="flex gap-2 items-center">
+      <%= render 'shared/vote', votable: board %>
+      <%= render 'comments/button', board: board %>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,7 @@
 <span 
     id="<%= model %>-<%= votable.id %>-votes-count" 
     data-testid="<%= model %>-<%= votable.id %>-votes-count"
-    class="flex gap-2 items-center"
+    class="flex gap-2 items-center badge cursor-pointer p-0 pr-2"
     >
   <% bg = 'bg-base-300' if votable.is_voted? current_user %>
   <%= button_to action, 

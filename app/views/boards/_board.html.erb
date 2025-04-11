@@ -1,55 +1,21 @@
 <%# locals: (board:, without_comments: true) %>
-<%= link_to board_path(board), 
-  class: 'flex group', 
+<% path = board_path(board) %>
+<% selected = current_page?(path) %>
+<% path = "#" if selected %>
+<% if selected %>
+  <div class="flex"
+    id="board-<%= board.id %>"
+    data-testid="board-<%= board.id %>"
+  >
+    <%= render 'inner_board', board: board %>
+  </div>
+<% else %>
+  <%= link_to path, 
+  class: "flex group/board", 
   data: { controller: 'propagation', testid: "board-#{board.id}" }, 
   id: "board-#{board.id}" do %>
-  <div class="card group-hover:bg-base-200 w-full">
-    <div class="card-body gap-2" >
-      <div class='flex items-center justify-between'>
-        <div class="flex gap-2 items-center">
-          <%= render 'shared/ui/avatar', avatar: board.author.avatar %>
-          @<%= board.author.username %>
-          &CenterDot;
-          <%= time_ago_in_words(board.created_at) %> ago
-          <% unless board.category.nil? %>
-            <span class="badge badge-soft"><%= board.category.name %></span>
-          <% end %>
-          <span class="badge badge-soft"><%= board.visibility %></span>
-        </div>
-        <% if board.is_author?(current_user) %>
-          <div class="flex gap-2 z-10">
-            <%= button_to 'Edit', load_edit_board_path(board), 
-            class: 'btn btn-primary btn-xs', 
-            data: { 
-              turbo: true, 
-              testid: "edit-board-#{board.id}-button",
-              action: 'propagation#stop' 
-            } %>
-            <%= button_to 'Delete', board_path(board), method: :delete, 
-            class: 'btn btn-error btn-xs', 
-            data: { 
-              turbo: true, 
-              testid: "delete-board-#{board.id}-button",
-              action: 'propagation#stop'
-            } %>
-          </div>
-        <% end %>
-      </div>
-      <h2>
-        <%= board.title %>
-      </h2>
-      <p>
-        <%= board.body %>
-      </p>
-      <%= render 'tags/tags', tags: board.tags %>
-      <div class="flex gap-2 items-center">
-        <%= render 'shared/vote', votable: board %>
-        <span id="board-<%= board.id %>-comments-button">
-          <%= render 'comments/button', board: board %>
-        </span>
-      </div>
-    </div>
-  </div>
+    <%= render 'inner_board', board: board %>
+  <% end %>
 <% end %>
 <% unless without_comments %>
   <div id="board-<%= board.id %>-comment-form">

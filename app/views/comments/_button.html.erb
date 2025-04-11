@@ -1,9 +1,9 @@
-<%# locals: (board: Board, show: true) %>
-<% path = show ? list_board_comments_path(board): remove_board_comments_path(board) %>
-<%= button_to path,
-  class: 'flex cursor-pointer items-center gap-2 badge', 
-  data: { turbo: true, 
-  testid: "board-#{board.id}-comments-button" } do %>
+<%# locals: (board: Board) %>
+<button
+  id="board-<%= board.id %>-comments-button"
+  class="flex cursor-pointer items-center gap-2 badge"
+  data-testid="board-<%= board.id %>-comments-button"
+  >
   <%= render_icon 'comment', class: 'size-4' %>
   <%= board.comments.count %> comments
-<% end %>
+</button>
