@@ -1,4 +1,4 @@
-<header class="menu-bar flex justify-between">
+<header class="menu-bar flex justify-between flex-row-reverse">
   <button class="btn btn-primary" popovertarget="popover-1" style="anchor-name:--anchor-1">
     Select
   </button>
@@ -8,7 +8,7 @@
   </ul>
   <% if user_signed_in? && @board.nil? %>
     <%= button_to 'New board', load_new_board_path, class: 'btn btn-secondary', data: { turbo: true, testid: 'new-board-button' } %>
-  <% else %>
+  <% elsif user_signed_in? %>
     <%= link_to 'Back', :back, class: 'btn' %>
   <% end %>
 </header>
