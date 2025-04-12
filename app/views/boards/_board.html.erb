@@ -18,10 +18,10 @@
   <% end %>
 <% end %>
 <% unless without_comments %>
-  <div id="board-<%= board.id %>-comment-form">
-    <%= render 'comments/form', comment: Comment.new, board: @board %>
+  <div id="comment-form">
+    <%= render 'comments/form', comment: Comment.new, board_id: @board.id %>
   </div>
-  <div id="board-<%= board.id %>-comments">
-    <%= render @comments %>
-  </div>
+  <!--<div id="comments">-->
+  <%#= render @comments %>
+  <!--  </div>-->
 <% end %>

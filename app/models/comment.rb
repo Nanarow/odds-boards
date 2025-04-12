@@ -18,6 +18,10 @@ class Comment < ApplicationRecord
     parent_id.nil?
   end
 
+  def is_max_depth?
+    depth >= MAX_DEPTH
+  end
+
   def is_commenter?(user)
     commenter == user
   end

@@ -20,13 +20,15 @@
     </div>
     <div class="flex gap-2 items-center">
       <%= render 'shared/vote', votable: comment %>
-      <%= button_to new_reply_comment_path(comment),
-      class: 'flex gap-1 items-center badge cursor-pointer', 
-      data: { turbo: true, testid: "new-reply-comment-#{comment.id}-button" } do %>
-        <%= render_icon 'comment', class: 'size-4' %>reply
+      <% unless comment.is_max_depth? %>
+        <%= button_to new_reply_path(comment),
+          class: 'flex gap-1 items-center badge cursor-pointer', 
+          data: { turbo: true, testid: "new-reply-comment-#{comment.id}-button" } do %>
+          <%= render_icon 'comment', class: 'size-4' %>reply
+        <% end %>
       <% end %>
     </div>
-    <div class="empty:-mt-2" id="comment-<%= comment.id %>-reply-form"></div>
+    <div id="comment-<%= comment.id %>-reply-form"></div>
   </div>
 </div>
 <div class="pl-8" id="comment-<%= comment.id %>-replies">

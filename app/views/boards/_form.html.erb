@@ -45,12 +45,23 @@
         defaultValue: @board.tags.pluck(:name),
         data: { testid: "board-tags"}
       %>
-      <div class="flex gap-2 justify-end">
-        <%= button_tag "Save as Draft", type: :submit, name: "board[state]", value: :is_draft, data: { testid: 'draft-board-button' } %>
-        <%= button_tag "Save and Publish",type: :submit, name: "board[state]", value: :is_published, data: { testid: 'publish-board-button' } %>
+      <div class="flex justify-between">
+        <% cancel_path = board.new_record? ? cancel_new_boards_path : cancel_edit_board_path(board) %>
+        <button 
+          type="button" data-form-action="<%= cancel_path %>" 
+          class="btn btn-ghost" 
+          data-testid="cancel-board-button"
+          data-token="<%= form_authenticity_token %>"
+          data-controller="request"
+          data-action="request#submit"
+          >
+          Cancel
+        </button>
+        <div class="flex items-center gap-2">
+          <%= button_tag "Save as Draft", type: :submit, name: "board[state]", value: :is_draft, data: { testid: 'draft-board-button' } %>
+          <%= button_tag "Save and Publish",type: :submit, name: "board[state]", value: :is_published, data: { testid: 'publish-board-button' } %>
+        </div>
       </div>
     <% end %>
-    <% cancel_path = board.new_record? ? cancel_new_boards_path : cancel_edit_board_path(board) %>
-    <%= button_to 'Cancel', cancel_path, class: 'btn btn-ghost', form: { class: '-mt-12 w-min'}, data: { testid: 'cancel-board-button' } %>
   </div>
 </div>

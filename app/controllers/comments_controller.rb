@@ -1,15 +1,7 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: %i[ upvote downvote edit update destroy new_reply ]
+  before_action :set_comment, only: %i[ upvote downvote edit update destroy new_reply cancel_new_reply ]
   before_action :authenticate_user!, only: %i[ upvote downvote edit update destroy ]
   before_action :authorize_commenter, only: %i[ update destroy edit update destroy ]
-  before_action :set_board, only: %i[ list create update destroy edit remove ]
-
-  def list
-    @comments = @board.comments_by_depth(0)
-  end
-  def remove
-  end
-
 
   def upvote
     @comment.upvote current_user
@@ -21,7 +13,6 @@ class CommentsController < ApplicationController
 
   def create
     @comment = Comment.new(comment_params)
-    @comment.board = @board
     @comment.commenter = current_user
     if @comment.save
       render :create, status: :created
@@ -53,18 +44,23 @@ class CommentsController < ApplicationController
   def new_reply
   end
 
+  def cancel_new_reply
+  end
+
+  def cancel_new
+    @comment = Comment.new
+    @board_id = params[:board_id]
+    @parent_id = params[:parent_id]
+  end
+
   private
 
   def set_comment
-    @comment = Comment.find_by(id: params[:id])
-  end
-
-  def set_board
-    @board = Board.find(params[:board_id])
+    @comment = Comment.find(params[:id])
   end
 
   def comment_params
-    params.require(:comment).permit(:body, :parent_id)
+    params.require(:comment).permit(:body, :parent_id, :board_id)
   end
 
   def authorize_commenter

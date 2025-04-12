@@ -23,22 +23,24 @@ Rails.application.routes.draw do
       post :cancel_edit
       post :confirm_delete
     end
-    resources :comments, only: [ :create, :update, :destroy ] do
-      collection do
-        post :list, as: :list
-        post :remove, as: :remove
-      end
-      member do
-        post :edit, as: :load_edit
-      end
-    end
   end
 
-  resources :comments, only: [] do
+  resources :comments, only: [ :create, :update, :destroy ] do
+    collection do
+      post :cancel_new
+    end
     member do
       post :upvote
       post :downvote
-      post :new_reply
+      post :edit, as: :load_edit
+      post :cancel_edit
+    end
+  end
+
+  resources :comments, as: :replies, only: [] do
+    member do
+      post :cancel_new_reply, as: :cancel_new
+      post :new_reply, as: :new
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

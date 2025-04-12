@@ -13,6 +13,8 @@ import MultiSelectController from './multi_select_controller'
 import TurboFrameProgressBarController from './turbo_frame_progress_bar_controller'
 import RemovableController from './removable_controller'
 import PropagationController from './propagation_controller'
+import FormController from './form_controller'
+import RequestController from './request_controller'
 
 application.register('hello', HelloController)
 application.register('notification', Notification)
@@ -23,4 +25,5 @@ application.register('multi-select', MultiSelectController)
 application.register('turbo-frame-progress-bar', TurboFrameProgressBarController)
 application.register('removable', RemovableController)
 application.register('propagation', PropagationController)
-
+application.register('form', FormController)
+application.register('request', RequestController)
