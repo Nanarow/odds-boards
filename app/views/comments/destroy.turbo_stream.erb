@@ -1,8 +1,7 @@
-<%= turbo_stream.update "board-#{@board.id}-comments-button" do %>
+<%= turbo_stream.update "comments-button" do %>
   <%= render 'comments/button', board: @board %>
 <% end %>
-<%= turbo_stream.update "board-#{@board.id}-comments-count" do %>
-  <div class="border my-1"></div>
-  <h4>Comments(<%= @board.comments.count %>)</h4>
-<% end %>
 <%= turbo_stream.remove "comment-#{@comment.id}" %>
+<%= turbo_stream.replace "comment-delete-dialog" do %>
+  <dialog id="comment-delete-dialog"></dialog>
+<% end %>

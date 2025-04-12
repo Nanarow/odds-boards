@@ -1,24 +1,15 @@
-<%= turbo_stream.update "board-#{@board.id}-comments-button" do %>
+<%= turbo_stream.update "comments-button" do %>
   <%= render 'comments/button', board: @board %>
 <% end %>
-<%= turbo_stream.update "board-#{@board.id}-comments-count" do %>
-  <div class="border my-1"></div>
-  <h4>Comments(<%= @board.comments.count %>)</h4>
-<% end %>
-
 <% has_parent = @comment.parent_id.present? %>
 <% if has_parent %>
   <%= turbo_stream.update "comment-#{@comment.parent_id}-reply-form" do %>
-    <%= render 'form', comment: Comment.new, board: @board, parent: @comment %>
+    <%= render 'form', comment: Comment.new, board_id: @board.id, parent_id: @comment.id %>
   <% end %>
 <% else %>
-  <%= turbo_stream.update "board-#{@board.id}-comment-form" do %>
-    <%= render 'form', comment: Comment.new, board: @board %>
+  <%= turbo_stream.update "comment-form" do %>
+    <%= render 'form', comment: Comment.new, board_id: @board.id %>
   <% end %>
 <% end %>
-
-<% if has_parent %>
-  <%= turbo_stream.prepend "comment-#{@comment.parent_id}-replies", @comment %>
-<% else %>
-  <%= turbo_stream.prepend "board-#{@board.id}-comments", @comment %>
-<% end %>
+<%= comments_id = has_parent ? "comment-#{@comment.parent_id}-replies" : "comments" %>
+<%= turbo_stream.prepend "comments", @comment %>

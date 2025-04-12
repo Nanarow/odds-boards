@@ -32,6 +32,6 @@
     >
       Cancel
     </button>
-    <%= form.submit "Comment", class: "btn btn-primary grow" %>
+    <%= form.submit  comment.new_record? ? "Comment" : "Update Comment",class: "btn btn-primary grow" %>
   </div>
 <% end %>

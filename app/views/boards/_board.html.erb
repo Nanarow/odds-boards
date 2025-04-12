@@ -21,7 +21,7 @@
   <div id="comment-form">
     <%= render 'comments/form', comment: Comment.new, board_id: @board.id %>
   </div>
-  <!--<div id="comments">-->
-  <%#= render @comments %>
-  <!--  </div>-->
+  <div id="comments">
+    <%= render @comments %>
+  </div>
 <% end %>

@@ -1,8 +1,8 @@
 <%# locals: (board: Board) %>
 <button
-  id="board-<%= board.id %>-comments-button"
+  id="comments-button"
   class="flex cursor-pointer items-center gap-2 badge"
-  data-testid="board-<%= board.id %>-comments-button"
+  data-testid="comments-button"
   >
   <%= render_icon 'comment', class: 'size-4' %>
   <%= board.comments.count %> comments

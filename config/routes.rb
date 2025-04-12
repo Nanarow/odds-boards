@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       post :downvote
       post :edit, as: :load_edit
       post :cancel_edit
+      post :confirm_delete
     end
   end
 

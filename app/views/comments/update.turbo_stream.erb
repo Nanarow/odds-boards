@@ -1,4 +1,4 @@
-<%= turbo_stream.update "board-#{@board.id}-comment-form" do %>
-  <%= render 'form', comment: Comment.new, board: @board %>
+<%= turbo_stream.update "comment-form" do %>
+  <%= render 'form', comment: Comment.new, board_id: @comment.board_id %>
 <% end %>
 <%= turbo_stream.replace "comment-#{@comment.id}", @comment %>

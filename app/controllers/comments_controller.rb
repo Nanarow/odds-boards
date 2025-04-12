@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: %i[ upvote downvote edit update destroy new_reply cancel_new_reply ]
+  before_action :set_comment, only: %i[ upvote downvote edit update destroy new_reply cancel_new_reply confirm_delete ]
   before_action :authenticate_user!, only: %i[ upvote downvote edit update destroy ]
   before_action :authorize_commenter, only: %i[ update destroy edit update destroy ]
 
@@ -15,6 +15,7 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     @comment.commenter = current_user
     if @comment.save
+      @board = @comment.board
       render :create, status: :created
     else
       @parent_id = comment_params[:parent_id]
@@ -34,6 +35,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    @board = @comment.board
     @comment.destroy!
     render :destroy, notice: "Comment was successfully destroyed."
   end
@@ -45,6 +47,9 @@ class CommentsController < ApplicationController
   end
 
   def cancel_new_reply
+  end
+
+  def confirm_delete
   end
 
   def cancel_new
