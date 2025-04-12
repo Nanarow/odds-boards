@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :boards, only: [ :index, :create, :update, :destroy, :show ] do
     collection do
       get "@me" => "boards#my_boards", as: :my
+      post :cancel_new
     end
     member do
       post :upvote
@@ -19,6 +20,8 @@ Rails.application.routes.draw do
       post :make_public
       post :make_private
       post :edit, as: :load_edit
+      post :cancel_edit
+      post :confirm_delete
     end
     resources :comments, only: [ :create, :update, :destroy ] do
       collection do

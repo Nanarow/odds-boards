@@ -6,8 +6,9 @@
     <li><a>Item 1</a></li>
     <li><a>Item 2</a></li>
   </ul>
-  <%= link_to 'Back', :back, class: 'btn' %>
-  <% if user_signed_in? %>
+  <% if user_signed_in? && @board.nil? %>
     <%= button_to 'New board', load_new_board_path, class: 'btn btn-secondary', data: { turbo: true, testid: 'new-board-button' } %>
+  <% else %>
+    <%= link_to 'Back', :back, class: 'btn' %>
   <% end %>
 </header>

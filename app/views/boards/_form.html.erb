@@ -1,4 +1,4 @@
-<div class="card mt-4" data-controller="removable">
+<div class="card mt-4 w-full">
   <div class="card-body">
     <%= form_with(model: board, class: "form") do |form| %>
       <% if board.errors.any? %>
@@ -45,13 +45,12 @@
         defaultValue: @board.tags.pluck(:name),
         data: { testid: "board-tags"}
       %>
-      <div class="flex gap-2 justify-between">
-        <button class="btn btn-ghost" data-action="click->removable#remove">Cancel</button>
-        <div class="flex gap-2">
-          <%= button_tag "Save as Draft", type: :submit, name: "board[state]", value: :is_draft, data: { testid: 'draft-board-button' } %>
-          <%= button_tag "Save and Publish",type: :submit, name: "board[state]", value: :is_published, data: { testid: 'publish-board-button' } %>
-        </div>
+      <div class="flex gap-2 justify-end">
+        <%= button_tag "Save as Draft", type: :submit, name: "board[state]", value: :is_draft, data: { testid: 'draft-board-button' } %>
+        <%= button_tag "Save and Publish",type: :submit, name: "board[state]", value: :is_published, data: { testid: 'publish-board-button' } %>
       </div>
     <% end %>
+    <% cancel_path = board.new_record? ? cancel_new_boards_path : cancel_edit_board_path(board) %>
+    <%= button_to 'Cancel', cancel_path, class: 'btn btn-ghost', form: { class: '-mt-12 w-min'}, data: { testid: 'cancel-board-button' } %>
   </div>
 </div>

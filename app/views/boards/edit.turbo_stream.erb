@@ -1,3 +1,6 @@
-<%= turbo_stream.update 'board-form' do %>
-  <%= render "form", board: @board %>
+<%= turbo_stream.update 'board-form' %>
+<%= turbo_stream.replace "board-#{@board.id}" do %>
+  <div class="flex w-full -mt-4" id="board-<%= @board.id %>">
+    <%= render "form", board: @board %>
+  </div>
 <% end %>

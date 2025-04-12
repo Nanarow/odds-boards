@@ -1,7 +1,10 @@
-<%= turbo_stream.remove dom_id(@board) %>
+<%= turbo_stream.remove "board-#{@board.id}" %>
 <%= turbo_stream.update "categories" do %>
   <%= render @categories %>
 <% end %>
 <%= turbo_stream.update "tags" do %>
   <%= render 'tags/list', tags: @tags %>
+<% end %>
+<%= turbo_stream.replace "board-delete-dialog" do %>
+  <dialog id="board-delete-dialog"></dialog>
 <% end %>

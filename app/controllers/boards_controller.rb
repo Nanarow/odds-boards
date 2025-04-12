@@ -1,30 +1,24 @@
 class BoardsController < ApplicationController
-  before_action :set_board, only: %i[ edit update destroy upvote show]
+  before_action :set_board, only: %i[ edit update destroy upvote show cancel_edit confirm_delete ]
   before_action :authenticate_user!, only: %i[ upvote my_boards ]
   before_action :authorize_author, only: %i[ edit update destroy ]
   before_action :set_form, only: %i[ new edit ]
+  before_action :set_categories, only: %i[ index my_boards show ]
+  before_action :set_tags, only: %i[ index my_boards show ]
   # before_action :ensure_turbo_frame, only: [ :new ]
 
   def index
-    condition = { state: :is_published }
-    unless user_signed_in?
-      condition[:visibility] = :is_public
-    end
+    condition = { state: :is_published, visibility: :is_public }
+    condition.delete(:visibility) if user_signed_in?
     set_boards(condition)
-    set_categories
-    set_tags
   end
 
   def my_boards
     set_boards author: current_user
-    set_categories
-    set_tags
     render :index
   end
 
   def show
-    set_categories
-    set_tags
     @comments = @board.comments_by_depth(0)
   end
 
@@ -33,6 +27,15 @@ class BoardsController < ApplicationController
   end
 
   def edit
+  end
+
+  def cancel_edit
+  end
+
+  def cancel_new
+  end
+
+  def confirm_delete
   end
 
   def create

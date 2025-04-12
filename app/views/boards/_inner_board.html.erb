@@ -21,11 +21,11 @@
               testid: "edit-board-#{board.id}-button",
               action: 'propagation#stop' 
             } %>
-          <%= button_to 'Delete', board_path(board), method: :delete, 
+          <%= button_to 'Delete', confirm_delete_board_path(board), 
             class: 'btn btn-error btn-xs', 
             data: { 
               turbo: true, 
-              testid: "delete-board-#{board.id}-button",
+              testid: "confirm-delete-board-#{board.id}-button",
               action: 'propagation#stop'
             } %>
         </div>
