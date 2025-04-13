@@ -18,6 +18,15 @@ class BoardsController < ApplicationController
     render :index
   end
 
+  def search
+    path = URI(request.referer || "").path
+    if path == boards_path
+      index
+    else
+      my_boards
+    end
+  end
+
   def show
     @comments = @board.comments_by_depth(0)
   end
@@ -121,7 +130,12 @@ class BoardsController < ApplicationController
     end
 
     def set_boards(condition)
-      @boards = Board.where(condition).order(created_at: :desc)
+      query = params[:query]
+      if query.present? && !query.blank?
+        @boards = Board.where(condition).search(query).order(created_at: :desc)
+      else
+        @boards = Board.where(condition).order(created_at: :desc)
+      end
     end
 
     def set_categories

@@ -17,4 +17,11 @@ export default class extends Controller {
       input.value = ''
     })
   }
+
+  debounceSubmit() {
+    clearTimeout(this.timeout)
+    this.timeout = setTimeout(() => {
+      this.element.requestSubmit()
+    }, 300)
+  }
 }

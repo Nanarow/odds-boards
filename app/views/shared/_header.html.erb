@@ -3,12 +3,13 @@
     <%= link_to "Odds Boards", boards_path, data: { active: current_page?(boards_path) }, class: 'text-semibold data-[active=true]:text-secondary' %>
     <%= link_to "My Boards", my_boards_path, data: { active: current_page?(my_boards_path) }, class: 'text-sm data-[active=true]:text-secondary' %>
   </div>
-  <label class="input input-secondary">
-    <%= render_icon 'search' %>
-    <input type="search" class="grow" placeholder="Search" />
-    <kbd class="kbd kbd-sm">⌘</kbd>
-    <kbd class="kbd kbd-sm">K</kbd>
-  </label>
+  <%= form_with url: search_boards_path, class: 'flex items-center', data: { controller: 'form'} do |form| %>
+    <label class="input input-secondary">
+      <%= render_icon 'search' %>
+      <%= form.text_field :query, placeholder: "Search boards...", class: "grow", data: { action: "form#debounceSubmit"} %>
+    </label>
+    <%= form.submit "Search", class: "bg-blue-500 text-white p-2 rounded" %>
+  <% end %>
   <% if user_signed_in? %>
     <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-primary", data: { testid: 'logout-button' } %>
   <% else %>

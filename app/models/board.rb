@@ -11,6 +11,11 @@ class Board < ApplicationRecord
   validates :title, presence: true
   validates :body, presence: true
 
+  scope :search, ->(query) {
+    return none if query.blank?
+    where("title ILIKE :query OR body ILIKE :query", query: "%#{query}%")
+  }
+
   def comments_by_depth(depth)
     comments.where(depth: depth)
   end
