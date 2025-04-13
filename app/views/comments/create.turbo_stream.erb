@@ -1,4 +1,4 @@
-<%= turbo_stream.update "comments-button" do %>
+<%= turbo_stream.replace "comments-button" do %>
   <%= render 'comments/button', board: @board %>
 <% end %>
 <% has_parent = @comment.parent_id.present? %>
