@@ -11,7 +11,7 @@ export default class extends Controller {
       this.createInput('authenticity_token', event.target.dataset.token)
     )
 
-    Object.entries(JSON.parse(event.target.dataset.formData)).forEach(
+    Object.entries(JSON.parse(event.target.dataset.formData || '{}')).forEach(
       ([key, value]) => form.appendChild(this.createInput(key, value))
     )
 
