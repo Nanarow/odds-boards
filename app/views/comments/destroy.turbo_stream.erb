@@ -2,6 +2,7 @@
   <%= render 'comments/button', board: @board %>
 <% end %>
 <%= turbo_stream.remove "comment-#{@comment.id}" %>
+<%= turbo_stream.remove "comment-#{@comment.id}-replies" %>
 <%= turbo_stream.replace "comment-delete-dialog" do %>
   <dialog id="comment-delete-dialog"></dialog>
 <% end %>

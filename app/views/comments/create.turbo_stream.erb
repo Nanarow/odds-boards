@@ -3,13 +3,11 @@
 <% end %>
 <% has_parent = @comment.parent_id.present? %>
 <% if has_parent %>
-  <%= turbo_stream.update "comment-#{@comment.parent_id}-reply-form" do %>
-    <%= render 'form', comment: Comment.new, board_id: @board.id, parent_id: @comment.id %>
-  <% end %>
+  <%= turbo_stream.update "comment-#{@comment.parent_id}-reply-form" %>
 <% else %>
   <%= turbo_stream.update "comment-form" do %>
     <%= render 'form', comment: Comment.new, board_id: @board.id %>
   <% end %>
 <% end %>
-<%= comments_id = has_parent ? "comment-#{@comment.parent_id}-replies" : "comments" %>
-<%= turbo_stream.prepend "comments", @comment %>
+<%= comments = has_parent ? "comment-#{@comment.parent_id}-replies" : "comments" %>
+<%= turbo_stream.prepend comments, @comment %>

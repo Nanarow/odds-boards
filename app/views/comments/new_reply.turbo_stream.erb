@@ -1,5 +1,4 @@
-<% new_comment = @comment.errors.any? ? @comment : Comment.new  %>
-<% parent = @parent_id.present? ? Comment.new(id: @parent_id) : @comment %>
-<%= turbo_stream.update "comment-#{@comment&.id || @parent_id}-reply-form" do %>
-  <%= render 'form', comment: new_comment, board: @comment.board, parent:  %>
+<% id = @parent&.id || @parent_id %>
+<%= turbo_stream.update "comment-#{id}-reply-form" do %>
+  <%= render 'form', comment: @comment || Comment.new, board_id: @comment&.board_id || @parent&.board_id, parent_id: id %>
 <% end %>

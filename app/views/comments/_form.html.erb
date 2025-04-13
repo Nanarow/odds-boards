@@ -1,5 +1,5 @@
 <%# locals: (comment:, board_id:, parent_id: nil) %>
-<%= form_with(model: comment, class: "form mt-2", data: { controller: "form" }) do |form| %>
+<%= form_with(model: comment, class: "form mt-2 w-full",id: "comment-#{comment.id}", data: { controller: "form" }) do |form| %>
   <% if comment.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
@@ -19,7 +19,13 @@
         placeholder: "Enter comment ...",
         required: true %>
   <div class="flex gap-2">
-    <% cancel_path = parent_id.nil? ? cancel_new_comments_path : cancel_new_comments_path %>
+    <% if comment.new_record? && parent_id.nil? %>
+      <% cancel_path = cancel_new_comments_path %>
+    <% elsif comment.new_record? %>
+      <% cancel_path = cancel_new_reply_path(id: parent_id) %>
+    <% else %>
+      <% cancel_path = cancel_edit_comment_path(id: comment.id) %>
+    <% end %>
     <% data = { board_id: board_id, parent_id: parent_id } %>
     <button 
       type="button" data-form-action="<%= cancel_path %>" 

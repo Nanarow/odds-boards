@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: %i[ upvote downvote edit update destroy new_reply cancel_new_reply confirm_delete ]
+  before_action :set_comment, only: %i[ upvote downvote edit update destroy confirm_delete cancel_edit ]
+  before_action :set_parent, only: %i[ new_reply cancel_new_reply ]
   before_action :authenticate_user!, only: %i[ upvote downvote edit update destroy ]
   before_action :authorize_commenter, only: %i[ update destroy edit update destroy ]
 
@@ -43,6 +44,9 @@ class CommentsController < ApplicationController
   def edit
   end
 
+  def cancel_edit
+  end
+
   def new_reply
   end
 
@@ -62,6 +66,9 @@ class CommentsController < ApplicationController
 
   def set_comment
     @comment = Comment.find(params[:id])
+  end
+  def set_parent
+    @parent = Comment.find(params[:id])
   end
 
   def comment_params
