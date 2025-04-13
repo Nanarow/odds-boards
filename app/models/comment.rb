@@ -1,7 +1,7 @@
 class Comment < ApplicationRecord
   include Votable
 
-  belongs_to :board
+  belongs_to :board, touch: true
   belongs_to :commenter, class_name: "User"
   belongs_to :parent, class_name: "Comment", optional: true
   has_many :replies, class_name: "Comment", foreign_key: :parent_id, dependent: :destroy
