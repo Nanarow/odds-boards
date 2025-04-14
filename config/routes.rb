@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       get "@me" => "boards#my_boards", as: :my
       post :cancel_new
       post :search
+      post :sort
     end
     member do
       post :upvote

@@ -13,36 +13,33 @@ export default class extends Dropdown {
   }
 
   select(event) {
-    const {
-      textContent: text,
-      dataset: { value },
-    } = event.target
+    const { textContent: text, value } = event.currentTarget
     this.updateDisplay(value, text.trim())
     this.toggle()
   }
 
   clear(event) {
     event.stopPropagation()
-    this.updateDisplay('', this.defaultLabelValue)
+    this.updateDisplay(this.defaultValue)
   }
 
   updateDisplay(value, labelText = this.getLabel(value)) {
     this.labelTarget.textContent = labelText
-    this.inputTarget.value = value
+    this.setInputValue(value)
     this.updateButtons(value)
     this.updateClearButton(value)
   }
 
   updateButtons(value) {
     this.buttonTargets.forEach((button) => {
-      button.dataset.selected = value === button.dataset.value
+      button.dataset.selected = value === button.value
     })
   }
 
   getLabel(value) {
     return (
       this.buttonTargets
-        .find((option) => option.dataset.value === value)
+        .find((option) => option.value === value)
         ?.textContent.trim() || this.defaultLabelValue
     )
   }
@@ -52,5 +49,14 @@ export default class extends Dropdown {
       return
     }
     this.clearBtnTarget.classList.toggle('hidden', value === this.defaultValue)
+  }
+
+  setInputValue(value) {
+    if (this.inputTarget.value === '') {
+      this.inputTarget.value = value
+      return
+    }
+    this.inputTarget.value = value
+    this.inputTarget.dispatchEvent(new Event('change'))
   }
 }

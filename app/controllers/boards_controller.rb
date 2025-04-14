@@ -27,6 +27,10 @@ class BoardsController < ApplicationController
     end
   end
 
+  def sort
+    search
+  end
+
   def show
     @comments = @board.comments_by_depth(0)
   end
@@ -130,12 +134,15 @@ class BoardsController < ApplicationController
     end
 
     def set_boards(condition)
-      query = params[:query]
-      if query.present? && !query.blank?
-        @boards = Board.where(condition).search(query).order(created_at: :desc)
-      else
-        @boards = Board.where(condition).order(created_at: :desc)
+      @boards = Board.where(condition)
+      @query = params[:query]
+      @sort_by = params[:sort_by].presence_in(%w[title created_at updated_at]) || "created_at"
+      @direction = params[:direction].presence_in(%w[asc desc]) || "desc"
+      if @query.present? && !@query.blank?
+        @boards = @boards.search(@query)
       end
+      @boards = @boards.order(@sort_by => @direction).includes(:author, :category, :tags, :comments, :votes)
+      puts "query: #{@query}, sort_by: #{@sort_by}, direction: #{@direction}"
     end
 
     def set_categories

@@ -1,3 +1,6 @@
 <%= turbo_stream.update 'boards' do %>
   <%= render @boards %>
 <% end %>
+<%= turbo_stream.replace 'query-hidden' do %>
+  <input autocomplete="off" type="hidden" name="query" id="query-hidden" value="<%= @query %>">
+<% end %>

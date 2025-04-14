@@ -1,16 +1,17 @@
-<%# locals: (placeholder:, options:, name:, class: '', defaultValue: '', data: '') %>
+<%# locals: (placeholder:, options:, name:, class: '', defaultValue: '', data: '',disabled: false) %>
 <div 
       data-controller="selector" 
       data-selector-default-value="<%= defaultValue %>"
       data-selector-default-label-value="<%= placeholder %>"
       class="relative <%= local_assigns[:class] %>"
       >
-  <input name="<%= name %>" type="hidden" data-selector-target="input">
+  <input name="<%= name %>" type="hidden" data-selector-target="input" data-action="<%= data[:action] %>">
   <button 
-        class="input cursor-pointer min-w-64 flex w-full"
-        type="button" 
-        data-action="selector#toggle click@window->selector#hide"
-        data-testid="<%= data[:testid] %>"
+    class="input cursor-pointer flex w-full"
+    type="button" 
+    data-action="selector#toggle click@window->selector#hide"
+    data-testid="<%= data[:testid] %>"
+    <%= "disabled" if disabled %>
     >
     <span data-selector-target="label" class="grow text-start"><%= placeholder %></span>
     <span 
@@ -35,13 +36,14 @@
       <% options.each do |option| %>
         <li>
           <button 
-                class="selector flex items-center justify-between group"
+                class="selector flex items-center group"
                 data-selector-target="button"
                 data-action="selector#select"
                 type="button"
-                data-value="<%= option[:value] %>"
+                value="<%= option[:value] %>"
               >
-            <%= option[:label] %>
+            <%= option[:icon] if option[:icon].present? %>
+            <span class="grow text-start"><%= option[:label] %></span>
             <%= render_icon 'check', class: "size-4 opacity-0 group-data-[selected=true]:opacity-100" %>
           </button>
         </li>

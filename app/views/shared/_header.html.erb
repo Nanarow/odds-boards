@@ -6,9 +6,10 @@
   <%= form_with url: search_boards_path, class: 'flex items-center', data: { controller: 'form'} do |form| %>
     <label class="input input-secondary">
       <%= render_icon 'search' %>
-      <%= form.text_field :query, placeholder: "Search boards...", class: "grow", data: { action: "form#debounceSubmit"} %>
+      <%= form.text_field :query, placeholder: "Search boards...", class: "grow", data: { action: "form#debounceSubmit"} , disabled: params[:id].present? %>
     </label>
-    <%= form.submit "Search", class: "bg-blue-500 text-white p-2 rounded" %>
+    <input value="<%= @sort_by %>" autocomplete="off" type="hidden" name="sort_by" id="sort-by-hidden">
+    <input value="<%= @direction %>" autocomplete="off" type="hidden" name="direction" id="direction-hidden">
   <% end %>
   <% if user_signed_in? %>
     <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-primary", data: { testid: 'logout-button' } %>

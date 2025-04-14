@@ -1,11 +1,51 @@
+<% sort_options = [ 
+  { label: 'Created', value: 'created_at', icon: render_icon('clock', class: "size-4") },
+  { label: 'Updated', value: 'updated_at', icon: render_icon('clock', class: "size-4") },
+  { label: 'Votes', value: 'votes', icon: render_icon('upvote', class: "size-4") },
+  { label: 'Title', value: 'title', icon: render_icon('text', class: "size-4") }, 
+  { label: 'Comments', value: 'comments', icon: render_icon('comment', class: "size-4") }
+  ] %>
 <header class="menu-bar flex justify-between flex-row-reverse">
-  <button class="btn btn-primary" popovertarget="popover-1" style="anchor-name:--anchor-1">
-    Select
-  </button>
-  <ul class="dropdown menu w-52 rounded-box bg-base-100 shadow-sm" popover id="popover-1" style="position-anchor:--anchor-1">
-    <li><a>Item 1</a></li>
-    <li><a>Item 2</a></li>
-  </ul>
+  <%= form_with url: sort_boards_path, class: 'flex items-center gap-2', data: { controller: 'form'} do |form| %>
+    <%= render 'shared/ui/selector', 
+        class: 'min-w-48', 
+        placeholder: "Sort by", 
+        options: sort_options,
+        defaultValue: 'created_at', 
+        name: "sort_by",
+        disabled: params[:id].present?,
+        data: { testid: "sort_by", action: "change->form#submit" }
+    %>
+    <div data-controller="toggle">
+      <input 
+      type="text" name="direction" 
+      value="<%= @direction %>" 
+      class="hidden" 
+      data-toggle-target="input"
+    >
+      <button 
+      type="button"
+      class="btn btn-square"
+      data-action="toggle#change form#submit"
+      data-toggle-target="item"
+      value="asc"
+      <%= "disabled" if params[:id].present? %>
+      >
+        <%= render_icon 'asc', class: "size-4" %>
+      </button>
+      <button 
+      type="button"
+      class="btn btn-square"
+      data-action="toggle#change form#submit"
+      data-toggle-target="item"
+      value="desc"
+      <%= "disabled" if params[:id].present? %>
+      >
+        <%= render_icon 'desc', class: "size-4" %>
+      </button>
+    </div>
+    <input value="<%= @query %>" autocomplete="off" type="hidden" name="query" id="query-hidden">
+  <% end %>
   <% if user_signed_in? && @board.nil? %>
     <%= button_to 'New board', load_new_board_path, class: 'btn btn-secondary', data: { turbo: true, testid: 'new-board-button' } %>
   <% elsif user_signed_in? %>

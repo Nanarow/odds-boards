@@ -1,0 +1,9 @@
+<%= turbo_stream.update 'boards' do %>
+  <%= render @boards %>
+<% end %>
+<%= turbo_stream.replace 'sort-by-hidden' do %>
+  <input value="<%= @sort_by %>" autocomplete="off" type="hidden" name="sort_by" id="sort-by-hidden">
+<% end %>
+<%= turbo_stream.replace 'direction-hidden' do %>
+  <input value="<%= @direction %>" autocomplete="off" type="hidden" name="direction" id="direction-hidden">
+<% end %>
