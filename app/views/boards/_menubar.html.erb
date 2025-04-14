@@ -1,9 +1,7 @@
 <% sort_options = [ 
-  { label: 'Created', value: 'created_at', icon: render_icon('clock', class: "size-4") },
-  { label: 'Updated', value: 'updated_at', icon: render_icon('clock', class: "size-4") },
-  { label: 'Votes', value: 'votes', icon: render_icon('upvote', class: "size-4") },
+  { label: 'Created At', value: 'created_at', icon: render_icon('clock', class: "size-4") },
+  { label: 'Updated At', value: 'updated_at', icon: render_icon('clock', class: "size-4") },
   { label: 'Title', value: 'title', icon: render_icon('text', class: "size-4") }, 
-  { label: 'Comments', value: 'comments', icon: render_icon('comment', class: "size-4") }
   ] %>
 <header class="menu-bar flex justify-between flex-row-reverse">
   <%= form_with url: sort_boards_path, class: 'flex items-center gap-2', data: { controller: 'form'} do |form| %>
