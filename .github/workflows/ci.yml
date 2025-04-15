@@ -1,39 +1,89 @@
-name: CI
+name: 🛠️ CI
 
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   scan_ruby:
+    name: 🔍 Static Analysis (Brakeman)
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Ruby
+      - name: 💎 Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Scan for common Rails security vulnerabilities using static analysis
+      - name: 🔐 Scan for Rails security vulnerabilities (Brakeman)
         run: bin/brakeman --no-pager
 
   lint:
+    name: 🧹 Lint Ruby Code (RuboCop)
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Ruby
+      - name: 💎 Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Lint code for consistent style
+      - name: 🧼 Lint code for consistent style (RuboCop)
         run: bin/rubocop -f github
 
+  test:
+    name: 🧪 Run Tests (RSpec)
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        ports: ['5432:5432']
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:password@localhost:5432/test
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 💎 Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: 🔧 Install Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: 📦 Install JS dependencies
+        run: bun install
+
+      - name: 🏗️ Build assets (JavaScript + Tailwind CSS)
+        run: |
+          bun run build
+          bun run build:css
+
+      - name: 🗄️ Set up database
+        run: bin/rails db:prepare
+
+      - name: ✅ Run RSpec tests
+        run: bundle exec rspec -fd
