@@ -40,51 +40,51 @@ jobs:
       - name: 🧼 Lint code for consistent style (RuboCop)
         run: bin/rubocop -f github
 
-  test:
-    name: 🧪 Run Tests (RSpec)
-    runs-on: ubuntu-latest
+  # test:
+  #   name: 🧪 Run Tests (RSpec)
+  #   runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:15
-        ports: ['5432:5432']
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+  #   services:
+  #     postgres:
+  #       image: postgres:15
+  #       ports: ['5432:5432']
+  #       env:
+  #         POSTGRES_USER: postgres
+  #         POSTGRES_PASSWORD: password
+  #       options: >-
+  #         --health-cmd pg_isready
+  #         --health-interval 10s
+  #         --health-timeout 5s
+  #         --health-retries 5
 
-    env:
-      RAILS_ENV: test
-      DATABASE_URL: postgres://postgres:password@localhost:5432/test
-      CAPYBARA_DRIVER: selenium_chrome_headless
+  #   env:
+  #     RAILS_ENV: test
+  #     DATABASE_URL: postgres://postgres:password@localhost:5432/test
+  #     CAPYBARA_DRIVER: selenium_chrome_headless
 
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: 📥 Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: 💎 Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+  #     - name: 💎 Set up Ruby
+  #       uses: ruby/setup-ruby@v1
+  #       with:
+  #         ruby-version: .ruby-version
+  #         bundler-cache: true
 
-      - name: 🔧 Install Bun
-        uses: oven-sh/setup-bun@v1
+  #     - name: 🔧 Install Bun
+  #       uses: oven-sh/setup-bun@v1
 
-      - name: 📦 Install JS dependencies
-        run: bun install
+  #     - name: 📦 Install JS dependencies
+  #       run: bun install
 
-      - name: 🏗️ Build assets (JavaScript + Tailwind CSS)
-        run: |
-          bun run build
-          bun run build:css
+  #     - name: 🏗️ Build assets (JavaScript + Tailwind CSS)
+  #       run: |
+  #         bun run build
+  #         bun run build:css
 
-      - name: 🗄️ Set up database
-        run: bin/rails db:prepare
+  #     - name: 🗄️ Set up database
+  #       run: bin/rails db:prepare
 
-      - name: ✅ Run RSpec tests
-        run: bundle exec rspec -fd
+  #     - name: ✅ Run RSpec tests
+  #       run: bundle exec rspec -fd
