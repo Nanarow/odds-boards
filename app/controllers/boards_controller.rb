@@ -142,7 +142,6 @@ class BoardsController < ApplicationController
         @boards = @boards.search(@query)
       end
       @boards = @boards.order(@sort_by => @direction).includes(:author, :category, :tags, :comments, :votes)
-      puts "query: #{@query}, sort_by: #{@sort_by}, direction: #{@direction}"
     end
 
     def set_categories
