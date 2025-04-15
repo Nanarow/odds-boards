@@ -21,11 +21,12 @@ end
 
 
 RSpec.configure do |config|
+  driver = (ENV['CAPYBARA_DRIVER'] || :selenium_chrome).to_sym
   config.before(:each, type: :system) do
-    driven_by :selenium_chrome
+    driven_by driver
   end
 
   config.before(:each, type: :system, js: true) do
-    driven_by :selenium_chrome
+    driven_by driver
   end
 end

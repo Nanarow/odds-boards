@@ -60,6 +60,7 @@ jobs:
     env:
       RAILS_ENV: test
       DATABASE_URL: postgres://postgres:password@localhost:5432/test
+      CAPYBARA_DRIVER: selenium_chrome_headless
 
     steps:
       - name: 📥 Checkout code
