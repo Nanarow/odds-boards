@@ -25,3 +25,6 @@ bun run build:css
 # Rails asset compilation
 bin/rails assets:precompile
 bin/rails assets:clean
+
+# Run database migrations
+bin/rails db:migrate
