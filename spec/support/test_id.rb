@@ -17,19 +17,19 @@ module TestIdHelper
 
   def select(testid, with:)
     click_on testid
-    page.save_screenshot("tmp/screenshot.png")
+    trigger_render
 
     options = Array(with)
     options.each do |option|
       page.click_on option
     end
-    page.save_screenshot("tmp/screenshot.png")
+    trigger_render
     page.execute_script("document.body.click()")
-    page.save_screenshot("tmp/screenshot.png")
+    trigger_render
   end
 
-  def ensure_js_is_ready
-    expect(page).to have_css('[data-js-loaded-value="true"]')
+  def trigger_render
+    page.save_screenshot("tmp/screenshot.png")
   end
 end
 
