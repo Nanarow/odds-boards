@@ -38,14 +38,13 @@ RSpec.feature "Board creation", type: :system, js: true do
       expect(page).to have_content "My Board Body"
     end
 
-    scenario "Successfully creates a board with private visibility" do
+    scenario "Successfully creates a board with default private visibility" do
       visit root_path
 
       click_on "new-board-button"
 
       fill_in "board-title", with: "My Board Title"
       fill_in "board-body", with: "My Board Body"
-      select "board-visibility", with: "Private"
 
       click_on "publish-board-button"
 
@@ -100,7 +99,7 @@ RSpec.feature "Board creation", type: :system, js: true do
 
       fill_in "board-title", with: "My Board Title"
       fill_in "board-body", with: "My Board Body"
-      select "board-tags", with: [ "Trending", "Popular" ], multiple: true
+      select "board-tags", with: [ "Trending", "Popular" ]
 
       click_on "publish-board-button"
 

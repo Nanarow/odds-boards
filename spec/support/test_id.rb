@@ -15,16 +15,21 @@ module TestIdHelper
     have_css("[data-testid='#{testid}']")
   end
 
-  def select(testid, with:, multiple: false)
+  def select(testid, with:)
     click_on testid
-    if multiple
-      with.each do |option|
-        page.click_on option
-      end
-    else
-      page.click_on with
+    page.save_screenshot("tmp/screenshot.png")
+
+    options = Array(with)
+    options.each do |option|
+      page.click_on option
     end
+    page.save_screenshot("tmp/screenshot.png")
     page.execute_script("document.body.click()")
+    page.save_screenshot("tmp/screenshot.png")
+  end
+
+  def ensure_js_is_ready
+    expect(page).to have_css('[data-js-loaded-value="true"]')
   end
 end
 
