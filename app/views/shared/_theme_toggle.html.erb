@@ -1,0 +1,10 @@
+<label class="swap swap-rotate btn btn-square" data-controller="theme-toggle" >
+  <input type="checkbox" class="theme-controller" value="dark" 
+  data-theme-toggle-target="input"/>
+  <%= render_icon 'sun', class: 'swap-on size-6 bg-transparent', 
+    data: { theme_toggle_target: 'light'} 
+  %>
+  <%= render_icon 'moon', class: 'swap-off size-6 bg-transparent', 
+    data: { theme_toggle_target: 'dark'} 
+  %>
+</label>

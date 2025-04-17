@@ -16,6 +16,7 @@ import PropagationController from './propagation_controller'
 import FormController from './form_controller'
 import RequestController from './request_controller'
 import ToggleController from './toggle_controller'
+import ThemeToggle from './theme_toggle'
 
 application.register('hello', HelloController)
 application.register('notification', Notification)
@@ -29,3 +30,4 @@ application.register('propagation', PropagationController)
 application.register('form', FormController)
 application.register('request', RequestController)
 application.register('toggle',ToggleController)
+application.register('theme-toggle', ThemeToggle)

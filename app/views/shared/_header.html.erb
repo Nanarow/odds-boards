@@ -11,9 +11,12 @@
     <input value="<%= @sort_by %>" autocomplete="off" type="hidden" name="sort_by" id="sort-by-hidden">
     <input value="<%= @direction %>" autocomplete="off" type="hidden" name="direction" id="direction-hidden">
   <% end %>
-  <% if user_signed_in? %>
-    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-primary", data: { testid: 'logout-button' } %>
-  <% else %>
-    <%= link_to "Login", new_user_session_path, class: "btn btn-primary", data: { testid: 'login-button' } %>
-  <% end %>
+  <div class="flex items-center gap-2">
+    <%= render "shared/theme_toggle" %>
+    <% if user_signed_in? %>
+      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-primary", data: { testid: 'logout-button' } %>
+    <% else %>
+      <%= link_to "Login", new_user_session_path, class: "btn btn-primary", data: { testid: 'login-button' } %>
+    <% end %>
+  </div>
 </header>
