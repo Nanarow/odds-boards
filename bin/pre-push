@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+
+echo "📥 Checking code before pushing..."
+
+# Static analysis with Brakeman
+if [ -x "bin/brakeman" ]; then
+  echo "🔍 Running Brakeman..."
+  bin/brakeman --no-pager
+else
+  echo "⚠️ bin/brakeman not found or not executable. Skipping Brakeman scan."
+fi
+
+# Lint with RuboCop
+if [ -x "bin/rubocop" ]; then
+  echo "🧼 Running RuboCop..."
+  bin/rubocop
+else
+  echo "⚠️ bin/rubocop not found or not executable. Skipping RuboCop lint."
+fi
+
+# Prepare DB for testing
+echo "🗄️ Preparing test database..."
+RAILS_ENV=test bin/rails db:create db:migrate || true
+
+# Run tests with RSpec
+echo "🧪 Running RSpec tests..."
+bundle exec rspec -fd
+
+echo "✅ Pre-push checks passed!"
