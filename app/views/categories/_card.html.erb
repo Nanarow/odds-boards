@@ -5,7 +5,9 @@
       <h4 class="card-title">Categories</h4>
     </div>
     <div class="flex flex-col gap-2" id="categories" data-testid="categories">
-      <%= render @categories %>
+      <% unless @categories.nil? %>
+        <%= render @categories %>
+      <% end %>
     </div>
   </div>
 </div>
