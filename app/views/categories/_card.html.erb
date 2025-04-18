@@ -1,8 +1,8 @@
 <div class="card border">
   <div class="card-body">
-    <div class="flex gap-1">
+    <div class="flex gap-1.5 items-center mb-2">
       <%= render_icon 'categories', class: 'size-6' %>
-      <h4 class="card-title">Categories</h4>
+      <h3>Categories</h3>
     </div>
     <div class="flex flex-col gap-2" id="categories" data-testid="categories">
       <% unless @categories.nil? %>

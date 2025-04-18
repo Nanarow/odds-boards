@@ -1,1 +1,4 @@
-<h4 id="<%= dom_id category %>"><%= category.name %></h4>
+<div class="flex justify-between items-center btn btn-secondary btn-soft">
+  <h4 id="<%= dom_id category %>"><%= category.name %></h4>
+  <span class="badge"><%= category.boards.count %></span>
+</div>

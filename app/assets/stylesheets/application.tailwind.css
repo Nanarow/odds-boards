@@ -22,7 +22,7 @@
   --color-primary: oklch(30.58% 0.106 256.45);
   --color-primary-content: oklch(94.38% 0.027 253.23);
   --color-secondary: oklch(74.74% 0.18 57.36);
-  --color-secondary-content: oklch(38.6% 0.091 60.02);
+  --color-secondary-content: oklch(94.05% 0.044 70.53);
   --color-accent: oklch(51.01% 0.247 262.59);
   --color-accent-content: oklch(94.74% 0.025 263.33);
   --color-neutral: oklch(97.27% 0.002 247.84);
@@ -54,10 +54,10 @@
   --color-base-200: oklch(23.26% 0.014 253.1);
   --color-base-300: oklch(21.15% 0.012 254.09);
   --color-base-content: oklch(97.807% 0.029 256.847);
-  --color-primary: oklch(30.58% 0.106 256.45);
-  --color-primary-content: oklch(94.38% 0.027 253.23);
+  --color-primary: oklch(85.26% 0.074 253.57);
+  --color-primary-content: oklch(30.58% 0.106 256.45);
   --color-secondary: oklch(74.74% 0.18 57.36);
-  --color-secondary-content: oklch(38.6% 0.091 60.02);
+  --color-secondary-content: oklch(94.05% 0.044 70.53);
   --color-accent: oklch(51.01% 0.247 262.59);
   --color-accent-content: oklch(94.74% 0.025 263.33);
   --color-neutral: oklch(30.68% 0.013 253.01);
@@ -108,11 +108,15 @@
   }
 
   .card {
-    @apply border border-base-300;
+    @apply border border-base-300 bg-base-100;
   }
 
   .border {
     @apply border-base-300;
+  }
+
+  .card-body {
+    @apply rounded-box outline-2;
   }
 
   .alert.alert-soft {
