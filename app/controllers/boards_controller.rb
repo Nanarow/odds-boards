@@ -15,14 +15,13 @@ class BoardsController < ApplicationController
 
   def my_boards
     set_boards author: current_user
-    render :index
   end
 
   def search
     path = URI(request.referer || "").path
     if path == boards_path
       index
-    else
+    elsif path == my_boards_path
       my_boards
     end
   end
