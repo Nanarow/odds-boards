@@ -12,6 +12,11 @@ export default class extends Dropdown {
     this.updateDisplay(this.defaultValue)
   }
 
+  disconnect() {
+    super.disconnect()
+    this.updateDisplay(this.defaultValue)
+  }
+
   select(event) {
     const { textContent: text, value } = event.currentTarget
     this.updateDisplay(value, text.trim())
@@ -52,8 +57,7 @@ export default class extends Dropdown {
   }
 
   setInputValue(value) {
-    if (this.inputTarget.value === '') {
-      this.inputTarget.value = value
+    if (this.inputTarget.value === value) {
       return
     }
     this.inputTarget.value = value
