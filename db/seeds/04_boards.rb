@@ -22,7 +22,7 @@ board_data.each do |data|
       category: $categories.sample,
       title: data[:title],
       body: data[:body],
-      state: rand(0..1),       # 0: is_draft, 1: is_published
+      state: 1,       # 0: is_draft, 1: is_published
       visibility: rand(0..1),  # 0: is_private, 1: is_public
       created_at: created_at,
       updated_at: created_at
