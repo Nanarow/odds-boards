@@ -1,4 +1,8 @@
 module TestIdHelper
+  def find_all(testid)
+    super("[data-testid='#{testid}']")
+  end
+
   def find(testid)
     super("[data-testid='#{testid}']")
   end
@@ -30,6 +34,11 @@ module TestIdHelper
 
   def trigger_render
     page.save_screenshot("tmp/screenshot.png")
+  end
+
+  def trigger_render_after(time = 0)
+    sleep(time)
+    trigger_render
   end
 end
 
