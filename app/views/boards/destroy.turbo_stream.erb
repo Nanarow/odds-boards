@@ -8,3 +8,6 @@
 <%= turbo_stream.replace "board-delete-dialog" do %>
   <dialog id="board-delete-dialog"></dialog>
 <% end %>
+<%= turbo_stream.update "notification" do %>
+  <%= render 'shared/notification' %>
+<% end %>

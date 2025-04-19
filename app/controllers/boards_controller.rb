@@ -60,6 +60,7 @@ class BoardsController < ApplicationController
       @board.set_tags(tags, current_user) unless tags.nil?
       set_categories
       set_tags
+      flash.now[:notice] = "Board was successfully created."
       render :create, status: :created
     else
       set_form
@@ -74,7 +75,8 @@ class BoardsController < ApplicationController
       @board.set_tags(tags, current_user) unless tags.nil?
       set_categories
       set_tags
-      render :update, notice: "Board was successfully updated."
+      flash.now[:notice] = "Board was successfully updated."
+      render :update
     else
       render :edit, status: :unprocessable_entity
     end
@@ -84,7 +86,8 @@ class BoardsController < ApplicationController
     @board.destroy!
     set_categories
     set_tags
-    render :destroy, notice: "Board was successfully destroyed."
+    flash.now[:notice] = "Board was successfully destroyed."
+    render :destroy
   end
 
   def upvote

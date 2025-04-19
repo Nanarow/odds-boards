@@ -1,1 +1,4 @@
 <%= turbo_stream.replace "board-#{@board.id}", @board %>
+<%= turbo_stream.update "notification" do %>
+  <%= render 'shared/notification' %>
+<% end %>

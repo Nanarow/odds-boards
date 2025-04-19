@@ -6,3 +6,6 @@
 <%= turbo_stream.update "tags" do %>
   <%= render 'tags/list', tags: @tags %>
 <% end %>
+<%= turbo_stream.update "notification" do %>
+  <%= render 'shared/notification' %>
+<% end %>

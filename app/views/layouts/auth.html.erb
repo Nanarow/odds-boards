@@ -18,7 +18,9 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
   <body>
-    <%= render "shared/notifications" %>
+    <div id="notification" data-testid="notification" class="z-100 fixed">
+      <%= render "shared/notification" %>
+    </div>
     <main class="container mx-auto flex flex-col justify-center items-center min-h-screen">
       <%= yield %>
     </main>
