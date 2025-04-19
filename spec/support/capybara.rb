@@ -1,6 +1,6 @@
 require 'capybara/rspec'
 
-Capybara.server = :puma
+Capybara.server = :puma, { Silent: true }
 Capybara.default_max_wait_time = 2
 module SlowCapybara
   SLOW_METHODS = %i[

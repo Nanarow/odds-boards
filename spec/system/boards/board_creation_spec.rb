@@ -28,44 +28,60 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
 
       scenario "successfully creates a board with title and body" do
         click_on "new-board-button"
+
         fill_in "board-title", with: "My Board Title"
         fill_in "board-body", with: "My Board Body"
+
         click_on "publish-board-button"
+
         expect(page).to have_content("My Board Title")
         expect(page).to have_content("My Board Body")
       end
 
       scenario "successfully creates a board with default private visibility" do
         click_on "new-board-button"
+
         fill_in "board-title", with: "My Board Title"
         fill_in "board-body", with: "My Board Body"
+
         click_on "publish-board-button"
+
         expect(page).to have_content("My Board Title")
         expect(page).to have_content("My Board Body")
+
         click_on "logout-button"
+
         expect(page).not_to have_content("My Board Title")
         expect(page).not_to have_content("My Board Body")
       end
 
       scenario "successfully creates a board with public visibility" do
         click_on "new-board-button"
+
         fill_in "board-title", with: "My Board Title"
         fill_in "board-body", with: "My Board Body"
         select "board-visibility", with: "Public"
+
         click_on "publish-board-button"
+
         expect(page).to have_content("My Board Title")
         expect(page).to have_content("My Board Body")
+
         click_on "logout-button"
+
         expect(page).to have_content("My Board Title")
         expect(page).to have_content("My Board Body")
       end
 
       scenario "successfully creates a board with category" do
         click_on "new-board-button"
+
         fill_in "board-title", with: "My Board Title"
         fill_in "board-body", with: "My Board Body"
         select "board-category", with: "Sport"
+
         click_on "publish-board-button"
+
         expect(page).to have_content("My Board Title")
         expect(page).to have_content("My Board Body")
         expect(page).to have_content("Sport")
@@ -73,10 +89,13 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
 
       scenario "successfully creates a board with tags" do
         click_on "new-board-button"
+
         fill_in "board-title", with: "My Board Title"
         fill_in "board-body", with: "My Board Body"
         select "board-tags", with: [ "Trending", "Popular" ]
+
         click_on "publish-board-button"
+
         expect(page).to have_content("My Board Title")
         expect(page).to have_content("My Board Body")
         expect(page).to have_content("Trending")
@@ -84,7 +103,25 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
       end
 
       scenario "fails to create a board with missing title" do
-        pending "Implement: Use click_on 'new-board-button'; fill_in 'board-body', with: 'My Board Body'; click_on 'publish-board-button'; expect have('error-message')"
+        click_on "new-board-button"
+
+        fill_in "board-body", with: "My Board Body"
+
+        click_on "publish-board-button"
+
+        expect(page).to have_content("Title can't be blank")
+        expect(page).to have_field('board[body]', with: "My Board Body")
+      end
+
+      scenario "fails to create a board with missing body" do
+        click_on "new-board-button"
+
+        fill_in "board-title", with: "My Board Title"
+
+        click_on "publish-board-button"
+
+        expect(page).to have_field('board[title]', with: 'My Board Title')
+        expect(page).to have_content("Body can't be blank")
       end
     end
 
