@@ -16,7 +16,7 @@ boards = []
 board_data.each do |data|
   board = Board.find_by(title: data[:title])
   if board.nil?
-    created_at = Time.now - rand(1..90).days
+    created_at = Time.now - rand(15..30).days
     board = Board.create!(
       author: $users.sample,
       category: $categories.sample,

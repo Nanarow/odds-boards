@@ -20,7 +20,7 @@ $boards.each do |board|
 
   # Create 2-5 top-level comments
   rand(2..5).times do
-    created_at = board.created_at + rand(1..60).days
+    created_at = board.created_at + rand(1..5).days
     parent_comment = Comment.create!(
       board: board,
       commenter: $users.sample,
@@ -32,7 +32,7 @@ $boards.each do |board|
 
     # Create 0-3 replies
     rand(0..3).times do
-      child_created_at = parent_comment.created_at + rand(1..30).days
+      child_created_at = parent_comment.created_at + rand(1..5).days
       child_comment = Comment.create!(
         board: board,
         commenter: $users.sample,
@@ -45,7 +45,7 @@ $boards.each do |board|
 
       # Create 0-2 replies
       rand(0..2).times do
-        grandchild_created_at = child_comment.created_at + rand(1..15).days
+        grandchild_created_at = child_comment.created_at + rand(1..5).days
         Comment.create!(
           board: board,
           commenter: $users.sample,

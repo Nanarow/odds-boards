@@ -17,7 +17,7 @@ class Board < ApplicationRecord
   }
 
   def comments_by_depth(depth)
-    comments.where(depth: depth)
+    comments.where(depth: depth).order(created_at: :desc)
   end
 
   enum :state, { is_draft: 0, is_published: 1 } do
