@@ -29,8 +29,8 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
       scenario "successfully creates a board with title and body" do
         click_on "new-board-button"
 
-        fill_in "board-title", with: "My Board Title"
-        fill_in "board-body", with: "My Board Body"
+        fill_in "board-title-input", with: "My Board Title"
+        fill_in "board-body-input", with: "My Board Body"
 
         click_on "publish-board-button"
 
@@ -42,8 +42,8 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
       scenario "successfully creates a board with default private visibility" do
         click_on "new-board-button"
 
-        fill_in "board-title", with: "My Board Title"
-        fill_in "board-body", with: "My Board Body"
+        fill_in "board-title-input", with: "My Board Title"
+        fill_in "board-body-input", with: "My Board Body"
 
         click_on "publish-board-button"
 
@@ -61,8 +61,8 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
       scenario "successfully creates a board with public visibility" do
         click_on "new-board-button"
 
-        fill_in "board-title", with: "My Board Title"
-        fill_in "board-body", with: "My Board Body"
+        fill_in "board-title-input", with: "My Board Title"
+        fill_in "board-body-input", with: "My Board Body"
         select "board-visibility", with: "Public"
 
         click_on "publish-board-button"
@@ -80,9 +80,9 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
       scenario "successfully creates a board with category" do
         click_on "new-board-button"
 
-        fill_in "board-title", with: "My Board Title"
-        fill_in "board-body", with: "My Board Body"
-        select "board-category", with: "Sport"
+        fill_in "board-title-input", with: "My Board Title"
+        fill_in "board-body-input", with: "My Board Body"
+        select "board-category-select", with: "Sport"
 
         click_on "publish-board-button"
 
@@ -95,9 +95,9 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
       scenario "successfully creates a board with tags" do
         click_on "new-board-button"
 
-        fill_in "board-title", with: "My Board Title"
-        fill_in "board-body", with: "My Board Body"
-        select "board-tags", with: [ "Trending", "Popular" ]
+        fill_in "board-title-input", with: "My Board Title"
+        fill_in "board-body-input", with: "My Board Body"
+        select "board-tags-select", with: [ "Trending", "Popular" ]
 
         click_on "publish-board-button"
 
@@ -111,7 +111,7 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
       scenario "fails to create a board with missing title" do
         click_on "new-board-button"
 
-        fill_in "board-body", with: "My Board Body"
+        fill_in "board-body-input", with: "My Board Body"
 
         click_on "publish-board-button"
 
@@ -122,7 +122,7 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
       scenario "fails to create a board with missing body" do
         click_on "new-board-button"
 
-        fill_in "board-title", with: "My Board Title"
+        fill_in "board-title-input", with: "My Board Title"
 
         click_on "publish-board-button"
 

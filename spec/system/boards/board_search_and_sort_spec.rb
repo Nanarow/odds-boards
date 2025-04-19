@@ -4,8 +4,9 @@ RSpec.feature "Boards / Search and Sort", type: :system, js: true do
   describe "searching and sorting boards" do
     given!(:user) { create(:user) }
     given!(:category) { create(:category, creator: user) }
-    given!(:board1) { create(:board, title: "Zebra Board", created_at: 2.days.ago, author: user, category: category, state: :is_published) }
-    given!(:board2) { create(:board, title: "Apple Board", created_at: 1.day.ago, author: user, category: category, state: :is_published) }
+    given!(:board1) { create(:board, title: "Table Board", created_at: 3.days.ago, author: user, category: category, state: :is_published) }
+    given!(:board2) { create(:board, title: "Zebra Board", created_at: 2.days.ago, author: user, category: category, state: :is_published) }
+    given!(:board3) { create(:board, title: "Apple Board", created_at: 1.day.ago, author: user, category: category, state: :is_published) }
 
     context "when the user is logged in" do
       background do
@@ -14,43 +15,64 @@ RSpec.feature "Boards / Search and Sort", type: :system, js: true do
       end
 
       scenario "searches for boards by keyword" do
-        pending "Implement: Use fill_in 'search-input', with: 'Apple'; click_on 'search-button'; expect have('board') with 'Apple Board', not 'Zebra Board'"
+        fill_in 'search-input', with: 'Apple'
+
+        expect(page).to have_content('Apple')
+        expect(page).to_not have_content('Zebra')
+        expect(page).to_not have_content('Table')
       end
 
       scenario "searches with no results" do
-        pending "Implement: Use fill_in 'search-input', with: 'Nonexistent'; click_on 'search-button'; expect have('no-results')"
+        fill_in 'search-input', with: 'Nonexistent'
+
+        expect(page).to_not have_content('Apple')
+        expect(page).to_not have_content('Zebra')
+        expect(page).to_not have_content('Table')
       end
 
-      scenario "sorts boards by title ascending" do
-        pending "Implement: Use select 'sort-by-select', with: 'Title'; select 'sort-direction-select', with: 'Ascending'; click_on 'sort-button'; expect have('board') with titles in order ['Apple Board', 'Zebra Board']"
+      scenario "sorts boards by default creation date descending" do
+        titles = find_all('board-title').map(&:text)
+
+        expect(titles).to eq([ 'Apple Board', 'Zebra Board', 'Table Board' ])
       end
 
-      scenario "sorts boards by views descending" do
-        pending "Implement: Use select 'sort-by-select', with: 'Views'; select 'sort-direction-select', with: 'Descending'; click_on 'sort-button'; expect have('board') with titles in order ['Apple Board', 'Zebra Board']"
+      scenario "sorts boards by update date descending" do
+        click_on "edit-board-#{board2.id}-button"
+
+        fill_in "board-title-input", with: 'Updated Title'
+
+        click_on "publish-board-button"
+
+        expect(page).to have_content("Updated Title")
+        trigger_render_after 1
+        expect(page).to have_content("Board was successfully updated.")
+
+        select 'sort-by', with: 'Updated At'
+        titles = find_all('board-title').map(&:text)
+
+        expect(titles).to eq([ 'Updated Title', 'Apple Board', 'Table Board' ])
       end
 
-      scenario "sorts boards by creation date ascending" do
-        pending "Implement: Use select 'sort-by-select', with: 'Created At'; select 'sort-direction-select', with: 'Ascending'; click_on 'sort-button'; expect have('board') with titles in order ['Zebra Board', 'Apple Board']"
+      scenario "sorts boards by title descending" do
+        select 'sort-by', with: 'Title'
+        titles = find_all('board-title').map(&:text)
+        expect(titles).to eq([ 'Zebra Board', 'Table Board', 'Apple Board' ])
       end
 
       scenario "combines search and sort" do
-        pending "Implement: Use fill_in 'search-input', with: 'Test'; click_on 'search-button'; select 'sort-by-select', with: 'Title'; select 'sort-direction-select', with: 'Ascending'; click_on 'sort-button'; expect have('board') with filtered and ordered results"
-      end
+        fill_in 'search-input', with: 'le'
 
-      scenario "persists search when sorting" do
-        pending "Implement: Use fill_in 'search-input', with: 'Test'; click_on 'search-button'; select 'sort-by-select', with: 'Title'; click_on 'sort-button'; expect have('search-input') with value 'Test'"
-      end
+        expect(page).to have_content('Apple')
+        expect(page).to have_content('Zebra')
 
-      scenario "updates search results dynamically via Turbo Stream" do
-        pending "Implement: Use fill_in 'search-input', with: 'Apple'; click_on 'search-button'; expect have('search-results') with updated content"
-      end
+        select 'sort-by', with: 'Title'
+        click_on 'sort-asc-button'
 
-      scenario "updates sort results dynamically via Turbo Stream" do
-        pending "Implement: Use select 'sort-by-select', with: 'Title'; click_on 'sort-button'; expect have('search-results') with updated order"
-      end
+        trigger_render_after 1
 
-      scenario "sorts without searching" do
-        pending "Implement: Use select 'sort-by-select', with: 'Views'; select 'sort-direction-select', with: 'Descending'; click_on 'sort-button'; expect have('board') with all boards sorted"
+        expect(page).to_not have_content('Zebra')
+        titles = find_all('board-title').map(&:text)
+        expect(titles).to eq([ 'Apple Board', 'Table Board' ])
       end
     end
   end
