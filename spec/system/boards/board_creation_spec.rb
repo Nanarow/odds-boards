@@ -36,6 +36,7 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
 
         expect(page).to have_content("My Board Title")
         expect(page).to have_content("My Board Body")
+        expect(page).to have_content("Board was successfully created.")
       end
 
       scenario "successfully creates a board with default private visibility" do
@@ -48,6 +49,8 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
 
         expect(page).to have_content("My Board Title")
         expect(page).to have_content("My Board Body")
+        expect(page).to have_content("Board was successfully created.")
+
 
         click_on "logout-button"
 
@@ -66,6 +69,7 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
 
         expect(page).to have_content("My Board Title")
         expect(page).to have_content("My Board Body")
+        expect(page).to have_content("Board was successfully created.")
 
         click_on "logout-button"
 
@@ -85,6 +89,7 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
         expect(page).to have_content("My Board Title")
         expect(page).to have_content("My Board Body")
         expect(page).to have_content("Sport")
+        expect(page).to have_content("Board was successfully created.")
       end
 
       scenario "successfully creates a board with tags" do
@@ -100,6 +105,7 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
         expect(page).to have_content("My Board Body")
         expect(page).to have_content("Trending")
         expect(page).to have_content("Popular")
+        expect(page).to have_content("Board was successfully created.")
       end
 
       scenario "fails to create a board with missing title" do
@@ -122,16 +128,6 @@ RSpec.feature "Boards / Creation", type: :system, js: true do
 
         expect(page).to have_field('board[title]', with: 'My Board Title')
         expect(page).to have_content("Body can't be blank")
-      end
-    end
-
-    context "when the user is not logged in" do
-      background do
-        visit root_path
-      end
-
-      scenario "cannot create a board" do
-        expect(page).not_to have("new-board-button")
       end
     end
   end

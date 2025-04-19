@@ -4,29 +4,40 @@ RSpec.feature "Boards / Management", type: :system, js: true do
   describe "managing boards" do
     given!(:user) { create(:user) }
     given!(:other_user) { create(:user) }
-    given!(:board) { create(:board, author: user, title: "My Board", state: :is_published) }
+    given!(:board) { create(:board, author: user, title: "My Board Title", state: :is_published) }
     given!(:other_board) { create(:board, author: other_user, title: "Other Board", state: :is_published) }
 
     context "when the user is logged in" do
       background do
         login_as(user, scope: :user)
-        visit board_path(board)
+        visit root_path
       end
 
       scenario "updates their own board" do
-        pending "Implement: Use click_on 'board-edit-link'; fill_in 'board-title', with: 'Updated Title'; click_on 'board-submit'; expect have('board-title') with 'Updated Title'"
+        click_on "edit-board-#{board.id}-button"
+
+        fill_in 'board-title', with: 'Updated Title'
+
+        click_on "publish-board-button"
+
+        expect(page).to have_content("Updated Title")
+        expect(page).to have_content("Board was successfully updated.")
       end
 
       scenario "deletes their own board" do
-        pending "Implement: Use click_on 'board-delete'; expect page not to have('board-title') with 'My Board'"
+        click_on "delete-board-#{board.id}-button"
+        click_on "confirm-delete-board-#{board.id}-button"
+
+        expect(page).to_not have_content("My Board Title")
+        expect(page).to have_content("Board was successfully deleted.")
       end
 
       scenario "cannot edit another user's board" do
-        pending "Implement: Visit other board; expect not to have('board-edit-link') or have('access-denied') on edit attempt"
+        expect(page).to_not have_testid("edit-board-#{other_board.id}-button")
       end
 
       scenario "cannot delete another user's board" do
-        pending "Implement: Visit other board; expect not to have('board-delete') or have('access-denied') on delete attempt"
+        expect(page).to_not have_testid("delete-board-#{other_board.id}-button")
       end
     end
   end

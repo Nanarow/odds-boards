@@ -13,7 +13,7 @@ RSpec.feature "Authentication / Access Control", type: :system, js: true do
       end
 
       scenario "cannot create a board" do
-        pending "Implement: Visit new_board_path; expect have('login-form') and not have('new-board-button')"
+        expect(page).not_to have("new-board-button")
       end
 
       scenario "cannot comment" do
