@@ -2,15 +2,15 @@
 <% is_board = votable.is_a?(Board) %>
 <% action = is_board ? upvote_board_path(votable) : upvote_comment_path(votable) %>
 <% model = is_board ? "board" : "comment" %>
-<% bg = 'btn-active' if votable.is_voted? current_user %>
+<% class_name = 'btn-active' if votable.is_voted? current_user %>
 <%= form_with url: action, 
   id: "#{model}-#{votable.id}-votes-count", 
   data: { testid: "#{model}-#{votable.id}-votes-count"},
   class: "cursor-pointer" do %>
   <button 
     data-action="propagation#stop"
-    class="btn btn-ghost btn-xs pl-0 rounded-full flex items-center gap-2">
-    <span class="btn btn-circle btn-xs <%= bg %>"><%= render_icon 'upvote', class: 'size-4' %></span>
+    class="btn btn-ghost btn-xs pl-0 rounded-full flex items-center gap-1">
+    <span class="btn btn-ghost btn-circle btn-xs <%= class_name %>"><%= render_icon 'upvote', class: 'size-4' %></span>
     <%= votable.vote_count %> upvotes
   </button>
 <% end %>
