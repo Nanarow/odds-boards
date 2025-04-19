@@ -26,17 +26,17 @@
           options: @category_options, 
           name: "board[category_id]", 
           defaultValue: @board.category_id.to_s, 
-          data: { testid: "board-category"}
+          data: { testid: "board-category-select" }
         %>
       </div>
       <%= form.text_field :title, 
         class: 'input-lg font-bold', 
-        data: { testid: 'board-title' },
+        data: { testid: 'board-title-input' },
         placeholder: "Enter title ..."
       %>
       <%= form.textarea :body, 
         rows: 10, 
-        data: { testid: 'board-body' },
+        data: { testid: 'board-body-input' },
         placeholder: "Enter body ..."
       %>
       <%= render 'shared/ui/multi_select', 
@@ -45,7 +45,7 @@
         placeholder: "Enter tag name ...", 
         class: 'w-full', 
         defaultValue: @board.tags.pluck(:name),
-        data: { testid: "board-tags"}
+        data: { testid: "board-tags-select" }
       %>
       <div class="flex justify-between">
         <% cancel_path = board.new_record? ? cancel_new_boards_path : cancel_edit_board_path(board) %>

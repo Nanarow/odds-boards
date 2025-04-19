@@ -12,7 +12,7 @@
         defaultValue: @sort_by, 
         name: "sort_by",
         disabled: params[:id].present?,
-        data: { testid: "sort_by", action: "change->form#submit" }
+        data: { testid: "sort-by", action: "change->form#submit" }
     %>
     <div data-controller="toggle">
       <input 
@@ -26,6 +26,7 @@
       class="btn btn-square"
       data-action="toggle#change form#submit"
       data-toggle-target="item"
+      data-testid="sort-asc-button"
       value="asc"
       <%= "disabled" if params[:id].present? %>
       >
@@ -36,6 +37,7 @@
       class="btn btn-square"
       data-action="toggle#change form#submit"
       data-toggle-target="item"
+      data-testid="sort-desc-button"
       value="desc"
       <%= "disabled" if params[:id].present? %>
       >

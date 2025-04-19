@@ -20,7 +20,7 @@
       </div>
       <%= render 'board_options', board: board if board.is_author?(current_user) %>
     </div>
-    <h2>
+    <h2 data-testid="board-title">
       <%= highlight board.title, with: @query %>
     </h2>
     <p class="mb-2">
