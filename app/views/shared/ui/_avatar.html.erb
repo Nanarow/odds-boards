@@ -5,8 +5,7 @@
     <% if avatar.attached? %>
       <%= image_tag avatar %>
     <% else %>
-      <% path = "avatar-#{rand(1..10)}.png" %>
-      <%= image_tag path %>
+      <%= render_icon 'user-round' %>
     <% end %>
   </div>
 </div>
