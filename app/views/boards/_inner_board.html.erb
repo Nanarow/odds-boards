@@ -6,30 +6,19 @@
         <%= render 'shared/ui/avatar', avatar: board.author.avatar %>
         @<%= board.author.username %>
         &CenterDot;
-        <%= time_ago_in_words(board.created_at) %> ago
+        <span class="opacity-50"><%= time_ago_in_words(board.created_at) %> ago</span>
+        <span class="opacity-50">
+          <% if board.is_private? %>
+            <%= render_icon 'globe-lock', class: 'size-4' %>
+          <% else %>
+            <%= render_icon 'globe', class: 'size-4' %>
+          <% end %>
+        </span>
         <% unless board.category.nil? %>
-          <span class="badge badge-soft"><%= board.category.name %></span>
+          <span class="badge badge-soft badge-secondary"><%= board.category.name %></span>
         <% end %>
-        <span class="badge badge-soft"><%= board.visibility %></span>
       </div>
-      <% if board.is_author?(current_user) %>
-        <div class="flex gap-2 z-10">
-          <%= button_to 'Edit', load_edit_board_path(board), 
-            class: 'btn btn-primary btn-xs', 
-            data: { 
-              turbo: true, 
-              testid: "edit-board-#{board.id}-button",
-              action: 'propagation#stop' 
-            } %>
-          <%= button_to 'Delete', confirm_delete_board_path(board), 
-            class: 'btn btn-error btn-xs', 
-            data: { 
-              turbo: true, 
-              testid: "confirm-delete-board-#{board.id}-button",
-              action: 'propagation#stop'
-            } %>
-        </div>
-      <% end %>
+      <%= render 'board_options', board: board if board.is_author?(current_user) %>
     </div>
     <h2>
       <%= board.title %>

@@ -9,7 +9,7 @@
         class: 'min-w-48', 
         placeholder: "Sort by", 
         options: sort_options,
-        defaultValue: 'created_at', 
+        defaultValue: @sort_by, 
         name: "sort_by",
         disabled: params[:id].present?,
         data: { testid: "sort_by", action: "change->form#submit" }
@@ -47,6 +47,6 @@
   <% if user_signed_in? && @board.nil? %>
     <%= button_to 'New board', load_new_board_path, class: 'btn btn-secondary', data: { turbo: true, testid: 'new-board-button' } %>
   <% elsif user_signed_in? %>
-    <%= link_to 'Back', :back, class: 'btn' %>
+    <%= link_to 'Back', request.referer || root_path, class: 'btn' %>
   <% end %>
 </header>
