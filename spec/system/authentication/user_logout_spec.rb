@@ -11,11 +11,16 @@ RSpec.feature "Authentication / User Logout", type: :system, js: true do
       end
 
       scenario "logs out successfully" do
-        pending "Implement: Use click_on 'logout-button'; expect have('login-form') and not have('user-profile')"
+        click_on 'logout-button'
+        expect(page).to have_content("Login")
+        expect(page).to have_content("Signed out successfully.")
       end
 
       scenario "cannot access protected pages after logout" do
-        pending "Implement: Use click_on 'logout-button'; visit new_board_path; expect have('login-form')"
+        click_on 'logout-button'
+        click_on 'my-boards-link'
+        expect(page).to have_content("Login")
+        expect(page).to have_content("You need to sign in or sign up before continuing.")
       end
     end
   end

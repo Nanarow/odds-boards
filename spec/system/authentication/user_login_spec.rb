@@ -28,9 +28,9 @@ RSpec.feature "Authentication / User Login", type: :system do
 
         click_on 'sign-in-button'
 
-        alert_notification = find('alert-notification')
-        expect(alert_notification).to be_visible
-        expect(alert_notification).to have_content 'Invalid username or email or password.'
+        notification = find('notification')
+        expect(notification).to be_visible
+        expect(notification).to have_content 'Invalid username or email or password.'
       end
 
       scenario "fails to log in with non-existent email" do
@@ -39,9 +39,9 @@ RSpec.feature "Authentication / User Login", type: :system do
 
         click_on 'sign-in-button'
 
-        alert_notification = find('alert-notification')
-        expect(alert_notification).to be_visible
-        expect(alert_notification).to have_content 'Invalid username or email or password.'
+        notification = find('notification')
+        expect(notification).to be_visible
+        expect(notification).to have_content 'Invalid username or email or password.'
       end
     end
   end
