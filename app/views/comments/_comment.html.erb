@@ -1,42 +1,40 @@
 <%# locals: (comment: Comment, with_replies: true) %>
-<div class="flex gap-2" id="comment-<%= comment.id %>" data-testid="comment-<%= comment.id %>">
-  <%= render 'shared/ui/avatar', avatar: comment.commenter.avatar %>
-  <div class="w-full flex flex-col gap-2 mb-2">
-    <div class="flex flex-col gap-1 border border-base-300 p-2 rounded-box">
-      <div class="flex items-center gap-2 justify-between">
-        @<%= comment.commenter.username %>
-        &CenterDot;
-        <%= time_ago_in_words(comment.created_at) %> ago
-        <% if comment.is_commenter?(current_user) %>
-          <span class="flex gap-1">
-            <%= button_to 'Edit', load_edit_comment_path(comment), class: 'btn btn-primary btn-xs', data: { turbo: true, testid: "edit-comment-#{comment.id}-button" } %>
-            <%#= button_to 'Delete', comment_path(comment), method: :delete, class: 'btn btn-error btn-xs', data: { turbo: true, testid: "delete-comment-#{comment.id}-button" } %>
-            <%= button_to 'Delete', confirm_delete_comment_path(comment), 
-              class: 'btn btn-error btn-xs', 
-              data: { testid: "confirm-delete-comment-#{comment.id}-button" } 
-            %>
-          </span>
+<div class="card w-full mt-4" id="comment-<%= comment.id %>" data-testid="comment-<%= comment.id %>">
+  <div class="card-body p-4">
+    <header class="flex items-center gap-2">
+      <%= render 'shared/ui/avatar', avatar: comment.commenter.avatar %>
+      @<%= comment.commenter.username %>
+      &CenterDot;
+      <span class="opacity-50"><%= time_ago_in_words(comment.created_at) %> ago</span>
+      <span class="grow"></span>
+      <% if comment.is_commenter?(current_user) %>
+        <%= button_to load_edit_comment_path(comment), class: 'btn btn-secondary btn-xs', data: { turbo: true, testid: "edit-comment-#{comment.id}-button" } do %>
+          <%= render_icon 'pen-line', class: 'size-4' %>
+          Edit
         <% end %>
-      </div>
-      <p>
-        <%= comment.body %>
-      </p>
-    </div>
-    <div class="flex gap-2 items-center">
+        <%= button_to confirm_delete_comment_path(comment), class: 'btn btn-error btn-xs', data: { testid: "confirm-delete-comment-#{comment.id}-button" } do %>
+          <%= render_icon 'trash', class: 'size-4' %>
+          Delete
+        <% end %>
+      <% end %>
+    </header>
+    <p><%= comment.body %></p>
+    <footer class="flex items-center gap-2">
       <%= render 'shared/vote', votable: comment %>
       <% unless comment.is_max_depth? %>
         <%= button_to new_reply_path(comment),
-          class: 'flex gap-1 items-center badge cursor-pointer', 
+          class: 'btn btn-xs rounded-full btn-ghost cursor-pointer', 
           data: { turbo: true, testid: "new-reply-comment-#{comment.id}-button" } do %>
           <%= render_icon 'comment', class: 'size-4' %>reply
         <% end %>
       <% end %>
-    </div>
-    <div id="comment-<%= comment.id %>-reply-form"></div>
+    </footer>
+    <div id="comment-<%= comment.id %>-reply-form" class="empty:-mt-2"></div>
   </div>
 </div>
-<% if with_replies %>
-  <div class="pl-8" id="comment-<%= comment.id %>-replies">
+<div class="pl-8 flex flex-col relative h-min" id="comment-<%= comment.id %>-replies">
+  <%= render_icon 'conner-down-right', class: 'absolute top-4 left-0' %>
+  <% if with_replies && comment.replies.present? %>
     <%= render comment.replies %>
-  </div>
-<% end %>
+  <% end %>
+</div>
