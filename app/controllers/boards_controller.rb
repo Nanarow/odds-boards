@@ -86,7 +86,7 @@ class BoardsController < ApplicationController
     @board.destroy!
     set_categories
     set_tags
-    flash.now[:notice] = "Board was successfully destroyed."
+    flash.now[:notice] = "Board was successfully deleted."
     render :destroy
   end
 
