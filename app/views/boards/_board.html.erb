@@ -1,9 +1,8 @@
 <%# locals: (board:, without_comments: true) %>
 <% path = board_path(board) %>
 <% selected = current_page?(path) %>
-<% path = "#" if selected %>
 <% if selected %>
-  <div class="flex"
+  <div class="flex mt-4"
     id="board-<%= board.id %>"
     data-testid="board-<%= board.id %>"
   >
@@ -11,7 +10,7 @@
   </div>
 <% else %>
   <%= link_to path, 
-  class: "flex group/board", 
+  class: "flex group/board mt-4", 
   data: { controller: 'propagation', testid: "board-#{board.id}" }, 
   id: "board-#{board.id}" do %>
     <%= render 'inner_board', board: board %>
@@ -21,7 +20,8 @@
   <div id="comment-form">
     <%= render 'comments/form', comment: Comment.new, board_id: @board.id %>
   </div>
-  <div id="comments">
+  <div id="comments" class="flex flex-col">
     <%= render @comments %>
   </div>
+  <div class="h-8 bg-base-200 z-50 mt-4"></div>
 <% end %>
