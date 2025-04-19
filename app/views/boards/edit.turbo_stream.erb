@@ -1,5 +1,5 @@
 <%= turbo_stream.replace "board-#{@board.id}" do %>
-  <div class="flex w-full -mt-4" id="board-<%= @board.id %>">
+  <div class="flex w-full" id="board-<%= @board.id %>">
     <%= render "form", board: @board %>
   </div>
 <% end %>

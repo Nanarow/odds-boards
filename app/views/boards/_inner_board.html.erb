@@ -20,11 +20,20 @@
       </div>
       <%= render 'board_options', board: board if board.is_author?(current_user) %>
     </div>
+    <% has_query = @query.present? && !@query.blank? %>
     <h2>
-      <%= board.title %>
+      <% if has_query %>
+        <%= highlight board.title, with: @query %>
+      <% else %>
+        <%= board.title %>
+      <% end %>
     </h2>
     <p class="mb-2">
-      <%= board.body %>
+      <% if has_query %>
+        <%= highlight board.body, with: @query %>
+      <% else %>
+        <%= board.body %>
+      <% end %>
     </p>
     <%= render 'tags/tags', tags: board.tags %>
     <div class="flex gap-2 items-center">
