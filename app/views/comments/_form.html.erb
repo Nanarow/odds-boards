@@ -1,5 +1,9 @@
 <%# locals: (comment:, board_id:, parent_id: nil) %>
-<%= form_with(model: comment, class: "form mt-2 w-full",id: "comment-#{comment.id}", data: { controller: "form" }) do |form| %>
+<%= form_with( 
+  model: comment, 
+  class: "form w-full mt-4",
+  id: "comment-#{comment.id}", 
+  data: { controller: "form" }) do |form| %>
   <% if comment.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
@@ -14,30 +18,35 @@
     <%= form.hidden_field :parent_id, value: parent_id %>
   <% end %>
   <%= form.hidden_field :board_id, value: board_id %>
-  <%= form.textarea :body,  
-        data: { testid: 'comment-body', 'form-target': 'input' },
+  <div class="relative">
+    <%= form.textarea :body,  
+        data: { testid: 'comment-body' },
         placeholder: "Enter comment ...",
-        required: true %>
-  <div class="flex gap-2">
-    <% if comment.new_record? && parent_id.nil? %>
-      <% cancel_path = cancel_new_comments_path %>
-    <% elsif comment.new_record? %>
-      <% cancel_path = cancel_new_reply_path(id: parent_id) %>
-    <% else %>
-      <% cancel_path = cancel_edit_comment_path(id: comment.id) %>
-    <% end %>
-    <% data = { board_id: board_id, parent_id: parent_id } %>
-    <button 
+        required: true, rows: 5, class: 'min-h-32' %>
+    <div class="flex gap-2 absolute bottom-2 right-2">
+      <% if comment.new_record? && parent_id.nil? %>
+        <% cancel_path = cancel_new_comments_path %>
+      <% elsif comment.new_record? %>
+        <% cancel_path = cancel_new_reply_path(id: parent_id) %>
+      <% else %>
+        <% cancel_path = cancel_edit_comment_path(id: comment.id) %>
+      <% end %>
+      <% data = { board_id: board_id, parent_id: parent_id } %>
+      <button 
       type="button" data-form-action="<%= cancel_path %>" 
-      class="btn btn-ghost" 
+      class="btn btn-ghost rounded-full" 
       data-testid="cancel-comment-button"
       data-token="<%= form_authenticity_token %>"
       data-controller="request"
       data-action="request#submit"
       data-form-data="<%= data.to_json %>"
     >
-      Cancel
-    </button>
-    <%= form.submit  comment.new_record? ? "Comment" : "Update Comment",class: "btn btn-primary grow" %>
+        Cancel
+      </button>
+      <button class="btn btn-primary rounded-full">
+        <%= comment.new_record? ? "Comment" : "Update Comment" %>
+        <%= render_icon 'send', class: 'size-4' %>
+      </button>
+    </div>
   </div>
 <% end %>
