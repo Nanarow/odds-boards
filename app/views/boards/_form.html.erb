@@ -11,22 +11,24 @@
           </ul>
         </div>
       <% end %>
-      <%= render 'shared/ui/selector', 
-        class: 'w-full', 
-        placeholder: "Select Category", 
-        options: @category_options, 
-        name: "board[category_id]", 
-        defaultValue: @board.category_id.to_s, 
-        data: { testid: "board-category"}
-      %>
-      <%= render 'shared/ui/selector', 
-        class: 'w-full', 
-        placeholder: "Select Visibility", 
-        options: @visibility_options, 
-        name: "board[visibility]", 
-        defaultValue: @board.visibility.to_s, 
-        data: { testid: 'board-visibility' }
-      %>
+      <div class="flex gap-2">
+        <%= render 'shared/ui/selector', 
+          class: 'w-40', 
+          placeholder: "Select Visibility", 
+          options: @visibility_options, 
+          name: "board[visibility]", 
+          defaultValue: @board.visibility.to_s, 
+          data: { testid: 'board-visibility' }
+        %>
+        <%= render 'shared/ui/selector', 
+          class: 'w-full', 
+          placeholder: "Select Category", 
+          options: @category_options, 
+          name: "board[category_id]", 
+          defaultValue: @board.category_id.to_s, 
+          data: { testid: "board-category"}
+        %>
+      </div>
       <%= form.text_field :title, 
         class: 'input-lg font-bold', 
         data: { testid: 'board-title' },
@@ -58,8 +60,8 @@
           Cancel
         </button>
         <div class="flex items-center gap-2">
-          <%= button_tag "Save as Draft", type: :submit, name: "board[state]", value: :is_draft, data: { testid: 'draft-board-button' } %>
-          <%= button_tag "Save and Publish",type: :submit, name: "board[state]", value: :is_published, data: { testid: 'publish-board-button' } %>
+          <%= button_tag "Draft", type: :submit, name: "board[state]", value: :is_draft, data: { testid: 'draft-board-button' }, class: 'btn-secondary' %>
+          <%= button_tag "Publish",type: :submit, name: "board[state]", value: :is_published, data: { testid: 'publish-board-button' }, class: 'btn-primary' %>
         </div>
       </div>
     <% end %>

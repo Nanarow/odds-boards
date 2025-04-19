@@ -12,13 +12,22 @@
     data-multi-select-target="select"
     >
   </select>
-  <div data-multi-select-target="list" data-action="click->multi-select#leave" class="flex flex-wrap gap-2 border rounded-box p-2 empty:hidden mb-2"></div>
-  <input 
+  <div data-multi-select-target="list" data-action="click->multi-select#leave" class="flex flex-wrap gap-2 empty:hidden mb-2"></div>
+  <div class="flex gap-2">
+    <input 
     type="text" placeholder="<%= placeholder %>"
     class="input w-full" 
     data-multi-select-target="input"
     data-action="keydown.enter->multi-select#addByInput click@window->multi-select#hide focus->multi-select#enter focus->multi-select#scroll input->multi-select#filter"
-  />
+    />
+    <button type="button" 
+      data-action="multi-select#addByInput" 
+      data-testid="add-<%= name %>-button"
+      class="btn"
+      >
+      Add
+    </button>
+  </div>
   <div
         data-multi-select-target="menu"
         class="hidden transition transform absolute w-full mt-1 rounded-field border shadow-sm bg-base-100 z-50 max-h-96 overflow-y-auto"

@@ -25,7 +25,7 @@ export default class MultiSelectController extends Dropdown {
 
   addByInput(event) {
     event.preventDefault()
-    this.add(event.target.value)
+    this.add(this.inputTarget.value)
   }
 
   addByOption(event) {
@@ -47,6 +47,8 @@ export default class MultiSelectController extends Dropdown {
     const option = document.createElement('span')
     option.classList.add(
       'badge',
+      'badge-soft',
+      'badge-primary',
       'bg-base-300',
       'flex',
       'items-center',
@@ -56,11 +58,12 @@ export default class MultiSelectController extends Dropdown {
     const remove = document.createElement('span')
     remove.classList.add(
       'cursor-pointer',
-      'bg-base-300',
       'size-4',
       'flex',
       'items-center',
-      'justify-center'
+      'justify-center',
+      'hover:bg-base-200',
+      'rounded-full'
     )
     remove.dataset.value = value
     remove.dataset.action = 'click->multi-select#remove'
