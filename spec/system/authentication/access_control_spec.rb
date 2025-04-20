@@ -17,7 +17,10 @@ RSpec.feature "Authentication / Access Control", type: :system, js: true do
       end
 
       scenario "cannot comment" do
-        pending "Implement: Visit board_path(board); expect not to have('comment-input'); expect have('login-prompt') after attempting to comment"
+        click_on "board-title"
+        fill_in 'comment-input', with: 'Great board!'
+        click_on 'submit-comment-button'
+        expect(page).to have_content('You need to sign in or sign up before continuing.')
       end
 
       scenario "cannot vote" do

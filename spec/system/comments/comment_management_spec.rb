@@ -15,27 +15,26 @@ RSpec.feature "Comments / Management", type: :system, js: true do
       end
 
       scenario "edits their own comment" do
-        pending "Implement: Use click_on 'comment-edit-link'; fill_in 'comment-input', with: 'Updated Comment'; click_on 'comment-submit'; expect have('comment') with 'Updated Comment'"
+        click_on "edit-comment-#{comment.id}-button"
+        fill_in "comment-#{comment.id}-input", with: 'Updated Comment'
+        click_on "submit-comment-#{comment.id}-button"
+        expect(page).to have_content('Updated Comment')
+        expect(page).to have_content('Comment was successfully updated.')
       end
 
       scenario "deletes their own comment" do
-        pending "Implement: Use click_on 'comment-delete'; expect page not to have('comment') with 'My Comment'"
+        click_on "delete-comment-#{comment.id}-button"
+        click_on "confirm-delete-comment-#{comment.id}-button"
+        expect(page).to_not have_content("My Comment")
+        expect(page).to have_content("Comment was successfully deleted.")
       end
 
       scenario "cannot edit another user's comment" do
-        pending "Implement: Visit board with other comment; expect not to have('comment-edit-link') or have('access-denied') on edit attempt"
+        expect(page).not_to have("edit-comment-#{other_comment.id}-button")
       end
 
       scenario "cannot delete another user's comment" do
-        pending "Implement: Visit board with other comment; expect not to have('comment-delete') or have('access-denied') on delete attempt"
-      end
-
-      scenario "updates edited comment dynamically via Turbo Stream" do
-        pending "Implement: Use click_on 'comment-edit-link'; fill_in 'comment-input', with: 'Updated'; click_on 'comment-submit'; expect have('comment') with updated content without reload"
-      end
-
-      scenario "removes deleted comment dynamically via Turbo Stream" do
-        pending "Implement: Use click_on 'comment-delete'; expect page not to have('comment') without reload"
+        expect(page).not_to have("delete-comment-#{other_comment.id}-button")
       end
     end
   end
