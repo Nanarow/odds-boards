@@ -12,7 +12,7 @@
           <%= render_icon 'pen-line', class: 'size-4' %>
           Edit
         <% end %>
-        <%= button_to confirm_delete_comment_path(comment), class: 'btn btn-error btn-xs', data: { testid: "confirm-delete-comment-#{comment.id}-button" } do %>
+        <%= button_to confirm_delete_comment_path(comment), class: 'btn btn-error btn-xs', data: { testid: "delete-comment-#{comment.id}-button" } do %>
           <%= render_icon 'trash', class: 'size-4' %>
           Delete
         <% end %>

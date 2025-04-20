@@ -20,9 +20,9 @@
   <%= form.hidden_field :board_id, value: board_id %>
   <div class="relative">
     <%= form.textarea :body,  
-        data: { testid: 'comment-body' },
+        data: { testid: comment.id.nil? ? "comment-input" : "comment-#{comment.id}-input"  },
         placeholder: "Enter comment ...",
-        required: true, rows: 5, class: 'min-h-32' %>
+        rows: 5, class: 'min-h-32' %>
     <div class="flex gap-2 absolute bottom-2 right-2">
       <% if comment.new_record? && parent_id.nil? %>
         <% cancel_path = cancel_new_comments_path %>
@@ -43,7 +43,7 @@
     >
         Cancel
       </button>
-      <button class="btn btn-primary rounded-full">
+      <button class="btn btn-primary rounded-full" type="submit" data-testid="<%= comment.id.nil? ? "submit-comment-button" : "submit-comment-#{comment.id}-button" %>">
         <%= comment.new_record? ? "Comment" : "Update Comment" %>
         <%= render_icon 'send', class: 'size-4' %>
       </button>
