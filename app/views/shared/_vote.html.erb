@@ -9,7 +9,9 @@
   class: "cursor-pointer" do %>
   <button 
     data-action="propagation#stop"
-    class="btn btn-ghost btn-xs pl-0 rounded-full flex items-center gap-1">
+    class="btn btn-ghost btn-xs pl-0 rounded-full flex items-center gap-1"
+    data-testid="<%= "#{model}-#{votable.id}-upvote-button" %>"
+    >
     <span class="btn btn-ghost btn-circle btn-xs <%= class_name %>"><%= render_icon 'upvote', class: 'size-4' %></span>
     <%= votable.vote_count %> upvotes
   </button>

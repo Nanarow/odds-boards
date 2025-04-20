@@ -14,30 +14,24 @@ RSpec.feature "Votes / Comment Voting", type: :system, js: true do
         visit board_path(board)
       end
 
-      scenario "upvotes a comment" do
-        pending "Implement: Use click_on 'comment-upvote-button'; expect have('comment-vote-count') with text '1'"
+      scenario "can vote on their own comment" do
+        click_on "comment-#{own_comment.id}-upvote-button"
+        expect(page).to have_content("1 upvotes")
       end
 
-      scenario "downvotes a comment" do
-        pending "Implement: Use click_on 'comment-downvote-button'; expect have('comment-vote-count') with text '-1'"
+      scenario "can vote on another user's comment" do
+        click_on "comment-#{comment.id}-upvote-button"
+        expect(page).to have_content("1 upvotes")
       end
 
-      scenario "cannot vote on their own comment" do
-        pending "Implement: Visit board with own comment; expect not to have('comment-upvote-button') or have('vote-error') on vote attempt"
-      end
+      scenario "unvotes a comment" do
+        click_on "comment-#{comment.id}-upvote-button"
 
-      scenario "updates comment vote count dynamically via Turbo Stream" do
-        pending "Implement: Use click_on 'comment-upvote-button'; expect have('comment-vote-count') with updated count without reload"
-      end
-    end
+        expect(page).to have_content("1 upvotes")
 
-    context "when the user is not logged in" do
-      background do
-        visit board_path(board)
-      end
+        click_on "comment-#{comment.id}-upvote-button"
 
-      scenario "cannot vote on a comment" do
-        pending "Implement: Expect not to have('comment-upvote-button'); expect have('login-prompt') after attempting to vote"
+        expect(page).to have_content("0 upvotes")
       end
     end
   end

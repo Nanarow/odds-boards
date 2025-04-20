@@ -10,37 +10,27 @@ RSpec.feature "Votes / Board Voting", type: :system, js: true do
     context "when the user is logged in" do
       background do
         login_as(user, scope: :user)
-        visit board_path(board)
+        visit boards_path
       end
 
-      scenario "upvotes a board" do
-        pending "Implement: Use click_on 'upvote-button'; expect have('vote-count') with text '1'"
+      scenario "can vote on their own board" do
+        click_on "board-#{own_board.id}-upvote-button"
+        expect(page).to have_content("1 upvotes")
       end
 
-      scenario "downvotes a board" do
-        pending "Implement: Use click_on 'downvote-button'; expect have('vote-count') with text '-1'"
+      scenario "can vote on another user's board" do
+        click_on "board-#{board.id}-upvote-button"
+        expect(page).to have_content("1 upvotes")
       end
 
-      scenario "changes vote from upvote to downvote" do
-        pending "Implement: Use click_on 'upvote-button'; click_on 'downvote-button'; expect have('vote-count') with text '-1'"
-      end
+      scenario "unvotes a board" do
+        click_on "board-#{board.id}-upvote-button"
 
-      scenario "cannot vote on their own board" do
-        pending "Implement: Visit own board; expect not to have('upvote-button') or have('vote-error') on click"
-      end
+        expect(page).to have_content("1 upvotes")
 
-      scenario "updates board vote count dynamically via Turbo Stream" do
-        pending "Implement: Use click_on 'upvote-button'; expect have('vote-count') with updated count without reload"
-      end
-    end
+        click_on "board-#{board.id}-upvote-button"
 
-    context "when the user is not logged in" do
-      background do
-        visit board_path(board)
-      end
-
-      scenario "cannot vote on a board" do
-        pending "Implement: Expect not to have('upvote-button'); expect have('login-prompt') after attempting to vote"
+        expect(page).to have_content("0 upvotes")
       end
     end
   end
