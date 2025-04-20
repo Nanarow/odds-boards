@@ -37,5 +37,19 @@ RSpec.feature "Comments / Management", type: :system, js: true do
         expect(page).not_to have("delete-comment-#{other_comment.id}-button")
       end
     end
+
+    context "when the user is not logged in" do
+      background do
+        visit board_path(board)
+      end
+
+      scenario "cannot edit a comment" do
+        expect(page).not_to have("edit-comment-#{comment.id}-button")
+      end
+
+      scenario "cannot delete a comment" do
+        expect(page).not_to have("delete-comment-#{comment.id}-button")
+      end
+    end
   end
 end

@@ -40,5 +40,19 @@ RSpec.feature "Boards / Management", type: :system, js: true do
         expect(page).to_not have_testid("delete-board-#{other_board.id}-button")
       end
     end
+
+    context "when the user is not logged in" do
+      background do
+        visit root_path
+      end
+
+      scenario "cannot update a board" do
+        expect(page).not_to have_testid("edit-board-#{board.id}-button")
+      end
+
+      scenario "cannot delete a board" do
+        expect(page).not_to have_testid("delete-board-#{board.id}-button")
+      end
+    end
   end
 end
