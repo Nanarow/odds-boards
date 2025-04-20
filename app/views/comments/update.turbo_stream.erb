@@ -1,3 +1,6 @@
 <%= turbo_stream.replace "comment-#{@comment.id}" do %>
   <%= render 'comments/comment', comment: @comment, with_replies: false %>
 <% end %>
+<%= turbo_stream.update "notification" do %>
+  <%= render 'shared/notification' %>
+<% end %>

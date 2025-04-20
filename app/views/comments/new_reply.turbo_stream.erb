@@ -1,4 +1,10 @@
 <% id = @parent&.id || @parent_id %>
-<%= turbo_stream.update "comment-#{id}-reply-form" do %>
-  <%= render 'form', comment: @comment || Comment.new, board_id: @comment&.board_id || @parent&.board_id, parent_id: id %>
+<% if id.present? %>
+  <%= turbo_stream.update "comment-#{id}-reply-form" do %>
+    <%= render 'form', comment: @comment || Comment.new, board_id: @comment&.board_id || @parent&.board_id, parent_id: id %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "comment-form" do %>
+    <%= render 'form', comment: @comment, board_id: @comment.board_id %>
+  <% end %>
 <% end %>

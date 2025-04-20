@@ -11,3 +11,6 @@
 <% end %>
 <%= comments = has_parent ? "comment-#{@comment.parent_id}-replies" : "comments" %>
 <%= turbo_stream.prepend comments, @comment %>
+<%= turbo_stream.update "notification" do %>
+  <%= render 'shared/notification' %>
+<% end %>

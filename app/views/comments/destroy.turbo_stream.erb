@@ -6,3 +6,6 @@
 <%= turbo_stream.replace "comment-delete-dialog" do %>
   <dialog id="comment-delete-dialog"></dialog>
 <% end %>
+<%= turbo_stream.update "notification" do %>
+  <%= render 'shared/notification' %>
+<% end %>

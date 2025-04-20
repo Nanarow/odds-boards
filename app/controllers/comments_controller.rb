@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ upvote downvote edit update destroy confirm_delete cancel_edit ]
   before_action :set_parent, only: %i[ new_reply cancel_new_reply ]
-  before_action :authenticate_user!, only: %i[ upvote downvote edit update destroy ]
+  before_action :authenticate_user!, only: %i[ upvote downvote create edit update destroy ]
   before_action :authorize_commenter, only: %i[ update destroy edit update destroy ]
 
   def upvote
@@ -17,6 +17,7 @@ class CommentsController < ApplicationController
     @comment.commenter = current_user
     if @comment.save
       @board = @comment.board
+      flash.now[:notice] = "Comment was successfully created."
       render :create, status: :created
     else
       @parent_id = comment_params[:parent_id]
@@ -29,7 +30,8 @@ class CommentsController < ApplicationController
       return create
     end
     if @comment.update(comment_params)
-      render :update, notice: "Comment was successfully updated."
+      flash.now[:notice] = "Comment was successfully updated."
+      render :update
     else
       render :edit, status: :unprocessable_entity
     end
@@ -38,7 +40,8 @@ class CommentsController < ApplicationController
   def destroy
     @board = @comment.board
     @comment.destroy!
-    render :destroy, notice: "Comment was successfully destroyed."
+    flash.now[:notice] = "Comment was successfully deleted."
+    render :destroy
   end
 
   def edit
