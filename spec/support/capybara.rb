@@ -34,6 +34,24 @@ def set_driver(driver, javascript_driver = driver)
     config.before(:each, type: :system, js: true) do
       driven_by javascript_driver
     end
+
+    if ENV["SCREENSHOT"] == "true"
+      config.after(:each, type: :system) do |example|
+        timestamp = Time.current.strftime("%Y%m%d-%H%M%S")
+        name = example.full_description.parameterize
+        path = "tmp/screenshots/#{timestamp}-#{name}.png"
+        File.delete(path) if File.exist?(path)
+        save_screenshot(path)
+      end
+
+      config.after(:each, type: :system, js: true) do |example|
+        timestamp = Time.current.strftime("%Y%m%d-%H%M%S")
+        name = example.full_description.parameterize
+        path = "tmp/screenshots/#{timestamp}-#{name}.png"
+        File.delete(path) if File.exist?(path)
+        save_screenshot(path)
+      end
+    end
   end
 end
 
