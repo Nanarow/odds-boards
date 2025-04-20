@@ -44,12 +44,11 @@ RSpec.feature "Boards / Search and Sort", type: :system, js: true do
         click_on "publish-board-button"
 
         expect(page).to have_content("Updated Title")
-        trigger_render_after 1
         expect(page).to have_content("Board was successfully updated.")
 
         select 'sort-by', with: 'Updated At'
-        titles = find_all('board-title').map(&:text)
 
+        titles = find_all('board-title').map(&:text)
         expect(titles).to eq([ 'Updated Title', 'Apple Board', 'Table Board' ])
       end
 
@@ -62,13 +61,13 @@ RSpec.feature "Boards / Search and Sort", type: :system, js: true do
       scenario "combines search and sort" do
         fill_in 'search-input', with: 'le'
 
-        expect(page).to have_content('Apple')
-        expect(page).to have_content('Zebra')
+        sleep 0.3
+
+        expect(page).to have_content('Apple Board')
+        expect(page).to have_content('Table Board')
 
         select 'sort-by', with: 'Title'
         click_on 'sort-asc-button'
-
-        trigger_render_after 1
 
         expect(page).to_not have_content('Zebra')
         titles = find_all('board-title').map(&:text)

@@ -13,6 +13,8 @@ module TestIdHelper
 
   def click_on(testid)
     find(testid).click
+    trigger_render if is_headless?
+    sleep 0.1 unless is_headless?
   end
 
   def have(testid)
@@ -21,24 +23,28 @@ module TestIdHelper
 
   def select(testid, with:)
     click_on testid
-    trigger_render
 
     options = Array(with)
     options.each do |option|
       page.click_on option
     end
-    trigger_render
+    trigger_render if is_headless?
+
+    click_outside
+  end
+
+  def click_outside
     page.execute_script("document.body.click()")
-    trigger_render
+    trigger_render if is_headless?
+    sleep 0.1 unless is_headless?
   end
 
   def trigger_render
     page.save_screenshot("tmp/screenshot.png")
   end
 
-  def trigger_render_after(time = 0)
-    sleep(time)
-    trigger_render
+  def is_headless?
+    Capybara.current_driver == :selenium_chrome_headless
   end
 end
 

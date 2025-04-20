@@ -21,13 +21,11 @@ RSpec.feature "Boards / Management", type: :system, js: true do
         click_on "publish-board-button"
 
         expect(page).to have_content("Updated Title")
-        trigger_render_after 1
         expect(page).to have_content("Board was successfully updated.")
       end
 
       scenario "deletes their own board" do
         click_on "delete-board-#{board.id}-button"
-        trigger_render_after 1
         click_on "confirm-delete-board-#{board.id}-button"
 
         expect(page).to_not have_content("My Board Title")
