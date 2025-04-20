@@ -29,7 +29,8 @@ user_data.each do |data|
         user.avatar.attach(
           io: File.open(Rails.root.join("db/seeds/#{data[:avatar]}")),
           filename: File.basename(data[:avatar]),
-          content_type: "image/png"
+          content_type: "image/png",
+          identify: false
         )
         puts "Attached avatar to user: #{user.email}"
       end
