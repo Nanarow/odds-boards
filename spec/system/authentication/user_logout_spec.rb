@@ -19,7 +19,7 @@ RSpec.feature "Authentication / User Logout", type: :system, js: true do
       scenario "cannot access protected pages after logout" do
         click_on 'logout-button'
         click_on 'my-boards-link'
-        expect(page).to have_content("Login")
+        expect(page).to have_content("Log in")
         expect(page).to have_content("You need to sign in or sign up before continuing.")
       end
     end
