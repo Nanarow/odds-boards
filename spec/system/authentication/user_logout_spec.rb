@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Authentication / User Logout", type: :system, js: true do
+RSpec.feature "Authentication / User Logout", type: :system do
   describe "logging out" do
     given!(:user) { create(:user) }
 

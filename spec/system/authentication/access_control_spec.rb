@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Authentication / Access Control", type: :system, js: true do
+RSpec.feature "Authentication / Access Control", type: :system do
   describe "restricting access" do
     given!(:user) { create(:user) }
     given!(:other_user) { create(:user) }

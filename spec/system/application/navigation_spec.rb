@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Application / Navigation", type: :system, js: true do
+RSpec.feature "Application / Navigation", type: :system do
   describe "navigating the application" do
     given!(:user) { create(:user) }
     given!(:other_user) { create(:user) }
