@@ -3,7 +3,7 @@
   <div class="card-body gap-2" >
     <div class='flex items-center justify-between'>
       <div class="flex gap-2 items-center">
-        <%= render 'shared/ui/avatar', avatar: board.author.avatar %>
+        <%= render 'shared/ui/avatar', user: board.author %>
         @<%= board.author.username %>
         &CenterDot;
         <span class="opacity-50"><%= time_ago_in_words(board.created_at) %> ago</span>

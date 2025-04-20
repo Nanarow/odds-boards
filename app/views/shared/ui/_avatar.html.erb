@@ -1,9 +1,11 @@
-<%# locals: (avatar: ActiveStorage::Attached::One, class: String) %>
+<%# locals: (user: User, class: String) %>
 <% class_name = local_assigns[:class] %>
 <div class="avatar">
   <div class="size-6 rounded-full outline <%= class_name %>">
-    <% if avatar.attached? %>
+    <% if user.avatar.attached? %>
       <%= image_tag url_for(avatar) %>
+    <% elsif user.avatar_url.present? %>
+      <%= image_tag user.avatar_url %>
     <% else %>
       <%= render_icon 'user-round' %>
     <% end %>

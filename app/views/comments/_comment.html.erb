@@ -2,7 +2,7 @@
 <div class="card w-full mt-4" id="comment-<%= comment.id %>" data-testid="comment-<%= comment.id %>">
   <div class="card-body p-4">
     <header class="flex items-center gap-2">
-      <%= render 'shared/ui/avatar', avatar: comment.commenter.avatar %>
+      <%= render 'shared/ui/avatar', user: comment.commenter %>
       @<%= comment.commenter.username %>
       &CenterDot;
       <span class="opacity-50"><%= time_ago_in_words(comment.created_at) %> ago</span>
