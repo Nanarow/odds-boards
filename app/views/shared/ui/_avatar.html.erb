@@ -3,7 +3,7 @@
 <div class="avatar">
   <div class="size-6 rounded-full outline <%= class_name %>">
     <% if avatar.attached? %>
-      <%= image_tag avatar %>
+      <%= image_tag url_for(avatar) %>
     <% else %>
       <%= render_icon 'user-round' %>
     <% end %>
