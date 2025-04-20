@@ -16,6 +16,7 @@ class User < ApplicationRecord
   validates :username, presence: true, length: { maximum: 50 }
   validates :username, format: { with: /\A[a-zA-Z0-9_\.]*\z/, message: "can only contain letters, numbers, dots and underscores" }
   validates :bio, length: { maximum: 500 }
+  validates :username, uniqueness: { case_sensitive: false, message: "has already been taken" }
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup

@@ -64,6 +64,17 @@ RSpec.feature "Authentication / User Signup", type: :system do
         form = find('sign-up-form')
         expect(form).to have_content 'Email has already been taken'
       end
+
+      scenario "fails to sign up with existing username" do
+        fill_in 'email', with: 'user2@example.com'
+        fill_in 'username', with: 'user1'
+        fill_in 'password', with: 'password'
+        fill_in 'password_confirmation', with: 'password'
+        click_on 'sign-up-button'
+
+        form = find('sign-up-form')
+        expect(form).to have_content 'Username has already been taken'
+      end
     end
   end
 end
