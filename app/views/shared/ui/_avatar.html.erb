@@ -6,6 +6,8 @@
       <%= image_tag url_for(avatar) %>
     <% elsif user.avatar_url.present? %>
       <%= image_tag user.avatar_url %>
+    <% elsif user.can_convert_to_image? %>
+      <%= image_tag user.to_image %>
     <% else %>
       <%= render_icon 'user-round' %>
     <% end %>

@@ -18,6 +18,15 @@ class User < ApplicationRecord
   validates :bio, length: { maximum: 500 }
   validates :username, uniqueness: { case_sensitive: false, message: "has already been taken" }
 
+  def can_convert_to_image?
+    ENV["FALLBACK_AVATAR"].present?
+  end
+
+  def to_image
+    puts "converting #{username} to image"
+    "#{ENV["FALLBACK_AVATAR"]}-#{(username[0].ord % 10) + 1}.png"
+  end
+
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     identifier = conditions.delete(:identifier)
