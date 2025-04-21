@@ -1,16 +1,6 @@
 <div class="card mt-4 w-full">
   <div class="card-body">
     <%= form_with(model: board, class: "form") do |form| %>
-      <% if board.errors.any? %>
-        <div style="color: red">
-          <h2><%= pluralize(board.errors.count, "error") %> prohibited this board from being saved:</h2>
-          <ul>
-            <% board.errors.each do |error| %>
-              <li><%= error.full_message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
       <div class="flex gap-2">
         <%= render 'shared/ui/selector', 
           class: 'w-40', 
@@ -34,11 +24,21 @@
         data: { testid: 'board-title-input' },
         placeholder: "Enter title ..."
       %>
+      <% if board.errors[:title].any? %>
+        <div class="text-error">
+          <%= "Title " + board.errors[:title].first %>
+        </div>
+      <% end %>
       <%= form.textarea :body, 
         rows: 10, 
         data: { testid: 'board-body-input' },
         placeholder: "Enter body ..."
       %>
+      <% if board.errors[:body].any? %>
+        <div class="text-error">
+          <%= "Body " + board.errors[:body].first %>
+        </div>
+      <% end %>
       <%= render 'shared/ui/multi_select', 
         name: "board[tags]", 
         options: @tag_options, 

@@ -21,7 +21,7 @@ RSpec.feature "Comments / Creation", type: :system, js: true do
       scenario "fails to post blank comment" do
         fill_in 'comment-input', with: ''
         click_on 'submit-comment-button'
-        expect(page).to have_content("Body can't be blank")
+        expect(page).to have_content("Comment can't be blank")
       end
     end
   end

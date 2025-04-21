@@ -4,21 +4,16 @@
   class: "form w-full mt-4",
   id: "comment-#{comment.id}", 
   data: { controller: "form" }) do |form| %>
-  <% if comment.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
-      <ul>
-        <% comment.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
   <% unless parent_id.nil? %>
     <%= form.hidden_field :parent_id, value: parent_id %>
   <% end %>
   <%= form.hidden_field :board_id, value: board_id %>
   <div class="relative">
+    <% if comment.errors[:body].any? %>
+      <div class="text-error mb-4">
+        <%= "Comment " + comment.errors[:body].first %>
+      </div>
+    <% end %>
     <%= form.textarea :body,  
         data: { testid: comment.id.nil? ? "comment-input" : "comment-#{comment.id}-input"  },
         placeholder: "Enter comment ...",

@@ -2,14 +2,23 @@
   <div class="card-body items-center">
     <h2>Sign up</h2>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "w-full flex flex-col gap-2", data: { testid: 'sign-up-form' } }) do |f| %>
-      <%= render "users/shared/error_messages", resource: resource %>
       <fieldset class="fieldset">
         <%= f.label :email, class: "label" %>
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input w-full", required: true, data: { testid: "email" } %>
+        <% if resource.errors[:email].any? %>
+          <div class="text-error">
+            <%= "Email " + resource.errors[:email].first %>
+          </div>
+        <% end %>
       </fieldset>
       <fieldset class="fieldset">
         <%= f.label :username, class: "label" %>
         <%= f.text_field :username, autocomplete: "username", class: "input w-full", required: true, data: { testid: "username" } %>
+        <% if resource.errors[:username].any? %>
+          <div class="text-error">
+            <%= "Username " + resource.errors[:username].first %>
+          </div>
+        <% end %>
       </fieldset>
       <fieldset class="fieldset">
         <%= f.label :password, class: "label" %>
@@ -17,10 +26,20 @@
           <em>(<%= @minimum_password_length %> characters minimum)</em>
         <% end %>
         <%= f.password_field :password, autocomplete: "new-password", class: "input w-full", required: true, data: { testid: "password" } %>
+        <% if resource.errors[:password].any? %>
+          <div class="text-error">
+            <%= "Password " + resource.errors[:password].first %>
+          </div>
+        <% end %>
       </fieldset>
       <fieldset class="fieldset">
         <%= f.label :password_confirmation, class: "label" %>
         <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input w-full", required: true, data: { testid: "password_confirmation" } %>
+        <% if resource.errors[:password_confirmation].any? %>
+          <div class="text-error">
+            <%= "Password confirmation " + resource.errors[:password_confirmation].first %>
+          </div>
+        <% end %>
       </fieldset>
       <%= f.submit "Sign up", class: "btn w-full btn-primary", data: { testid: 'sign-up-button' } %>
     <% end %>
