@@ -48,7 +48,7 @@
   <% end %>
   <% if user_signed_in? && @board.nil? %>
     <%= button_to 'New board', load_new_board_path, class: 'btn btn-secondary', data: { turbo: true, testid: 'new-board-button' } %>
-  <% elsif user_signed_in? %>
+  <% elsif params[:id].present? %>
     <%= link_to 'Back', request.referer || root_path, class: 'btn', data: { testid: 'back-button' } %>
   <% end %>
 </header>

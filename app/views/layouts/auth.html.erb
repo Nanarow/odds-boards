@@ -21,6 +21,12 @@
     <div id="notification" data-testid="notification" class="z-100 fixed">
       <%= render "shared/notification" %>
     </div>
+    <div class="fixed top-4 left-4">
+      <%= link_to root_path, class: 'btn btn-secondary btn-soft', data: { testid: 'back-button' } do %>
+        <%= render_icon 'arrow-left' %>
+        ODDS Boards 
+      <% end %>
+    </div>
     <main class="container mx-auto flex flex-col justify-center items-center min-h-screen">
       <%= yield %>
     </main>
