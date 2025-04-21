@@ -15,7 +15,7 @@
           <% end %>
         </span>
         <% unless board.category.nil? %>
-          <span class="badge badge-soft badge-secondary"><%= board.category.name %></span>
+          <span class="badge badge-soft badge-secondary outline outline-secondary"><%= board.category.name %></span>
         <% end %>
       </div>
       <%= render 'board_options', board: board if board.is_author?(current_user) %>
