@@ -83,11 +83,16 @@ class BoardsController < ApplicationController
   end
 
   def destroy
+    path = URI(request.referer || "").path
     @board.destroy!
-    set_categories
-    set_tags
-    flash.now[:notice] = "Board was successfully deleted."
-    render :destroy
+    if path == board_path(@board)
+      redirect_to root_path
+    else
+      set_categories
+      set_tags
+      flash.now[:notice] = "Board was successfully deleted."
+      render :destroy
+    end
   end
 
   def upvote
