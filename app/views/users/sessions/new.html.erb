@@ -1,5 +1,8 @@
 <div class="card shadow-md w-96 border border-gray-300">
   <div class="card-body items-center">
+    <figure>
+      <%= image_tag "logo.png", class: "h-24" %>
+    </figure>
     <h2>Log in</h2>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "w-full flex flex-col gap-2" }) do |f| %>
       <fieldset class="fieldset">

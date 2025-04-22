@@ -1,7 +1,9 @@
 <header class="h-header w-full border-b-2 flex items-center px-4 justify-between">
   <div class="flex gap-2 items-center">
-    <%= link_to "ODDS Boards", boards_path, data: { active: current_page?(boards_path), testid: "boards-link" }, class: 'text-semibold data-[active=true]:text-secondary' %>
-    <%= link_to "My Boards", my_boards_path, data: { active: current_page?(my_boards_path), testid: "my-boards-link" }, class: 'text-sm data-[active=true]:text-secondary' %>
+    <%= link_to boards_path, data: { active: current_page?(boards_path), testid: "boards-link" }, class: 'text-semibold data-[active=true]:text-secondary' do %>
+      <%= image_tag "logo.png", class: "h-10" %>
+    <% end %>
+    <%= link_to "My Boards", my_boards_path, data: { active: current_page?(my_boards_path), testid: "my-boards-link" }, class: ' font-semibold data-[active=true]:text-secondary' %>
   </div>
   <%= form_with url: search_boards_path, class: 'flex items-center', data: { controller: 'form'} do |form| %>
     <label class="input input-secondary">
